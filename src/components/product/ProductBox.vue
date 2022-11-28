@@ -18,7 +18,7 @@
                 label="Chi Tiet"
               ></q-btn>
           </div>
-       
+
           <div class="col-7 q-pl-sm">
             <div
               class="flex flex-center"
@@ -26,11 +26,11 @@
             >
               {{ product.name }}
             </div>
-         
+
 
             <!-- Chitiet -->
             <div class="col-5">
-             
+
 
               <!--  -->
 
@@ -62,7 +62,7 @@
           </div>
         </div>
       </q-card-section>
-      
+
       <q-card-actions >
         <div class="row" style="width: 100%">
           <div class="row" style="width: 52%">
@@ -81,15 +81,15 @@
             }}</q-item>
            <div style="padding-left:2px">
             <q-btn
-            
+
             @click="addItem()"
             icon="add"
             color="positive"
             flat
           ></q-btn>
            </div>
-            
-          
+
+
           </div>
 
           <div class="" style="width: 45%">
@@ -125,6 +125,33 @@
         </div>
       </q-card-actions>
     </q-card>
+    <q-dialog v-model="dialog_detail">
+      <q-card style="max-width:90%;">
+        <q-card-section>
+          <div style="max-width:50%;border: 5px solid cadetblue;">
+            <q-img :src="'/img/' + product.imageUrl" />
+          </div>
+          <div>{{product.name}}</div>
+        </q-card-section>
+        <q-card-actions>
+          <div>hi</div>
+        </q-card-actions>
+
+
+        <q-card-actions @click="toggleText(index)" class="flex flex-center" >
+          <q-item clickable style="width:10% " class="flex flex-center">
+            <div >
+              <div  > More</div>
+            <div class="flex flex-center">
+              <q-icon name="expand_more" size="md"></q-icon>
+              <q-icon name="expand_more" size="xs"></q-icon>
+            </div>
+            </div>
+
+          </q-item>
+      </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 <script>
@@ -168,7 +195,7 @@ export default {
       let productInCart = $store.state.cache.cart.find((item) => {
         return item.product.id != undefined;
       });
- 
+
     }
 
     return {
@@ -179,6 +206,7 @@ export default {
       countCart,
       priceWithDiscount,
       numberWithCommas,
+      dialog_detail:ref(false)
       // addToCart,
     };
   },

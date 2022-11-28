@@ -14,38 +14,38 @@
         <!-- <div > -->
 
         <div :style="$q.screen.lt.sm ? '':'max-width:8%'">
-          <div>
+          <div class="q-pt-lg">
             <q-btn>
             <q-avatar><img src="/img/icon/zalo.png" alt="" /></q-avatar>
           </q-btn>
           </div>
-          <div>
+          <div class="q-pt-sm">
             <q-btn>
             <q-avatar><img src="/img/icon/facebook.png" alt="" /></q-avatar>
           </q-btn>
           </div>
 
-          <div>
+          <div class="q-pt-sm">
             <q-btn>
             <q-avatar><img src="/img/icon/shopee.png" alt="" /></q-avatar>
           </q-btn>
           </div>
-          <div>
+          <div class="q-pt-sm">
             <q-btn>
             <q-avatar><img src="/img/icon/lazada.png" alt="" /></q-avatar>
           </q-btn>
           </div>
-          <div>
+          <div class="q-pt-sm">
             <q-btn>
             <q-avatar><img src="/img/icon/instagram.png" alt="" /></q-avatar>
           </q-btn>
           </div>
-          <div>
+          <div class="q-pt-sm">
             <q-btn>
             <q-avatar><img src="/img/icon/sendo.png" alt="" /></q-avatar>
           </q-btn>
           </div>
-        
+
         </div>
       </div>
     </div>
