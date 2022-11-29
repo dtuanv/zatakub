@@ -1,14 +1,16 @@
 <template>
-  <q-page :class="$q.screen.lt.sm ? 'q-pa-lg' : 'q-pa-sm'">
+  <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm'">
     <div>
       <div class="row" >
         <div class="row" :style="$q.screen.lt.sm ? '' : 'max-width:92%'">
           <div
             :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'"
-            v-for="product in products"
+            v-for="product in products.filter(p =>{
+             return p.status == true
+            })"
             :key="product.id"
           >
-            <productBox :product="product"></productBox>
+            <productBox :product="product" ></productBox>
           </div>
         </div>
         <!-- <div > -->
@@ -66,6 +68,8 @@
         </q-card-selections>
       </q-card>
     </q-dialog>
+
+    <div class="q-mt-lg">status Prodkut wurde erstellt! spater für Admin Seite muss Infor der Status anzeigen! </div>
   </q-page>
 </template>
 <script>
@@ -107,14 +111,29 @@ export default {
     const products = [
       {
         id: 0,
+        status:true,
         imageUrl: "goidau.png",
+        imageUrl2: "dauxa.png",
+        imageUrl3: "nau.png",
+
         name: "Dầu gội Yunsey dành cho nam For Men 380ml",
         price: "130000",
         discount: 30,
-        description: "",
+        subtitle:"BỘ PHỤC HỒI TÓC HƯ TỔN 3 BƯỚC MILBON DEESSE'S MẪU 2022 (600ML X 3): ",
+        body:'subtitle.png',
+        body1:"123 Thường: cho tóc hư tổn có chất tóc sợi mỏng, mảnh",
+        body2:"123+: cho tóc hư tổn có chất tóc sợi trung bình",
+        body3:"123X: cho tóc hư tổn có chất tóc sợi to, dày",
+        body4:"cho 2 tóc hư tổn có chất tóc sợi trung bình",
+
+
+        description:"description.png"
       },
       {
         id: 1,
+        status:true,
+        subtitle:"BỘ PHỤC HỒI TÓC HƯ TỔN 3 BƯỚC MILBON DEESSE'S MẪU 2022 (600ML X 3): ",
+
         imageUrl: "dauxa.png",
         name: "Dầu gội xả siêu mượt phục hồi và ngăn gãy rụng tóc Edocean Collagen Keratin 500mlx2",
         price: "130000",
@@ -123,14 +142,18 @@ export default {
       },
       {
         id: 2,
+        status:true,
+
         imageUrl: "goidau.png",
         name: "Dau Goi Dau 3 Dau Goi Dau 3  Dầu gội xả siêu mượt phục hồi và ngăn gãy rụng tóc Edocean Collagen Keratin 500mlx2 ",
         price: "130000",
-        discount: 30,
+        discount: 20,
         description: "Dau Goi Dau De 3",
       },
       {
         id: 3,
+        status:true,
+
         imageUrl: "goidau.png",
         name: "Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
         price: "130000",
@@ -139,14 +162,38 @@ export default {
       },
       {
         id: 4,
+        status:false,
+
         imageUrl: "goidau.png",
-        name: "Dau Goi Dau 4 Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
+        name: "Dau Goi Dau 4 F Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
         price: "130000",
         discount: 30,
         description: "Dau Goi Dau De 3",
       },
       {
         id: 5,
+        status:true,
+
+        imageUrl: "nau.png",
+        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+        price: "130000",
+        discount: 30,
+        description: "Dau Goi Dau De 3",
+      },
+      {
+        id: 6,
+        status:true,
+
+        imageUrl: "nau.png",
+        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+        price: "130000",
+        discount: 30,
+        description: "Dau Goi Dau De 3",
+      },
+      {
+        id: 7,
+        status:true,
+
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
         price: "130000",
