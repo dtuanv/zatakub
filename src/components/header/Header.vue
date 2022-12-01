@@ -20,30 +20,10 @@
             $q.screen.width > 500 && $q.screen.height > 700 ? 'flex justify-center' : ''
           "
         >
-          <div style="color: blanchedalmond" class="text-h6">Kontakt :</div>
-          <div
-            :style="
-              $q.screen.width > 500 && $q.screen.height > 700
-                ? 'color:aliceblue;padding: 7px 0px 0px 11px;'
-                : 'color:aliceblue;'
-            "
-          >
-            <div style="color: chartreuse">In voller Blüte</div>
-            <div>Hohenzollernplatz 7-8</div>
-            <div>14129 Berlin.</div>
-          </div>
+          <div style="color: blanchedalmond" class="text-h6">Lien He :</div>
 
-          <div
-            :style="
-              $q.screen.width > 500 && $q.screen.height > 700
-                ? 'color:aliceblue;padding:28px 0px 0px 11px;'
-                : 'color:aliceblue;'
-            "
-          >
-            <!-- <div>In voller Blüte</div> -->
-            <div>oder Westfälischestr. 52</div>
-            <div>10711 Berlin.</div>
-          </div>
+
+
         </div>
       </div>
       <div
@@ -54,7 +34,7 @@
       >
         <div class="row" style="margin-left: 12px">
           <div style="color: blanchedalmond; font-size: 14px; padding-top: 16px">
-            Folge uns:
+            Follow us:
           </div>
           <div>
             <q-btn
@@ -111,7 +91,7 @@
             @click="dialog_impressung = true"
           ></q-btn>
 
-          <q-btn
+       <!--   <q-btn
             flat
             style="
               text-decoration-line: underline;
@@ -122,6 +102,7 @@
             class=" "
             to="/datenschutzErklaerung"
           ></q-btn>
+          -->
         </div>
       </div>
     </div>
@@ -129,7 +110,7 @@
       class="flex justify-center"
       style="margin-top: 2vh; margin-bottom: 5px; color: red"
     >
-      Copyright © 2022 In voller Blütte
+      Copyright © 2022 Waxyrice
     </div>
   </div>
   <!-- dialog_impressung -->

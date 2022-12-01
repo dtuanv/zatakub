@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh Lpr lff" class="bg-grey-1">
+  <q-layout :view="$q.screen.gt.sm?'hHh Lpr lff':'hHh lpR lFf'" class="bg-grey-1">
     <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
@@ -20,18 +20,18 @@
           </q-toolbar-title>
         </q-btn>
 
-        <q-tabs 
+        <q-tabs
           v-if="$q.screen.gt.sm"
           class="text-weight-bold"
         >
           <!-- <q-tabs v-if="true" class="GL__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap" > -->
-        
-          
+
+
           <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Khuyến Mãi</q-route-tab>
           <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Thương Hiệu</q-route-tab>
           <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Giới Thiệu</q-route-tab>
           <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Liên Hệ</q-route-tab>
-      
+
         </q-tabs>
         <!-- to shoping cart -->
         <q-btn
@@ -63,7 +63,7 @@
       :breakpoint="500"
       bordered
       class="bg-grey-3"
-      
+
 
     >
       <q-scroll-area class="fit">
@@ -74,7 +74,7 @@
             </q-item-section>
           </q-item>
 
-   
+
           <q-item clickable v-ripple to="/product">
             <q-item-section avatar>
               <q-icon name="shopping_bag" />
@@ -88,16 +88,19 @@
               <q-icon name="send" />
             </q-item-section>
 
-            <q-item-section> Kontakt </q-item-section>
+            <q-item-section> Hỏi Shop </q-item-section>
           </q-item>
 
-          <q-item v-if="role == ''" clickable v-ripple to="/aboutMe">
+
+          <q-item v-if="role == ''" clickable v-ripple to="/deliveryStatus">
             <q-item-section avatar>
-              <q-icon name="send" />
+              <q-icon name="search" />
             </q-item-section>
 
-            <q-item-section> Über uns </q-item-section>
+            <q-item-section> Tìm đơn </q-item-section>
           </q-item>
+
+
           <q-item
             v-if="role === 'ADMIN' || role === 'USER'"
             clickable
@@ -127,7 +130,7 @@
             <q-item-section> LogOut </q-item-section>
           </q-item>
 
-          
+
         </q-list>
       </q-scroll-area>
 
@@ -156,8 +159,7 @@
           <q-card-section style="padding-bottom: 0px">
             <div style="width: 100%">
               <div style="color: black" class="flex justify-center">
-                Wir verwenden Cookies, um unsere Website und unseren Service zu
-                optimieren.
+              Cookie
               </div>
             </div>
           </q-card-section>
@@ -185,18 +187,18 @@
         </q-card>
       </div>
 
-      <q-tabs switch-indicator style="background-color: cadetblue">
+      <q-tabs v-if="!$q.screen.gt.sm" switch-indicator style="background-color: cadetblue">
         <q-route-tab
           icon="yard"
           :to="{ name: 'product', params: { id: 1 } }"
           replace
-          label="Alle Sträuse"
+          label="Khuyến mãi"
         />
-        <q-route-tab icon="book_online" to="/aboutMe" replace label="Über Uns" />
+        <q-route-tab icon="book_online" to="/aboutMe" replace label="" />
       </q-tabs>
     </q-footer>
 
- 
+
 
     <q-page-container>
       <!-- This is where pages get injected -->
@@ -270,7 +272,7 @@ export default {
       card_cookie: ref(true),
 
       role,
-     
+
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },

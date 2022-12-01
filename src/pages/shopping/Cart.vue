@@ -1,87 +1,68 @@
 <template>
   <q-page>
     <div class="q-mt-xl">
-    <div class="justify-center flex">
-      <q-img
-        src="/img/shopping_cart.png"
-        style="height: 140px; max-width: 150px"
-      />
+      <div class="justify-center flex">
+        <q-img src="/img/shopping_cart.png" style="height: 140px; max-width: 150px" />
+      </div>
+      <div v-for="(item, index) in items" :key="index" :item="item">
+
+        <div>{{ item.product.imageUrl }}</div>
+
+
+
+        <div class="justify-center flex row">
+          <div class="q-ma-sm row">
+            <div>{{ item.quantity }} x </div>
+            <div>
+              <q-avatar>
+                <img :src="'/img/' + item.product.imageUrl">
+              </q-avatar>
+            </div>
+
+            <div>
+              {{ item.product.name }}
+            </div>
+            <div>
+              <q-btn @click.prevent="removeProductFromCart(item.product)" icon="delete" color="negative" dense flat></q-btn>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <q-separator></q-separator>
+      <div class="q-ma-lg justify-center flex">Tổng: {{ numberWithCommas(cartTotalPrice) }} đ</div>
     </div>
-    <div v-for="(item, index) in items" :key="index" :item="item">
-      <div class="justify-center flex row">
-        <div class="q-ma-sm">{{ item.quantity }} x {{ item.product.name }}</div>
-        <q-btn
-          @click.prevent="removeProductFromCart(item.product)"
-          icon="delete"
-          color="negative"
-          dense
-          flat
-        ></q-btn>
+    <div class="row">
+      <div class="q-ml-lg">
+        <q-btn to="/product" label="Back to Product"></q-btn>
+      </div>
+      <div class=""></div>
+      <div v-if="$store.state.cache.cart.length > 0">
+        <q-btn @click="dialog_bill = true" class="" label="Check Out" style="color: goldenrod"></q-btn>
       </div>
     </div>
-<q-separator></q-separator>
-    <div class="q-ma-lg justify-center flex">Tổng: {{ numberWithCommas(cartTotalPrice) }} đ</div>
-  </div>
-  <div class="row">
-    <div class="q-ml-lg">
-      <q-btn to="/product" label="Back to Product"></q-btn>
-    </div>
-    <div class=""></div>
-    <div v-if="$store.state.cache.cart.length > 0">
-      <q-btn
-        @click="dialog_bill = true"
-        class=""
-        label="Check Out"
-        style="color: goldenrod"
-      ></q-btn>
-    </div>
-  </div>
-  <q-dialog v-model="dialog_bill" class="">
-    <q-card class="my-card">
-      <q-card-section>
-        <div class="text-h4 flex justify-center">Delivery</div>
-      </q-card-section>
-      <q-separator />
+    <q-dialog v-model="dialog_bill" class="">
+      <q-card class="my-card">
+        <q-card-section>
+          <div class="text-h4 flex justify-center">Delivery</div>
+        </q-card-section>
+        <q-separator />
 
-      <q-card-actions vertical>
-        <q-form @submit="itemCheckOut">
-          <!-- Input Validation -->
-          <q-input
-            v-model="user.name"
-            class="col-4"
-            label="Name"
-            color="white"
-            :rules="[
+        <q-card-actions vertical>
+          <q-form @submit="itemCheckOut">
+            <!-- Input Validation -->
+            <q-input v-model="user.name" class="col-4" label="Name" color="white" :rules="[
               (val) =>
                 (!!val && val.length > 1) || 'Please write a correct name',
-            ]"
-          ></q-input>
-          <q-input
-            v-model="user.adresse"
-            class="col-4"
-            label="Adresse"
-            color="white"
-            :rules="adresseRules"
-          ></q-input>
-          <q-input
-            v-model="user.mobil"
-            class="col-4"
-            label="Mobil"
-            color="white"
-            :rules="mobilRules"
-          ></q-input>
-          <q-input label="Note" v-model="user.note" autogrow />
-          <q-btn
-            class="q-mt-lg float-right"
-            label="Send"
-            color="primary"
-            type="submit"
-            dense
-          ></q-btn>
-        </q-form>
-      </q-card-actions>
-    </q-card>
-  </q-dialog>
+            ]"></q-input>
+            <q-input v-model="user.adresse" class="col-4" label="Adresse" color="white" :rules="adresseRules"></q-input>
+            <q-input v-model="user.mobil" class="col-4" label="Mobil" color="white" :rules="mobilRules"></q-input>
+            <q-input label="Note" v-model="user.note" autogrow />
+            <q-btn class="q-mt-lg float-right" label="Send" color="primary" type="submit" dense></q-btn>
+          </q-form>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 
 </template>
@@ -120,10 +101,10 @@ export default {
     });
 
     // console.log("$store.state.cache.cart ",$store.state.cache.cart)
-  
+
     function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     return {
       product,
       user,
@@ -155,7 +136,7 @@ export default {
             message: "You have no items",
 
             color: "negative",
-             avatar: `${WebApi.iconUrl}`,
+            avatar: `${WebApi.iconUrl}`,
 
           }).catch((err) => {
             console.log(err);
@@ -191,7 +172,7 @@ export default {
               message: "checkouted",
 
               color: "positive",
-               avatar: `${WebApi.iconUrl}`,
+              avatar: `${WebApi.iconUrl}`,
 
             });
 
@@ -205,7 +186,7 @@ export default {
     };
   },
   computed: {
-    cartItems() {},
+    cartItems() { },
     cartTotalPrice() {
       return this.$store.getters["cache/cartTotalPrice"];
     },
@@ -222,4 +203,5 @@ export default {
 };
 </script>
 <style>
+
 </style>

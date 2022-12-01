@@ -8,7 +8,7 @@
               <img :src="'/img/' + product.imageUrl" alt=""
                 style=" max-width: 100%; display:block;border: 2px solid cadetblue;height: 9rem;" />
             </div>
-            <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true" label="Chi Tiet"></q-btn>
+            <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true" style="text-transform: capitalize;" label="Chi Tiet"></q-btn>
           </div>
 
           <div class="col-7 q-pl-sm">
@@ -91,7 +91,7 @@
 
 <!-- detail     dialog  -->
     <q-dialog v-model="dialog_detail">
-      <q-card :style="$q.screen.lt.sm ? '':'max-width:42%;'">
+      <q-card :style="$q.screen.lt.sm ? 'max-height:80%':'max-width:42%;'">
         <q-card-section style="max-width:100%;padding-right: 0px;">
           <div style="max-width:100%;border: 5px solid cadetblue;">
 
@@ -114,6 +114,7 @@
 
           </div>
           <div class="flex flex-center q-mt-sm  " style="font-size: 1.2rem;padding: 0px 14px;color: cadetblue;">{{ product.name }}</div>
+          <q-separator></q-separator>
           <div v-if="product.subtitle" class="q-pl-lg q-pr-sm" style="    font-size: 0.8rem;">
             {{ product.subtitle }}
           </div>
@@ -136,9 +137,9 @@
           <div class="row q-mt-sm" style="width:100vw">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <q-tabs v-model="tab" dense align="left" class="bg-primary text-white shadow-2" :breakpoint="0">
-                <q-tab name="Description" label="Mo Ta" />
-                <q-tab name="Ratings & Reviews" label="Ratings & Reviews" />
-                <q-tab name="test" label="test" />
+                <q-tab style="text-transform: capitalize;" name="Description" label="Mo Ta" />
+                <q-tab style="text-transform: capitalize;" name="Ratings & Reviews" label="Ratings & Reviews" />
+                <q-tab style="text-transform: capitalize;" name="test" label="test" />
 
               </q-tabs>
               <q-tab-panels v-if="readMore" style="border: 1px solid lightgrey" v-model="tab">

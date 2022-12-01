@@ -1,11 +1,11 @@
 <template>
   <q-page class="flex flex-center">
-    <div style=" padding: 10px 0px 10px 0px; background-color: blanchedalmond; width:100%;color: green;" class="flex justify-center text-h5">Herzlich willkommen</div>
+    <div style=" padding: 10px 0px 10px 0px; background-color: blanchedalmond; width:100%;color: green;" class="flex justify-center text-h5">Xin Chào</div>
 
     <q-dialog v-model="hinweis_dialog" v-if="notice.status == 'on'">
       <q-card style="width: 65vw; ">
         <q-card-action>
-          <div class="flex flex-center text-h5" style="color:cadetblue;">Hinweis</div>
+          <div class="flex flex-center text-h5" style="color:cadetblue;">Thông Báo</div>
 
         </q-card-action>
         <q-separator></q-separator>
@@ -20,16 +20,6 @@
 
     </q-dialog>
 
-    <!-- <q-img src="/img/koto/home.png"></q-img>
-
-    <q-img src="/img/koto/sushimenu.png"></q-img>
-    <q-img src="/img/koto/warmEssen.png"></q-img> -->
-
-    <!-- <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    > -->
 
   </q-page>
 </template>

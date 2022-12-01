@@ -154,7 +154,7 @@ const routes = [
         component: () => import("src/pages/customer/Contact.vue"),
       },
 
-      //
+      // Customer
       {
         path: "/shopping",
         name: "shopping",
@@ -170,6 +170,13 @@ const routes = [
         name: "resevation",
         component: () => import("src/pages/customer/Reservation.vue"),
       },
+
+      {
+        path: "/deliveryStatus",
+        name: "deliveryStatus",
+        component: () => import("src/pages/customer/DeliveryStatus.vue"),
+      },
+
       // Information
       {
         path: "/datenschutzErklaerung",

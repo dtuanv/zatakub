@@ -64,6 +64,7 @@ export default route(function ({ store, ssrContext }) {
       "/datenschutzErklaerung",
       "/onlyAdmin/createNewUser",
       "/shopping",
+      "/deliveryStatus",
     ];
     const authRequired = !publicPages.includes(to.path);
     // const loggedIn = localStorage.getItem("user");
