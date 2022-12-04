@@ -1,5 +1,5 @@
 <template>
-  <div  style="" class="q-pt-sm q-pl-sm">
+  <div style="" class="q-pt-sm q-pl-sm">
     <q-card style="border: 5px solid cornflowerblue;min-height: 17rem;">
       <q-card-section>
         <div class="row">
@@ -8,7 +8,8 @@
               <img :src="'/img/' + product.imageUrl" alt=""
                 style=" max-width: 100%; display:block;border: 2px solid cadetblue;height: 9rem;" />
             </div>
-            <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true" style="text-transform: capitalize;" label="Chi Tiet"></q-btn>
+            <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true"
+              style="text-transform: capitalize;" label="Chi Tiet"></q-btn>
           </div>
 
           <div class="col-7 q-pl-sm">
@@ -89,13 +90,22 @@
 
 
 
-<!-- detail     dialog  -->
+    <!-- detail     dialog  -->
     <q-dialog v-model="dialog_detail">
-      <q-card :style="$q.screen.lt.sm ? 'max-height:80%':'max-width:42%;'">
+      <q-card :style="$q.screen.lt.sm ? 'max-height:70%' : 'max-width:42%;'">
         <q-card-section style="max-width:100%;padding-right: 0px;">
           <div style="max-width:100%;border: 5px solid cadetblue;">
+            <div class="row">
+              <div class="col-10">
 
-            <q-carousel swipeable animated v-model="slide" thumbnails infinite>
+              </div>
+              <div class="col-2" style="display: flex; justify-content: flex-end;">
+                <q-btn @click="(dialog_detail = false)" flat style="position: fixed; z-index: 200;padding: 0px 0px 0px 0px; margin-left: 30px; background-color: aquamarine;"
+                fixed icon="close" class="float-right" color="negative" ></q-btn>
+
+              </div>
+            </div>
+            <q-carousel style="    height: 276px;" swipeable animated v-model="slide" thumbnails infinite>
 
               <q-carousel-slide v-if="product.imageUrl" :name="1" :img-src="'/img/' + product.imageUrl"
                 style="background-size: contain;" />
@@ -113,7 +123,9 @@
             </q-carousel>
 
           </div>
-          <div class="flex flex-center q-mt-sm  " style="font-size: 1.2rem;padding: 0px 14px;color: cadetblue;">{{ product.name }}</div>
+          <div class="flex flex-center q-mt-sm  " style="font-size: 1.2rem;padding: 0px 14px;color: cadetblue;">{{
+              product.name
+          }}</div>
           <q-separator></q-separator>
           <div v-if="product.subtitle" class="q-pl-lg q-pr-sm" style="    font-size: 0.8rem;">
             {{ product.subtitle }}
@@ -160,13 +172,13 @@
           </div>
           <!-- -----------------------Test--more end -->
         </q-card-actions>
-        <div v-if="readMore == true" >
-          <q-item clickable style="width:100%" class="flex flex-center" @click="readMore = false,readMoreBtn = true">
-            <div >
-              <div  class="flex flex-center">
+        <div v-if="readMore == true">
+          <q-item clickable style="width:100%" class="flex flex-center" @click="readMore = false, readMoreBtn = true">
+            <div>
+              <div class="flex flex-center">
                 <q-icon name="expand_less" size="md"></q-icon>
               </div>
-              <div  class="flex flex-center"> Less</div>
+              <div class="flex flex-center"> Less</div>
 
             </div>
           </q-item>
@@ -174,7 +186,8 @@
 
 
 
-        <q-card-actions v-if="readMoreBtn" style="padding: 9px 0px 0px 0px;" @click="readMore = true,readMoreBtn = false" class="flex flex-center ">
+        <q-card-actions v-if="readMoreBtn" style="padding: 9px 0px 0px 0px;"
+          @click="readMore = true, readMoreBtn = false" class="flex flex-center ">
           <q-item clickable style="width: 90%;padding:0px 1px; " class="flex flex-center shadow-14">
             <div>
               <div>Bam de Xem Them (Mo Ta...)</div>

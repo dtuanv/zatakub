@@ -24,14 +24,10 @@
           v-if="$q.screen.gt.sm"
           class="text-weight-bold"
         >
-          <!-- <q-tabs v-if="true" class="GL__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap" > -->
-
-
           <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Khuyến Mãi</q-route-tab>
           <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Thương Hiệu</q-route-tab>
           <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Giới Thiệu</q-route-tab>
           <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Liên Hệ</q-route-tab>
-
         </q-tabs>
         <!-- to shoping cart -->
         <q-btn
@@ -70,17 +66,26 @@
         <q-list padding>
           <q-item clickable v-ripple v-if="role !== ''">
             <q-item-section>
-              <div class="flex justify-center text-h5">Du bist: {{ role }}</div>
+              <div class="flex justify-center text-h5">Bạn Là: {{ role }}</div>
             </q-item-section>
+          </q-item>
+
+
+          <q-item clickable v-ripple to="/sale">
+            <q-item-section avatar>
+              <q-icon name="shopping_bag" style="color: coral;" />
+            </q-item-section>
+
+            <q-item-section> Khuyến mãi </q-item-section>
           </q-item>
 
 
           <q-item clickable v-ripple to="/product">
             <q-item-section avatar>
-              <q-icon name="shopping_bag" />
+              <q-icon name="store" color="negative"/>
             </q-item-section>
 
-            <q-item-section> Khuyến mãi </q-item-section>
+            <q-item-section> Thương hiệu </q-item-section>
           </q-item>
 
           <q-item v-if="role == ''" clickable v-ripple to="/contact">
