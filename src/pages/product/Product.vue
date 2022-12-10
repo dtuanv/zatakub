@@ -1,11 +1,23 @@
 <template>
   <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm'">
+    <div>Hi
+      <q-select
+        label="Tất cả thương hiệu"
+        transition-show="flip-up"
+        transition-hide="flip-down"
+        filled
+        v-model="marktSelected"
+        :options="marktOptions"
+        style="width: 250px"
+      />
+
+    </div>
     <div>
       <div class="row" >
-        <div class="row" :style="$q.screen.lt.sm ? '' : 'max-width:92%'">
+        <div class="row" :style="$q.screen.lt.sm ? '' : 'width:92%'">
           <div
             :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'"
-            v-for="product in products.filter(p =>{
+            v-for="product in productsCategory.filter(p =>{
              return p.status == true
             })"
             :key="product.id"
@@ -86,11 +98,18 @@ import productBox from "src/components/product/ProductBox.vue";
 import Product from "/src/apis/Product.js";
 import { WebApi } from "/src/apis/WebApi";
 
-// const products = ref([]);
+const marktOptions = [
+  {label:'Đức', name:'duc'},
+  {label:'Ý', name:'y'},
+]
+
+const productsCategory = ref([]);
+const marktSelected = ref();
 export default {
   components: { productBox },
   setup() {
     const $q = useQuasar();
+    const route = useRoute();
     // $q.screen.setSizes({ xs: 900 });
     // scroll To element
     const sushi = ref(null);
@@ -127,7 +146,8 @@ export default {
         body4:"cho 2 tóc hư tổn có chất tóc sợi trung bình",
 
 
-        description:"description.png"
+        description:"description.png",
+        category:'hair',
       },
       {
         id: 1,
@@ -149,6 +169,8 @@ export default {
         price: "130000",
         discount: 20,
         description: "Dau Goi Dau De 3",
+        category:'hair',
+
       },
       {
         id: 3,
@@ -159,6 +181,8 @@ export default {
         price: "130000",
         discount: 30,
         description: "Dau Goi Dau De 3",
+        category:'hair',
+
       },
       {
         id: 4,
@@ -169,6 +193,8 @@ export default {
         price: "130000",
         discount: 30,
         description: "Dau Goi Dau De 3",
+        category:'whitening',
+
       },
       {
         id: 5,
@@ -179,6 +205,8 @@ export default {
         price: "130000",
         discount: 30,
         description: "Dau Goi Dau De 3",
+        category:'whitening',
+
       },
       {
         id: 6,
@@ -189,6 +217,8 @@ export default {
         price: "130000",
         discount: 30,
         description: "Dau Goi Dau De 3",
+        category:'combo',
+
       },
       {
         id: 7,
@@ -210,13 +240,28 @@ export default {
     axios.get(`${WebApi.server}/getNotice/productPage`).then((response) => {
       notice.value = response.data;
     });
-    // console.log("sushiProducts", sushiProducts);
+    console.log("products.value", products);
+    if(route.params.category != undefined){
+      productsCategory.value = products.filter(p => {
+      return p.category == route.params.category
+    })
+    }else{
+      productsCategory.value = products
+    }
+
+    console.log("productsCategory.value", productsCategory.value);
+    console.log("route.params.category", route.params.category);
+const checkParam = ref(route.params.category)
     return {
       goToSushi,
       products,
       vorspeiseProducts,
       notice,
       hinweis_dialog: ref(true),
+      productsCategory,
+      checkParam,
+      marktSelected,
+      marktOptions,
     };
   },
   mounted() {
@@ -232,6 +277,21 @@ export default {
     },
   },
   components: { Detail, productBox },
+  watch: {
+    '$route'(to, from) {
+    const category = to.params.category
+    // this.AJAXRequest(id)
+    console.log("change product",category)
+        if(category != undefined){
+          productsCategory.value = this.products.filter(p => {
+      return p.category == category
+    })
+        }else{
+          productsCategory.value = this.products
+        }
+  }
+
+  }
 };
 </script>
 <style>

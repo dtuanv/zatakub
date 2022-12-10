@@ -1,5 +1,5 @@
 <template>
-  <q-layout :view="$q.screen.gt.sm?'hHh Lpr lff':'hHh lpR lFf'" class="bg-grey-1">
+  <q-layout :view="$q.screen.gt.sm ? 'hHh Lpr lff' : 'hHh lpR lFf'" class="bg-grey-1">
     <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
@@ -8,9 +8,7 @@
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" to="/">
-          <q-avatar style="width: 51px; height: 39px"
-            ><img src="/img/icon/nha.png" alt=""
-          /></q-avatar>
+          <q-avatar style="width: 51px; height: 39px"><img src="/img/icon/nha.png" alt="" /></q-avatar>
           <q-toolbar-title shrink class="text-weight-bold">
             <div class="">
               <div style="font-family: cursive; font-size: 20px; color: darkslategray">
@@ -20,48 +18,93 @@
           </q-toolbar-title>
         </q-btn>
 
-        <q-tabs
-          v-if="$q.screen.gt.sm"
-          class="text-weight-bold"
-        >
-          <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Khuyến Mãi</q-route-tab>
-          <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Thương Hiệu</q-route-tab>
-          <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Giới Thiệu</q-route-tab>
-          <q-route-tab style="text-transform: capitalize;" :to="'/product'"  >Liên Hệ</q-route-tab>
+        <q-tabs v-if="$q.screen.gt.sm" class="text-weight-bold">
+          <q-route-tab style="text-transform: capitalize;" :to="'/product'">Khuyến Mãi</q-route-tab>
+          <q-route-tab style="text-transform: capitalize;" :to="'/product'">Thương Hiệu</q-route-tab>
+          <!-- Product begind -->
+          <q-route-tab style="text-transform: capitalize;  " :to="'/product'">
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+              @mouseover="menu_cat_product = true">
+              Sản Phẩm
+              <q-menu fit @mouseleave="menu_cat_product = false" v-model="menu_cat_product" transition-show="flip-right"
+                transition-hide="flip-left">
+                <q-list dense class="text-grey-9 text-caption">
+                  <q-item to="/product/hair" clickable>
+                    <q-item-section>Thuốc nhuộm tóc</q-item-section>
+                  </q-item>
+                  <q-item to="/product/whitening" clickable>
+                    <q-item-section>Dưỡng Trắng</q-item-section>
+                  </q-item>
+                  <q-item @click="$router.push('/category')" clickable>
+                    <q-item-section>Combo</q-item-section>
+                  </q-item>
+
+                  <q-item @click="$router.push('/category')" clickable>
+                    <q-item-section>Ringo - Nhật</q-item-section>
+                  </q-item>
+                  <q-item @click="$router.push('/category')" clickable>
+                    <q-item-section>label. M - Anh</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+              <q-icon size="sm" class="q-ml-xs text-grey-5" name="keyboard_arrow_down"></q-icon>
+            </div>
+
+          </q-route-tab>
+          <!-- Product end -->
+
+          <q-route-tab style="text-transform: capitalize;" :to="'/product'">Giới Thiệu</q-route-tab>
+          <q-route-tab style="text-transform: capitalize;" :to="'/product'">Liên Hệ</q-route-tab>
+
+          <!-- markt begin -->
+          <q-route-tab style="text-transform: capitalize;  " :to="'/product'">
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+              @mouseover="menu_cat_mark = true">
+              Thương hiệu
+              <q-menu fit @mouseleave="menu_cat_mark = false" v-model="menu_cat_mark" transition-show="flip-right"
+                transition-hide="flip-left">
+                <q-list dense class="text-grey-9 text-caption">
+                  <q-item @click="$router.push('/category')" clickable>
+                    <q-item-section>Wella - Đức</q-item-section>
+                  </q-item>
+                  <q-item @click="$router.push('/category')" clickable>
+                    <q-item-section>Oyster - Ý</q-item-section>
+                  </q-item>
+                  <q-item @click="$router.push('/category')" clickable>
+                    <q-item-section>Algo - Ý</q-item-section>
+                  </q-item>
+
+                  <q-item @click="$router.push('/category')" clickable>
+                    <q-item-section>Ringo - Nhật</q-item-section>
+                  </q-item>
+                  <q-item @click="$router.push('/category')" clickable>
+                    <q-item-section>label. M - Anh</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+              <q-icon size="sm" class="q-ml-xs text-grey-5" name="keyboard_arrow_down"></q-icon>
+            </div>
+
+          </q-route-tab>
+          <!-- markt end -->
         </q-tabs>
         <!-- to shoping cart -->
-        <q-btn
-          class="absolute-top-right q-mt-sm q-mr-md"
-          flat
-          icon="shop"
-          to="/shopping"
-        >
+        <q-btn class="absolute-top-right q-mt-sm q-mr-md" flat icon="shop" to="/shopping">
           <q-badge color="red" floating transparent>
             {{ cartItemCount }}
           </q-badge>
         </q-btn>
-        <q-btn
-          v-if="role === 'ADMIN' || role === 'USER'"
-          class="absolute-top-right q-mt-sm q-mr-md"
-          color="red"
-          label="Log Out"
-          @click="logout"
-        />
+        <q-btn v-if="role === 'ADMIN' || role === 'USER'" class="absolute-top-right q-mt-sm q-mr-md" color="red"
+          label="Log Out" @click="logout" />
       </q-toolbar>
+
+
     </q-header>
 
-    <q-drawer
-      v-model="drawer"
-      show-if-above
-      :mini="!drawer || miniState"
-      @click.capture="drawerClick"
-      :width="200"
-      :breakpoint="500"
-      bordered
-      class="bg-grey-3"
-
-
-    >
+    <q-drawer v-model="drawer" show-if-above :mini="!drawer || miniState" @click.capture="drawerClick" :width="200"
+      :breakpoint="500" bordered class="bg-grey-3">
       <q-scroll-area class="fit">
         <q-list padding>
           <q-item clickable v-ripple v-if="role !== ''">
@@ -82,7 +125,7 @@
 
           <q-item clickable v-ripple to="/product">
             <q-item-section avatar>
-              <q-icon name="store" color="negative"/>
+              <q-icon name="store" color="negative" />
             </q-item-section>
 
             <q-item-section> Thương hiệu </q-item-section>
@@ -106,12 +149,7 @@
           </q-item>
 
 
-          <q-item
-            v-if="role === 'ADMIN' || role === 'USER'"
-            clickable
-            v-ripple
-            to="/admin"
-          >
+          <q-item v-if="role === 'ADMIN' || role === 'USER'" clickable v-ripple to="/admin">
             <q-item-section avatar>
               <q-icon name="person" />
             </q-item-section>
@@ -145,14 +183,7 @@
           to mini-mode
         -->
       <div class="q-mini-drawer-hide absolute" style="top: 15px; right: -17px">
-        <q-btn
-          dense
-          round
-          unelevated
-          color="accent"
-          icon="chevron_left"
-          @click="miniState = true"
-        />
+        <q-btn dense round unelevated color="accent" icon="chevron_left" @click="miniState = true" />
       </div>
     </q-drawer>
 
@@ -164,7 +195,7 @@
           <q-card-section style="padding-bottom: 0px">
             <div style="width: 100%">
               <div style="color: black" class="flex justify-center">
-              Cookie
+                Cookie
               </div>
             </div>
           </q-card-section>
@@ -172,20 +203,11 @@
             <div class="row" style="width: 100%">
               <div class=""></div>
               <div class="col-2">
-                <q-btn
-                  @click="card_cookie = false"
-                  label="Ablehnen"
-                  color="negative"
-                ></q-btn>
+                <q-btn @click="card_cookie = false" label="Ablehnen" color="negative"></q-btn>
               </div>
               <div class="col-6"></div>
               <div class="">
-                <q-btn
-                  class=""
-                  @click="card_cookie = false"
-                  color="positive"
-                  label="Akzeptieren"
-                ></q-btn>
+                <q-btn class="" @click="card_cookie = false" color="positive" label="Akzeptieren"></q-btn>
               </div>
             </div>
           </q-card-actions>
@@ -193,12 +215,7 @@
       </div>
 
       <q-tabs v-if="!$q.screen.gt.sm" switch-indicator style="background-color: cadetblue">
-        <q-route-tab
-          icon="yard"
-          :to="{ name: 'product', params: { id: 1 } }"
-          replace
-          label="Khuyến mãi"
-        />
+        <q-route-tab icon="yard" :to="{ name: 'product', params: { id: 1 } }" replace label="Khuyến mãi" />
         <q-route-tab icon="book_online" to="/aboutMe" replace label="" />
       </q-tabs>
     </q-footer>
@@ -275,6 +292,8 @@ export default {
       drawer: ref(false),
       miniState,
       card_cookie: ref(true),
+      menu_cat_mark: ref(false),
+      menu_cat_product: ref(false),
 
       role,
 
@@ -297,3 +316,9 @@ export default {
   },
 };
 </script>
+<style>
+.self-stretch {
+  align-self: center;
+  /* align-self: stretch; */
+}
+</style>
