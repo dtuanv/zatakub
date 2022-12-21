@@ -49,51 +49,51 @@ export default route(function ({ store, ssrContext }) {
 
             // test
 
-  Router.beforeEach((to, from, next) => {
-    // redirect to login page if not logged in and trying to access a restricted page
-    const publicPages = [
-      "/",
-      "/aboutMe",
-      "/loginPage",
-      "/product",
-      "/reservation",
-      "/contact",
-      "/thank",
-      "/register",
-      "/impressung",
-      "/datenschutzErklaerung",
-      "/onlyAdmin/createNewUser",
-      "/shopping",
-      "/deliveryStatus",
-      "/product/hair",
-      "/product/whitening",
-    ];
-    const authRequired = !publicPages.includes(to.path);
-    // const loggedIn = localStorage.getItem("user");
-    // const tokenLocal = localStorage.getItem("onlyAdmin");
+  // Router.beforeEach((to, from, next) => {
+  //   // redirect to login page if not logged in and trying to access a restricted page
+  //   const publicPages = [
+  //     "/",
+  //     "/aboutMe",
+  //     "/loginPage",
+  //     "/product",
+  //     "/reservation",
+  //     "/contact",
+  //     "/thank",
+  //     "/register",
+  //     "/impressung",
+  //     "/datenschutzErklaerung",
+  //     "/onlyAdmin/createNewUser",
+  //     "/shopping",
+  //     "/deliveryStatus",
+  //     "/product/hair",
+  //     "/product/whitening",
+  //   ];
+  //   const authRequired = !publicPages.includes(to.path);
+  //   // const loggedIn = localStorage.getItem("user");
+  //   // const tokenLocal = localStorage.getItem("onlyAdmin");
 
-    if (
-      authRequired && !store.state.loginModule.loggedIn )
-     {
-      return next("/loginPage");
-    }
-    // if (
-    //   authRequired &&
-    //   tokenLocal != "sdhushfuihdufhsidiasjdjsakd???=*ÄÖLkksaijd.s"
-    // ) {
-    //   return next("/loginPage");
-    // }
-    // if (authRequired && !loggedIn) {
-    //   if (tokenLocal !== 1) {
-    //     return next("/loginPage");
-    //   }
-    // }
-    // if (authRequired && !loggedIn && token !== 1) {
-    //   return next('/login');
-    // }
+  //   if (
+  //     authRequired && !store.state.loginModule.loggedIn )
+  //    {
+  //     return next("/loginPage");
+  //   }
+  //   // if (
+  //   //   authRequired &&
+  //   //   tokenLocal != "sdhushfuihdufhsidiasjdjsakd???=*ÄÖLkksaijd.s"
+  //   // ) {
+  //   //   return next("/loginPage");
+  //   // }
+  //   // if (authRequired && !loggedIn) {
+  //   //   if (tokenLocal !== 1) {
+  //   //     return next("/loginPage");
+  //   //   }
+  //   // }
+  //   // if (authRequired && !loggedIn && token !== 1) {
+  //   //   return next('/login');
+  //   // }
 
-    next();
-  });
+  //   next();
+  // });
 
   // testend
 

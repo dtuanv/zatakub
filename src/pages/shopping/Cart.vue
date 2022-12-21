@@ -9,10 +9,22 @@
 
 
 
-        <div class="justify-center flex ">
-          <div class="q-ma-sm row">
-            <q-chip>
+        <div class="justify-center flex " v-if="item.quantity > 0">
 
+          <div class="q-ma-sm row">
+
+            <q-chip style="    height: 3rem;">
+              <div class="column">
+                <div>
+                  <q-btn icon="add" @click="moreItem(item)" style="font-size: 8px;padding: 2px 5px;color:yellowgreen;"
+                    flat></q-btn>
+                </div>
+                <div>
+                  <q-btn icon="remove" @click="subtractItem(item)" flat
+                    style="font-size: 8px;padding: 2px 5px;color:red"></q-btn>
+
+                </div>
+              </div>
               <div style="margin-right: 24px">{{ item.quantity }} x </div>
               <div>
                 <q-avatar>
@@ -21,7 +33,9 @@
               </div>
 
               <div>
+
                 {{ item.product.name }}
+                <q-badge> = {{ numberWithCommas(item.itemTotal) }} đ</q-badge>
               </div>
             </q-chip>
 
@@ -34,19 +48,79 @@
         </div>
       </div>
       <q-separator></q-separator>
-      <div class="q-ma-lg justify-center flex">Tổng: {{ numberWithCommas(cartTotalPrice) }} đ</div>
-    </div>
-    <div class="row">
-      <div class="q-ml-lg">
-        <q-btn to="/product" label="Back to Product"></q-btn>
+
+      <div class=" q-mt-lg " v-if="total > 0">
+
+
+
+
+        <div class="row  flex flex-center  "  >
+          <div class="col-4" style="align-self: self-end ;display: flex; justify-content: flex-end;"
+            :style="totalCode < total ? 'text-decoration-line: line-through;text-decoration-color: red;' : ''">
+            <div style="border: 4px solid cadetblue; color: coral; height: 1.9em;padding: 0px 7px;" >
+              Tổng: {{ numberWithCommas(total) }} đ.
+            </div>
+
+
+          </div>
+          <!-- <div style="align-self: self-end"  :style="`${badgeNotice.sty}`">{{ badgeNotice.description }}</div> -->
+
+          <div class="q-ml-lg">
+            <q-input class="" outlined style="" label="Nhập mã" v-model="customer.code">
+              <div>
+              <q-badge floating>
+                <div style="z-index:200" :style="`${badgeNotice.sty}`">
+                  {{ badgeNotice.description }}
+
+                </div>
+              </q-badge>
+            </div>
+
+            </q-input>
+
+          </div>
+          <div>
+            <q-btn flat style="text-transform: capitalize;max-width: 80px;" color="positive" label="kiểm tra mã"
+              @click="checkCode" />
+          </div>
+
+
+        </div>
+
+        <q-separator></q-separator>
+        <div class="flex flex-center q-mt-sm  column">
+
+          <div class="row q-ml-xl">
+
+          </div>
+
+        </div>
+
+        <div  class="justify-center flex q-mt-sm" v-if="checkCodeValid == 1">
+          <div style="border: 4px solid red; color: black;height: 1.9em;padding: 0px 7px;">
+            Đã thêm mã giảm giá! Tổng mới: {{ numberWithCommas(totalCode) }} đ
+
+          </div>
+        </div>
+
+
+        <div>
+
+          <div v-if="$store.state.cache.cart.length > 0" class="flex flex-center q-mb-xs" style="width:100%">
+            <q-btn @click="dialog_bill = true" class="" label="Chốt đơn"
+              style="color: goldenrod;text-transform: capitalize;border: 5px dashed rgba(211, 220, 50, .6);"
+              flat></q-btn>
+          </div>
+        </div>
+        >
+
+
       </div>
-      <div class=""></div>
-      <div v-if="$store.state.cache.cart.length > 0">
-        <q-btn @click="dialog_bill = true" class="" label="Check Out" style="color: goldenrod"></q-btn>
-      </div>
+      <!-- <div class=" q-mt-lg justify-center flex">Tổng: {{ numberWithCommas(cartTotalPrice) }} đ</div> -->
     </div>
 
-      <q-card class="q-pa-md" v-if="dialog_bill">
+    <q-form @submit="itemCheckOut" v-if="items.length > 0">
+      <q-card class="q-pl-md q-pr-md q-mt-sm" v-if="dialog_bill">
         <q-card-section>
           <div class="text-h4 flex justify-center" style="font-family: cursive;color: cadetblue;">Thông tin khách hàng
           </div>
@@ -54,33 +128,36 @@
         <q-separator />
 
         <q-card-actions vertical>
-          <q-form @submit="itemCheckOut">
-            <!-- Input Validation -->
-            <q-input v-model="customer.name" class="col-4" label="Tên" color="white" :rules="[
-              (val) =>
-                (!!val && val.length > 1) || 'Xin vui lòng nhập đúng tên ạ',
-            ]"></q-input>
-            <q-input v-model="customer.adresse" class="col-4" label="Địa chỉ" color="white"
-              :rules="adresseRules"></q-input>
-            <q-input v-model="customer.mobil" class="col-4" label="SĐT" color="white" :rules="mobilRules"></q-input>
-            <q-input label="Ghi chú" v-model="customer.note" autogrow />
-            <q-btn class="q-mt-lg float-right" label="Gửi" color="primary" type="submit" dense></q-btn>
-          </q-form>
+
+          <!-- Input Validation -->
+          <q-input v-model="customer.name" class="col-4" label="Tên" color="white" :rules="[
+            (val) =>
+              (!!val && val.length > 1 && val.match(/^([^0-9]*)$/)) || 'Xin vui lòng nhập đúng tên ạ',
+          ]"></q-input>
+          <q-input v-model="customer.adresse" class="col-4" label="Địa chỉ" color="white"
+            :rules="adresseRules"></q-input>
+          <q-input v-model="customer.mobil" class="col-4" label="SĐT" color="white" :rules="mobilRules"></q-input>
+          <q-input label="Ghi chú" v-model="customer.note" autogrow />
+
         </q-card-actions>
       </q-card>
-    <!-- Payment beginn -->
+      <!-- Payment beginn -->
 
-      <q-card class="q-pa-md" v-if="dialog_payment">
+      <q-card class="q-pl-md q-pr-mg q-mt-sm" v-if="dialog_bill">
         <q-card-section>
           <div class="text-h4 flex justify-center" style="font-family: cursive;color: cadetblue;">Hình Thức Thanh toán
           </div>
         </q-card-section>
         <q-separator />
 
-        <q-card-actions vertical  >
-          <div v-if="expand_codPayment == false && expand_cardPayment == false">*Vui lòng chọn hình thức thanh toán</div>
+        <q-card-actions vertical>
+          <div v-if="expand_codPayment == false && expand_cardPayment == false" style="color:red;">*Vui lòng chọn hình
+            thức thanh toán
+          </div>
           <div class="row">
-            <q-item clickable style="width:50%" :style="expand_codPayment == true && expand_cardPayment == false ? 'background-color: bisque;' :'' " class="column" @click="expand_codPayment = true,expand_cardPayment = false" >
+            <q-item clickable style="width:50%"
+              :style="expand_codPayment == true && expand_cardPayment == false ? 'background-color: bisque;' : ''"
+              class="column" @click="expand_codPayment = true, expand_cardPayment = false">
               <div class=" flex flex-center">
                 <q-avatar>
                   <img src="/img/icon/codPayment.png" alt="">
@@ -91,7 +168,9 @@
                 Trả tiền khi nhận hàng (COD)
               </div>
             </q-item>
-            <q-item clickable style="width:50%" class="column" @click="expand_cardPayment = true,expand_codPayment = false" :style="expand_cardPayment == true && expand_codPayment == false ? 'background-color: bisque;' :'' ">
+            <q-item clickable style="width:50%" class="column"
+              @click="expand_cardPayment = true, expand_codPayment = false"
+              :style="expand_cardPayment == true && expand_codPayment == false ? 'background-color: bisque;' : ''">
               <div class="flex flex-center">
                 <q-avatar>
                   <img src="/img/icon/cardPayment.png" alt="">
@@ -108,13 +187,13 @@
         <q-separator />
 
         <q-card-actions vertical>
-          <div v-if="expand_codPayment== true && expand_cardPayment == false">
+          <div v-if="expand_codPayment == true && expand_cardPayment == false">
             <div>Ghi chú</div>
             <div>
               <q-input v-model="customer.paymentNotice" filled autogrow />
             </div>
           </div>
-          <div v-if="expand_cardPayment == true && expand_codPayment == false" >
+          <div v-if="expand_cardPayment == true && expand_codPayment == false">
             <div class="column q-mt-lg">
               <div>Tên Tài Khoản : Đào Văn Oanh</div>
               <div>Số tài khoản: 198686868</div>
@@ -123,22 +202,24 @@
             </div>
           </div>
         </q-card-actions>
-        <q-card-actions >
+        <q-card-actions>
           <div class="row" style="width:100%">
             <div class="col-6">
               <q-btn label="Quay lại" color="negative"></q-btn>
             </div>
             <div class="col-6" v-if="expand_codPayment == true || expand_cardPayment == true">
-              <div style="display: flex; justify-content: flex-end;">
-                <q-btn  label="Đặt hàng" color="positive"></q-btn>
+              <div v-if="items.length > 0" style="display: flex; justify-content: flex-end;">
+                <q-btn type="submit" label="Đặt hàng" color="positive"></q-btn>
               </div>
             </div>
           </div>
         </q-card-actions>
       </q-card>
-
+    </q-form>
     <!-- Payment end -->
-
+    <div class="q-ml-lg">
+      <q-btn to="/product" label="Back to Product"></q-btn>
+    </div>
   </q-page>
 
 </template>
@@ -152,8 +233,20 @@ import { useRoute, useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 import mapActions from "vuex";
 import { DOMDirectiveTransforms } from "@vue/compiler-dom";
+
+import { priceCalculator } from "/src/logic/logic.js";
+
+const codes = [
+  { description: 'A', discount: 30, status: 'valid' },
+  { description: 'B', discount: 20, status: 'valid' },
+  { description: 'C', discount: 10, status: 'invalid' },
+]
+
 const bill = ref({});
 const customer = ref({});
+const badgeNotice = ref(
+  { description: 'Bạn có mã giảm giá không?', sty: 'color: black;background-color: antiquewhite;' }
+)
 export default {
   name: "Cart",
   setup() {
@@ -162,6 +255,9 @@ export default {
     const $store = useStore();
     const router = useRouter();
     var hashmap = new Map();
+
+    const priceCalculators = new priceCalculator()
+
     // const $q = useQuasar();
     // const router = useRouter();
     // axios.get("http://localhost:8686/product")
@@ -176,12 +272,26 @@ export default {
       get: () => $store.state.cache.cart,
     });
 
+    const total = ref(computed({
+      get: () => $store.getters['cache/cartTotalPrice']
+    }))
+    //  const total = $store.getters['cache/cartTotalPrice']
+    // console.log("items ",items)
     // console.log("$store.state.cache.cart ",$store.state.cache.cart)
 
     function numberWithCommas(x) {
-      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      let round = Math.round(x)
+      return round.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+    const totalCode = ref()
+    const checkCodeValid = ref(2)
     return {
+      codes,
+      checkCodeValid,
+      badgeNotice,
+      totalCode,
+      total,
       product,
       customer,
       bill,
@@ -211,71 +321,136 @@ export default {
     };
   },
   computed: {
+
     cartItems() { },
     cartTotalPrice() {
       return this.$store.getters["cache/cartTotalPrice"];
     },
   },
+  watch: {
+    total(){
+      if(customer.value.code != undefined){
+        this.checkCode()
+
+      }
+    }
+  },
   methods: {
+
+    checkCode() {
+      let dis = this.codes.find(c => {
+        return c.description === customer.value.code && c.status === 'valid'
+      })
+
+      if (dis != undefined) {
+        this.totalCode = this.total * (1 - (dis.discount / 100));
+        this.badgeNotice.description = 'Mã giảm giá ' + dis.discount + ' % đã áp dụng.'
+        this.badgeNotice.sty = '    color: forestgreen; background-color: antiquewhite;'
+        this.checkCodeValid = 1
+      } else {
+        this.totalCode = this.total
+        this.badgeNotice.description = '*Mã giảm giá sai hoặc đã hết hạn.'
+        this.badgeNotice.sty = 'color: red;background-color: white;'
+        this.checkCodeValid = 2
+
+
+      }
+      // console.log("dis ", dis)
+      //  this.totalCode =this.total / 2;
+
+    },
+    subtractItem(item) {
+      if (item.quantity > 0) {
+        this.$store.dispatch("cache/changeNumItemInCart", {
+          product: item.product,
+          quantity: item.quantity,
+          action: 'SUBTRACT'
+        });
+      }
+      else {
+        this.$q.notify({
+          message: "Số lượng phải lớn hơn 0",
+          color: "negative",
+          avatar: `${WebApi.iconUrl}`,
+        });
+      }
+
+    },
+
+
+
+    moreItem(item) {
+      // let countItem = item.quantity + 1
+
+      this.$store.dispatch("cache/changeNumItemInCart", {
+        product: item.product,
+        quantity: item.quantity,
+        action: 'ADD'
+      });
+
+    },
+
     removeProductFromCart(product) {
       this.$store.dispatch("cache/removeProductFromCart", product);
     },
     itemCheckOut() {
-      this.dialog_bill = false
-      this.dialog_payment = true
+      // this.dialog_bill = false
+      // this.dialog_payment = true
+
+
+      console.log("item ", this.items)
       console.log("Check user : ", customer.value);
-      if ($store.state.cache.cart.length === 0) {
-        router.replace("/product");
-        $q.notify({
-          message: "You have no items",
 
-          color: "negative",
-          avatar: `${WebApi.iconUrl}`,
 
-        }).catch((err) => {
-          console.log(err);
-        });
-        return;
-      }
+      // if ($store.state.cache.cart.length === 0) {
+      //   router.replace("/product");
+      //   $q.notify({
+      //     message: "You have no items",
 
-      // let product =[{}]
-      // for(Object a : $store.state.cache.cart ){
-      //   a.
+      //     color: "negative",
+      //     avatar: `${WebApi.iconUrl}`,
+
+      //   }).catch((err) => {
+      //     console.log(err);
+      //   });
+      //   return;
       // }
 
-      console.log("before Post request: ", $store.state.cache.cart);
-      axios({
-        method: "post",
-        url: `${WebApi.server}/checkOut`,
-        // data: JSON.stringify(product),
 
-        data: {
-          // name : $store.state.cache.cart.getName,
-          customer: customer.value,
-          product: $store.state.cache.cart,
-          total: $store.getters["cache/cartTotalPrice"],
-        },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(() => {
-          console.log("check Bill ", bill);
 
-          $q.notify({
-            message: "checkouted",
+      // console.log("before Post request: ", $store.state.cache.cart);
+      // axios({
+      //   method: "post",
+      //   url: `${WebApi.server}/checkOut`,
+      //   // data: JSON.stringify(product),
 
-            color: "positive",
-            avatar: `${WebApi.iconUrl}`,
+      //   data: {
+      //     // name : $store.state.cache.cart.getName,
+      //     customer: customer.value,
+      //     product: $store.state.cache.cart,
+      //     total: $store.getters["cache/cartTotalPrice"],
+      //   },
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      //   .then(() => {
+      //     console.log("check Bill ", bill);
 
-          });
+      //     $q.notify({
+      //       message: "checkouted",
 
-          router.replace("/thank");
-          $store.dispatch("cache/checkOut");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      //       color: "positive",
+      //       avatar: `${WebApi.iconUrl}`,
+
+      //     });
+
+      //     router.replace("/thank");
+      //     $store.dispatch("cache/checkOut");
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
     },
     // removeProductFromCart(product){
     //   this.$store.dispatch("cache/removeProductFromCart", product)

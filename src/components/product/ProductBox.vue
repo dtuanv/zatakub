@@ -203,6 +203,8 @@
 </template>
 <script>
 // import { count } from 'console';
+import { priceCalculator } from "/src/logic/logic.js";
+
 import { ref } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
@@ -216,6 +218,7 @@ export default {
     const $store = useStore();
     let countItem = ref(0);
     let countCart = ref(0);
+
     // $store.state.cart.products.quantity
     // const test = $store.state.cart.quantity
     function priceWithDiscount(price, discount) {

@@ -1,3 +1,6 @@
+import { priceCalculator } from "/src/logic/logic.js";
+
+
 export const SET_PRODUCT = (state, product) => {
   // console.log("SET_Product")
   state.products = product;
@@ -32,59 +35,7 @@ export const SET_PRODUCT = (state, product) => {
   state.vorspeiseProducts = product.filter((pr) => {
     return pr.category === "vorspeise";
   });
-  // console.log("state.vorspeiseProducts vor", state.vorspeiseProducts);
-  // state.vorspeiseProducts = product
-  //   .filter((pr) => {
-  //     return pr.category === "vorspeise";
-  //   }).sort((a, b) => parseInt(a.num) - parseInt(b.num));
-  // console.log("state.vorspeiseProducts", state.vorspeiseProducts);
-  // ----------
-  state.hauptgangProducts = product.filter((pr) => {
-    return pr.category === "hauptgang";
-  });
-  // state.hauptgangProducts.sort((a, b) => a.num - b.num);
-  //////////
-  state.sushiMixProducts = product.filter((pr) => {
-    return pr.category === "sushiMix";
-  });
-  // state.sushiMixProducts.sort((a, b) => a.num - b.num);
-  ////////////
-  state.sushiProducts = product.filter((pr) => {
-    return pr.category === "sushi";
-  });
-  ////////
-  state.makiProducts = product.filter((pr) => {
-    return pr.category === "maki";
-  });
-  // state.makiProducts.sort((a, b) => a.num - b.num);
 
-  // -----------------
-  state.nigiriProducts = product.filter((pr) => {
-    return pr.category === "nigiri";
-  });
-  // state.nigiriProducts.sort((a, b) => a.num - b.num);
-
-  // ----------
-  state.insideOutProducts = product.filter((pr) => {
-    return pr.category === "insideOut";
-  });
-  // console.log("state.insideOutProducts ",state.insideOutProducts )
-  // state.insideOutProducts.sort((a, b) => a.num - b.num);
-
-  // -----------------------------------------------------
-  state.tempuraProducts = product.filter((pr) => {
-    return pr.category === "tempura";
-  });
-  // state.tempuraProducts.sort((a, b) => a.num - b.num);
-
-  // ------------------------------------------------------------
-  state.spezialProducts = product.filter((pr) => {
-    return pr.category === "spezial";
-  });
-  // sashimiProducts
-  state.sashimiProducts = product.filter((pr) => {
-    return pr.category === "saschimi";
-  });
 
   // state.spezialProducts.sort((a, b) => a.num - b.num);
   // -----------------------------------------------------------------
@@ -96,6 +47,9 @@ export const SET_PRODUCT = (state, product) => {
 //   state.todos.push({name: payload})
 //   console.log("state Todos ",state.todos)
 // }
+
+
+
 export const ADD_TO_CART = (state, { product, quantity }) => {
   let productInCart = state.cart.find((item) => {
     return item.product.id === product.id;
@@ -105,10 +59,46 @@ export const ADD_TO_CART = (state, { product, quantity }) => {
   }
   if (productInCart) {
     productInCart.quantity += quantity;
-    return;
+
   }
-  state.cart.push({ product, quantity });
+
+  const priceCalculators = new priceCalculator()
+
+ let discountPrice = priceCalculators.priceWithDiscount(product.price,product.discount)
+ if(productInCart){
+  var itemTotal = discountPrice * productInCart.quantity
+  productInCart.itemTotal = itemTotal
+ }else{
+  var itemTotal = discountPrice * quantity
+  state.cart.push({ product, quantity,discountPrice,itemTotal });
+ }
+
 };
+
+export const CHANGE_NUMITEM_CART = (state , { product , quantity, action}) => {
+  let productInCart = state.cart.find((item) => {
+    return item.product.id === product.id;
+  });
+  if(action == 'ADD'){
+    productInCart.quantity ++
+  }
+  if(action == 'SUBTRACT'){
+    productInCart.quantity --
+    if(productInCart.quantity  == 0){
+      let i = state.cart.indexOf(productInCart)
+      state.cart.splice(i,1)
+      console.log("i ",i)
+
+      console.log(" state.cart ", state.cart)
+    }
+  }
+  const priceCalculators = new priceCalculator()
+
+ let discountPrice = priceCalculators.priceWithDiscount(product.price,product.discount)
+ let itemTotal = discountPrice *  productInCart.quantity
+ productInCart.itemTotal = itemTotal
+
+}
 export const REMOVE_FROM_CART = (state, product) => {
   state.cart = state.cart.filter((item) => {
     return item.product.id !== product.id;

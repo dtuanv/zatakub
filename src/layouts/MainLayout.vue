@@ -106,47 +106,50 @@
     <q-drawer v-model="drawer" show-if-above :mini="!drawer || miniState" @click.capture="drawerClick" :width="200"
       :breakpoint="500" bordered class="bg-grey-3">
       <q-scroll-area class="fit">
-        <q-list padding>
-          <q-item clickable v-ripple v-if="role !== ''">
-            <q-item-section>
-              <div class="flex justify-center text-h5">Bạn Là: {{ role }}</div>
-            </q-item-section>
-          </q-item>
-
-
-          <q-item clickable v-ripple to="/sale">
-            <q-item-section avatar>
-              <q-icon name="shopping_bag" style="color: coral;" />
-            </q-item-section>
-
-            <q-item-section> Khuyến mãi </q-item-section>
-          </q-item>
-
+        <q-list padding >
 
           <q-item clickable v-ripple to="/product">
             <q-item-section avatar>
-              <q-icon name="store" color="negative" />
+              <q-img src="/img/icon/saleIcon.png" style="color: coral;" />
             </q-item-section>
 
-            <q-item-section> Thương hiệu </q-item-section>
+            <q-item-section> Khuyến mãi  </q-item-section>
           </q-item>
 
-          <q-item v-if="role == ''" clickable v-ripple to="/contact">
-            <q-item-section avatar>
-              <q-icon name="send" />
+          <div v-for="(qItem,index) in drawItems" :key="index" >
+
+            <q-item clickable v-ripple :to="qItem.link"  @mouseover="qItem.menu_cat = true, fmouseoverAllowOnlyOne(qItem)"    >
+            <q-item-section avatar >
+              <q-img :src="qItem.imgLink" style="color: coral;" />
             </q-item-section>
 
-            <q-item-section> Hỏi Shop </q-item-section>
+            <q-item-section  > {{qItem.title}} </q-item-section>
+
+
+            <q-menu  @mouseover="qItem.menu_cat = true" fit v-model="qItem.menu_cat"
+          anchor="top right"
+          self="top left"
+          @mouseleave="qItem.menu_cat = false"
+        >
+        <div class="row" style="max-width:500px">
+          <q-list style="min-width: 100px"  v-for="mark in qItem.mark" :key="mark" >
+            <q-item clickable v-close-popup :to="mark.toLink">
+
+              <q-item-section>{{mark.label}}</q-item-section>
+
+
+            </q-item>
+
+          </q-list>
+        </div>
+
+        </q-menu>
           </q-item>
+          </div>
 
 
-          <q-item v-if="role == ''" clickable v-ripple to="/deliveryStatus">
-            <q-item-section avatar>
-              <q-icon name="search" />
-            </q-item-section>
 
-            <q-item-section> Tìm đơn </q-item-section>
-          </q-item>
+
 
 
           <q-item v-if="role === 'ADMIN' || role === 'USER'" clickable v-ripple to="/admin">
@@ -190,29 +193,7 @@
     <!-- (Optional) The Footer -->
 
     <q-footer>
-      <div v-if="card_cookie">
-        <q-card style="background-color: aqua; height: 120px">
-          <q-card-section style="padding-bottom: 0px">
-            <div style="width: 100%">
-              <div style="color: black" class="flex justify-center">
-                Cookie
-              </div>
-            </div>
-          </q-card-section>
-          <q-card-actions>
-            <div class="row" style="width: 100%">
-              <div class=""></div>
-              <div class="col-2">
-                <q-btn @click="card_cookie = false" label="Ablehnen" color="negative"></q-btn>
-              </div>
-              <div class="col-6"></div>
-              <div class="">
-                <q-btn class="" @click="card_cookie = false" color="positive" label="Akzeptieren"></q-btn>
-              </div>
-            </div>
-          </q-card-actions>
-        </q-card>
-      </div>
+
 
       <q-tabs v-if="!$q.screen.gt.sm" switch-indicator style="background-color: cadetblue">
         <q-route-tab icon="yard" :to="{ name: 'product', params: { id: 1 } }" replace label="Khuyến mãi" />
@@ -224,11 +205,7 @@
 
     <q-page-container>
       <!-- This is where pages get injected -->
-
-      <router-view />
-
-
-
+      <router-view :key="$route.path"/>
       <Header></Header>
     </q-page-container>
   </q-layout>
@@ -244,6 +221,38 @@ import { useRoute, useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 import { date } from "quasar";
 import Header from "/src/components/header/Header.vue";
+
+
+{/* <q-item v-if="role == ''" clickable v-ripple to="/deliveryStatus">
+            <q-item-section avatar >
+              <q-img src="/img/icon/instagram.png" />
+            </q-item-section>
+
+            <q-item-section>My Pham Duc </q-item-section>
+          </q-item> */}
+          // src="~assets/img/roomInKonstanz.png"
+const drawItems = ref([
+  {role:'', link:'/deliveryStatus', imgLink: '/img/icon/instagram.png', title:'Tim Don',menu_cat:false, },
+
+  {role:'', link:'/product/german', imgLink: '/img/icon/germanFlat.png', title:'Thương hiệu Đức ',menu_cat:false,mark: [{toLink:'product/product/germany/goldWell',label:'Gold Well'},{toLink:'product/product/germany/spWella',label:'SP Wella'},]},
+
+  {role:'', link:'/product/america', imgLink: '/img/icon/roomInKonstanz.png', title:'Thương hiệu Mỹ ',menu_cat:false,mark: [{toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
+  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
+  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
+  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
+  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
+  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'}
+  ,]},
+
+  {role:'', link:'/productt', imgLink: '/img/icon/roomInKonstanz.png', title:'Thương hiệu Mỹ ',menu_cat:false,mark: [{toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
+  {toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/america/spWella',label:'OLAPLEX'},
+  {toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
+  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
+  {toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/america/spWella',label:'OLAPLEX'},
+  {toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/america/spWella',label:'OLAPLEX'}
+  ,]},
+
+])
 export default {
   // name: 'LayoutName',
   // props:{countCart},
@@ -286,6 +295,7 @@ export default {
       $router.replace("/");
     };
     return {
+      drawItems,
       logout,
       amountItem,
       leftDrawerOpen,
@@ -294,6 +304,8 @@ export default {
       card_cookie: ref(true),
       menu_cat_mark: ref(false),
       menu_cat_product: ref(false),
+
+
 
       role,
 
@@ -314,6 +326,15 @@ export default {
       },
     };
   },
+  methods: {
+    fmouseoverAllowOnlyOne(item){
+      drawItems.value.forEach(d => {
+        d.menu_cat = false
+      })
+      item.menu_cat = true
+
+    }
+  }
 };
 </script>
 <style>

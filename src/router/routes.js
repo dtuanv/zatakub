@@ -19,8 +19,13 @@ const routes = [
         component: () => import("src/pages/infos/AboutMe.vue"),
       },
       {
-        path: "/product/:category",
-        name: "productCategory",
+        path: "/product/:country",
+        name: "productCountry",
+        component: () => import("src/pages/product/Product.vue"),
+      },
+      {
+        path: "/product/:country/:mark",
+        name: "productCountryMark",
         component: () => import("src/pages/product/Product.vue"),
       },
       {

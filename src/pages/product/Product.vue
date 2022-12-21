@@ -11,14 +11,14 @@
       </q-input>
         </div>
       </div>
-    <div class="row">
+    <div class="row q-mb-sm">
       <div class="col-4">
-        <q-select label="Tất cả thương hiệu" transition-show="flip-up" transition-hide="flip-down" filled
+        <q-select rounded  outlined  label="Tất cả thương hiệu" transition-show="flip-up" transition-hide="flip-down"
           v-model="marktSelected" :options="marktOptions" style="width: 250px" />
       </div>
-      <div class="col-2"></div>
-      <div class="col-4">
-        <q-select label="Sắp Xếp" transition-show="flip-up" transition-hide="flip-down" filled v-model="filterSelected"
+
+      <div  class="col-6" style="display: flex; justify-content: flex-end;">
+        <q-select rounded outlined label="Sắp Xếp" transition-show="flip-up" transition-hide="flip-down"  v-model="filterSelected"
           :options="filterOptions" style="width: 250px" />
       </div>
 
@@ -100,8 +100,7 @@ import { useStore } from "vuex";
 import { useQuasar } from "quasar";
 import { useRoute, useRouter } from "vue-router";
 import Detail from "../customer/Detail.vue";
-// import productBox from "src/components/product/ProductBoxOrig.vue";
-// import productBox from '@/path/to/product/ProductBox.vue'
+
 import productBox from "src/components/product/ProductBox.vue";
 import Product from "/src/apis/Product.js";
 import { WebApi } from "/src/apis/WebApi";
@@ -128,22 +127,12 @@ export default {
   setup() {
     const $q = useQuasar();
     const route = useRoute();
-    // $q.screen.setSizes({ xs: 900 });
-    // scroll To element
-    const sushi = ref(null);
 
-    const goToSushi = () => {
-      sushi.value?.scrollIntoView({ behavior: "smooth", block: "center" });
-    };
-
-    // End Scroll to Element
     const $store = useStore();
 
     const router = useRouter();
-
-    // const products = computed({
-    //   get: () => $store.state.cache.products,
-    // });
+    const country = ref(route.params.country)
+    const mark = ref(route.params.mark)
 
     const products = [
       {
@@ -166,6 +155,10 @@ export default {
 
         description: "description.png",
         category: 'hair',
+
+        country: 'germany',
+
+        mark: 'goldWell'
       },
       {
         id: 1,
@@ -177,6 +170,9 @@ export default {
         price: "130000",
         discount: 50,
         description: "",
+
+        country: 'germany',
+        mark: 'spWella'
       },
       {
         id: 2,
@@ -188,7 +184,8 @@ export default {
         discount: 20,
         description: "Dau Goi Dau De 3",
         category: 'hair',
-
+        country: 'america',
+         mark: 'goldWell'
       },
       {
         id: 3,
@@ -212,7 +209,7 @@ export default {
         discount: 30,
         description: "Dau Goi Dau De 3",
         category: 'whitening',
-
+        country: 'america', mark: 'goldWell'
       },
       {
         id: 5,
@@ -224,6 +221,7 @@ export default {
         discount: 30,
         description: "Dau Goi Dau De 3",
         category: 'whitening',
+        country: 'america', mark: 'goldWell'
 
       },
       {
@@ -236,6 +234,7 @@ export default {
         discount: 30,
         description: "Dau Goi Dau De 3",
         category: 'combo',
+        country: 'german', mark: 'goldWell'
 
       },
       {
@@ -250,15 +249,12 @@ export default {
       },
     ];
 
-    const vorspeiseProducts = computed({
-      get: () => $store.state.cache.vorspeiseProducts,
-    });
+
 
     const notice = ref({});
-    axios.get(`${WebApi.server}/getNotice/productPage`).then((response) => {
-      notice.value = response.data;
-    });
-    console.log("products.value", products);
+    // axios.get(`${WebApi.server}/getNotice/productPage`).then((response) => {
+    //   notice.value = response.data;
+    // });
     if (route.params.category != undefined) {
       productsCategory.value = products.filter(p => {
         return p.category == route.params.category
@@ -267,7 +263,17 @@ export default {
       productsCategory.value = products
     }
 
+    if(country.value != undefined ){
+      productsCategory.value = products.filter( p =>{
+        return p.country == country.value
+      })
 
+      if( mark.value != undefined){
+        productsCategory.value = productsCategory.value.filter(m=> {
+        return m.mark == mark.value
+      })
+      }
+    }
     const checkParam = ref(route.params.category)
     function priceWithDiscount(price, discount) {
       var priceInt = parseInt(price);
@@ -280,9 +286,7 @@ export default {
             .replace(/đ/g, 'd').replace(/Đ/g, 'D');
 }
     return {
-      goToSushi,
       products,
-      vorspeiseProducts,
       notice,
       hinweis_dialog: ref(true),
       productsCategory,
@@ -328,14 +332,9 @@ export default {
       }
       var findName = this.findProduct
       productsCategory.value = productsCategory.value.filter(p => {
-        console.log(" p.name.includes(this.findProduct) ",this.removeAccents(p.name).includes(this.removeAccents(findName)))
-        console.log("this.removeAccents(p.name) ",this.removeAccents(p.name)," findName   ",this.removeAccents(findName))
 
-        // return this.removeAccents(p.name).search(findName) !== -1
         return this.removeAccents(p.name).toLowerCase().includes(this.removeAccents(findName).toLowerCase())
-        // return p.name.includes(findName)
       })
-      console.log("findProduct ",this.findProduct)
 
     }
 
@@ -371,7 +370,7 @@ export default {
     },
 
     findProduct(newFind ,old){
-
+      this.findProductByName()
      if(newFind.length < old.length){
 
       productsCategory.value = this.products
