@@ -64,6 +64,14 @@ const routes = [
       },
 
       {
+        path: "/admin/addCategory",
+        name: "adminAddCategory",
+        component: () => import("src/pages/admin/product/AddCategory.vue"),
+        meta: { isRequireAuth: true },
+
+      },
+
+      {
         path: "/admin/message",
         name: "adminMessage",
         component: () => import("src/pages/admin/Message.vue"),

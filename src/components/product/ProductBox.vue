@@ -6,16 +6,20 @@
         <!-- only Admin beginn -->
         <div v-if="ro == 'admin'">
           <q-btn icon="edit" @click='editProduct(product)' dense></q-btn>
-          <q-btn class="q-ml-xl" label="ON" :style="product.status == 'on' ? 'background-color:green' : ''" @click="changeStatusProduct(product)"></q-btn>
-          <q-btn label="OFF"  :style="product.status == 'off' ? 'background-color:red' : ''" @click="changeStatusProduct(product)"></q-btn>
+          <q-btn class="q-ml-xl" label="ON" :style="product.status == 'on' ? 'background-color:green' : ''"
+            @click="changeStatusProduct(product)"></q-btn>
+          <q-btn label="OFF" :style="product.status == 'off' ? 'background-color:red' : ''"
+            @click="changeStatusProduct(product)"></q-btn>
           <q-btn class="float-right" icon="delete" color="negative" @click='deleteProduct(product)' dense></q-btn>
         </div>
         <!-- only Admin end -->
-        <div  class="row flex flex-center">
-          <div v-if="product.sale == 't'"  class=" text-h5" style="color: red;font-family: cursive;">Hot SALE %%!</div>
+        <div class="row flex flex-center">
+          <div v-if="product.sale == 't'" class=" text-h5" style="color: red;font-family: cursive;">Hot SALE %%!</div>
           <div v-if="ro == 'admin'">
-              <q-btn v-if="product.sale == 't'"  label="bo sale" color="negative" @click="changeSaleStatus(product)"></q-btn>
-              <q-btn v-if="product.sale == 'f'"  label="them vao sale" color="negative" @click="changeSaleStatus(product)"></q-btn>
+            <q-btn v-if="product.sale == 't'" label="bo sale" color="negative"
+              @click="changeSaleStatus(product)"></q-btn>
+            <q-btn v-if="product.sale == 'f'" label="them vao sale" color="negative"
+              @click="changeSaleStatus(product)"></q-btn>
           </div>
         </div>
 
@@ -54,10 +58,10 @@
                   </div>
                   <div class="flex flex-center" style="color: red; font-size: 1em; width: 100%;font-family: fantasy;">
                     {{
-                        numberWithCommas(
-                          priceWithDiscount(product.price, product.discount)
-                        )
-                    }}
+    numberWithCommas(
+      priceWithDiscount(product.price, product.discount)
+    )
+}}
                     đ
                   </div>
                 </div>
@@ -76,8 +80,8 @@
               <q-btn @click="subtractItem()" icon="remove" color="negative" flat></q-btn>
             </div>
             <q-item style="padding-left: 0px; padding-right: 0px">{{
-                countItem
-            }}</q-item>
+    countItem
+}}</q-item>
             <div style="padding-left:2px">
               <q-btn @click="addItem()" icon="add" color="positive" flat></q-btn>
             </div>
@@ -146,8 +150,8 @@
 
           </div>
           <div class="flex flex-center q-mt-sm  " style="font-size: 1.2rem;padding: 0px 14px;color: cadetblue;">{{
-              product.name
-          }}</div>
+    product.name
+}}</div>
           <q-separator></q-separator>
 
         </q-card-section>
@@ -168,100 +172,100 @@
 
             <div class="col-10">
               <q-editor v-model="product.subtitle" :dense="$q.screen.lt.md" :definitions="{
-                fontColor: {
-                  tip: 'Change font color',
-                  icon: 'colorize',
-                  label: 'Font Color',
-                  handler: fontColor
-                }
-              }" :toolbar="
+  fontColor: {
+    tip: 'Change font color',
+    icon: 'colorize',
+    label: 'Font Color',
+    handler: fontColor
+  }
+}" :toolbar="
 
 
-[
   [
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      list: 'only-icons',
-      options: ['left', 'center', 'right', 'justify']
-    },
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      options: ['left', 'center', 'right', 'justify']
-    }
-  ],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-  ['token', 'hr', 'link', 'custom_btn'],
-  ['print', 'fullscreen'],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
-  [
-    {
-      label: $q.lang.editor.formatting,
-      icon: $q.iconSet.editor.formatting,
-      list: 'no-icons',
-      options: [
-        'p',
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6',
-        'code'
-      ]
-    },
-    {
-      label: $q.lang.editor.fontSize,
-      icon: $q.iconSet.editor.fontSize,
-      fixedLabel: true,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'size-1',
-        'size-2',
-        'size-3',
-        'size-4',
-        'size-5',
-        'size-6',
-        'size-7'
-      ]
-    },
-    {
-      label: $q.lang.editor.defaultFont,
-      icon: $q.iconSet.editor.font,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'default_font',
-        'arial',
-        'arial_black',
-        'comic_sans',
-        'courier_new',
-        'impact',
-        'lucida_grande',
-        'times_new_roman',
-        'verdana'
-      ]
-    },
-    'removeFormat'
-  ],
-  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+    [
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        list: 'only-icons',
+        options: ['left', 'center', 'right', 'justify']
+      },
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        options: ['left', 'center', 'right', 'justify']
+      }
+    ],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+    ['token', 'hr', 'link', 'custom_btn'],
+    ['print', 'fullscreen'],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
+    [
+      {
+        label: $q.lang.editor.formatting,
+        icon: $q.iconSet.editor.formatting,
+        list: 'no-icons',
+        options: [
+          'p',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'code'
+        ]
+      },
+      {
+        label: $q.lang.editor.fontSize,
+        icon: $q.iconSet.editor.fontSize,
+        fixedLabel: true,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'size-1',
+          'size-2',
+          'size-3',
+          'size-4',
+          'size-5',
+          'size-6',
+          'size-7'
+        ]
+      },
+      {
+        label: $q.lang.editor.defaultFont,
+        icon: $q.iconSet.editor.font,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'default_font',
+          'arial',
+          'arial_black',
+          'comic_sans',
+          'courier_new',
+          'impact',
+          'lucida_grande',
+          'times_new_roman',
+          'verdana'
+        ]
+      },
+      'removeFormat'
+    ],
+    ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-  ['undo', 'redo'],
-  ['viewsource']
-]" :fonts="{
-    arial: 'Arial',
-    arial_black: 'Arial Black',
-    comic_sans: 'Comic Sans MS',
-    courier_new: 'Courier New',
-    impact: 'Impact',
-    lucida_grande: 'Lucida Grande',
-    times_new_roman: 'Times New Roman',
-    verdana: 'Verdana'
-  }" />
+    ['undo', 'redo'],
+    ['viewsource']
+  ]" :fonts="{
+  arial: 'Arial',
+  arial_black: 'Arial Black',
+  comic_sans: 'Comic Sans MS',
+  courier_new: 'Courier New',
+  impact: 'Impact',
+  lucida_grande: 'Lucida Grande',
+  times_new_roman: 'Times New Roman',
+  verdana: 'Verdana'
+}" />
 
             </div>
             <div class="col-2">
@@ -307,100 +311,100 @@
 
                       <div class="col-10">
                         <q-editor v-model="product.description" :dense="$q.screen.lt.md" :definitions="{
-                          fontColor: {
-                            tip: 'Change font color',
-                            icon: 'colorize',
-                            label: 'Font Color',
-                            handler: fontColor
-                          }
-                        }" :toolbar="
+  fontColor: {
+    tip: 'Change font color',
+    icon: 'colorize',
+    label: 'Font Color',
+    handler: fontColor
+  }
+}" :toolbar="
 
 
-[
   [
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      list: 'only-icons',
-      options: ['left', 'center', 'right', 'justify']
-    },
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      options: ['left', 'center', 'right', 'justify']
-    }
-  ],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-  ['token', 'hr', 'link', 'custom_btn'],
-  ['print', 'fullscreen'],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
-  [
-    {
-      label: $q.lang.editor.formatting,
-      icon: $q.iconSet.editor.formatting,
-      list: 'no-icons',
-      options: [
-        'p',
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6',
-        'code'
-      ]
-    },
-    {
-      label: $q.lang.editor.fontSize,
-      icon: $q.iconSet.editor.fontSize,
-      fixedLabel: true,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'size-1',
-        'size-2',
-        'size-3',
-        'size-4',
-        'size-5',
-        'size-6',
-        'size-7'
-      ]
-    },
-    {
-      label: $q.lang.editor.defaultFont,
-      icon: $q.iconSet.editor.font,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'default_font',
-        'arial',
-        'arial_black',
-        'comic_sans',
-        'courier_new',
-        'impact',
-        'lucida_grande',
-        'times_new_roman',
-        'verdana'
-      ]
-    },
-    'removeFormat'
-  ],
-  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+    [
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        list: 'only-icons',
+        options: ['left', 'center', 'right', 'justify']
+      },
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        options: ['left', 'center', 'right', 'justify']
+      }
+    ],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+    ['token', 'hr', 'link', 'custom_btn'],
+    ['print', 'fullscreen'],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
+    [
+      {
+        label: $q.lang.editor.formatting,
+        icon: $q.iconSet.editor.formatting,
+        list: 'no-icons',
+        options: [
+          'p',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'code'
+        ]
+      },
+      {
+        label: $q.lang.editor.fontSize,
+        icon: $q.iconSet.editor.fontSize,
+        fixedLabel: true,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'size-1',
+          'size-2',
+          'size-3',
+          'size-4',
+          'size-5',
+          'size-6',
+          'size-7'
+        ]
+      },
+      {
+        label: $q.lang.editor.defaultFont,
+        icon: $q.iconSet.editor.font,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'default_font',
+          'arial',
+          'arial_black',
+          'comic_sans',
+          'courier_new',
+          'impact',
+          'lucida_grande',
+          'times_new_roman',
+          'verdana'
+        ]
+      },
+      'removeFormat'
+    ],
+    ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-  ['undo', 'redo'],
-  ['viewsource']
-]" :fonts="{
-    arial: 'Arial',
-    arial_black: 'Arial Black',
-    comic_sans: 'Comic Sans MS',
-    courier_new: 'Courier New',
-    impact: 'Impact',
-    lucida_grande: 'Lucida Grande',
-    times_new_roman: 'Times New Roman',
-    verdana: 'Verdana'
-  }" />
+    ['undo', 'redo'],
+    ['viewsource']
+  ]" :fonts="{
+  arial: 'Arial',
+  arial_black: 'Arial Black',
+  comic_sans: 'Comic Sans MS',
+  courier_new: 'Courier New',
+  impact: 'Impact',
+  lucida_grande: 'Lucida Grande',
+  times_new_roman: 'Times New Roman',
+  verdana: 'Verdana'
+}" />
 
                       </div>
                       <div class="col-2">
@@ -469,8 +473,11 @@
         <q-card-section>
           <div class="flex flex-center ">Ảnh khác</div>
           <div>
-            <q-uploader url="http://localhost:4444/upload" label="Tải ảnh lên" color="purple" square flat bordered
-              style="max-width: 300px" />
+
+            <q-uploader ref="uploadBtn" field-name="file" extensions=".gif,.jpg,.jpeg,.png" @add="file_selected" label="Tải ảnh lên"
+              with-credentials color="purple" square flat bordered style="max-width: 300px" />
+
+            <q-btn @click="uploadFile()">Upload</q-btn>
 
           </div>
         </q-card-section>
@@ -481,6 +488,14 @@
           </div>
 
 
+        </q-card-actions>
+        <q-separator />
+        <q-card-actions>
+          <div>Giá: </div>
+          <div class="q-ml-md">
+            <q-input v-model.number="product.price" type="number"
+              :rules="[val => (0 < val && val < 1000000) || 'Vui lòng nhập lại % giảm giá']" />
+          </div>
         </q-card-actions>
         <q-separator />
         <q-card-actions>
@@ -505,12 +520,24 @@ import { priceCalculator } from "/src/logic/logic.js";
 import { ref, computed, nextTick } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
+import axios from "axios";
+
 const $q = useQuasar();
+
 import { WebApi } from "/src/apis/WebApi";
+
+
+const selected_file = ref('')
+const check_if_document_upload = ref(false)
 
 export default {
   name: "productBox",
   props: ["product"],
+  data() {
+    return {
+
+    }
+  },
   setup() {
     const $store = useStore();
     let countItem = ref(0);
@@ -552,6 +579,8 @@ export default {
     }
 
     return {
+      selected_file,
+      check_if_document_upload,
       ro,
       slide: ref(1),
       stars: ref(4),
@@ -661,22 +690,53 @@ export default {
 
 
     },
-    changeStatusProduct(product){
+    changeStatusProduct(product) {
       // this.$store.dispatch("cache/changeStatusProduct",product)
-      if(product.status == 'on'){
+      if (product.status == 'on') {
         product.status = 'off'
-      }else{
+      } else {
         product.status = 'on'
       }
     },
-    changeSaleStatus(product){
-      if(product.sale == 't'){
+    changeSaleStatus(product) {
+      if (product.sale == 't') {
         product.sale = 'f'
 
-      }else{
+      } else {
         product.sale = 't'
       }
 
+    },
+    uploadF() {
+      console.log("up")
+    },
+
+    file_selected(file) {
+      let files = this.$refs.uploadBtn.files
+
+      console.log("files ",files)
+      this.selected_file = files[0];
+      this.check_if_document_upload = true;
+    },
+
+    uploadFile() {
+
+      const fd = new FormData();
+      fd.append("file", this.selected_file);
+
+
+
+
+
+      console.log("fd ", fd.getAll('file'))
+
+      axios.post(`${WebApi.server}/upload`, fd, {
+        headers: { 'Content-Type': undefined },
+      }).then(function (response) {
+        if (response.data.ok) {
+
+        }
+      }.bind(this));
     }
   },
   computed: {},

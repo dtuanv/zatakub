@@ -1,6 +1,7 @@
 <template>
   <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm'">
 
+
     <div class="float-right">
       <q-btn label="Admin edit" @click="setRole"></q-btn>
     </div>
@@ -32,22 +33,27 @@
 
     </div>
 
+
+    <div v-if="ro == 'admin'">
+      <q-btn icon="add"></q-btn>
+    </div>
+
     <div>
       <div class="row">
         <div class="row" :style="$q.screen.lt.sm ? '' : 'width:92%'">
           <!-- only Admin beginn -->
 
-          <div :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory" :key="product.id">
+          <div v-if="ro == 'admin'" :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
           <!-- only Admin end -->
 
 
-          <!-- <div :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
+          <div v-else :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
             return p.status == 'on'
           })" :key="product.id">
             <productBox :product="product"></productBox>
-          </div> -->
+          </div>
 
 
         </div>
@@ -167,13 +173,13 @@ export default {
     const products = ref([
       {
         id: 0,
-        status: 'on',
-        imageUrl: "goidau.png",
+        status: 'off',
+        imageUrl: "/icon/roomInKonstanz.png",
         imageUrl2: "dauxa.png",
         imageUrl3: "nau.png",
 
-        name: "Dầu gội Yunsey dành cho nam For Men 380ml",
-        price: "130000",
+        name: "Nhap Ten Tai Day",
+        price: 130000,
         discount: 30,
         subtitle: "BỘ PHỤC HỒI TÓC HƯ TỔN 3 BƯỚC MILBON DEESSE'S MẪU 2022 (600ML X 3): ",
         body: 'subtitle.png',
@@ -199,7 +205,7 @@ export default {
 
         imageUrl: "dauxa.png",
         name: "Dầu gội xả siêu mượt phục hồi và ngăn gãy rụng tóc Edocean Collagen Keratin 500mlx2",
-        price: "130000",
+        price: 130000,
         discount: 50,
         description: "",
 
@@ -214,7 +220,7 @@ export default {
 
         imageUrl: "goidau.png",
         name: "Dau Goi Dau 3 Dau Goi Dau 3  Dầu gội xả siêu mượt phục hồi và ngăn gãy rụng tóc Edocean Collagen Keratin 500mlx2 ",
-        price: "130000",
+        price: 130000,
         discount: 20,
         description: "Dau Goi Dau De 3",
         category: 'hair',
@@ -229,7 +235,7 @@ export default {
 
         imageUrl: "goidau.png",
         name: "Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
-        price: "130000",
+        price: 130000,
         discount: 25,
         description: "Dau Goi Dau De 3",
         category: 'hair',
@@ -245,7 +251,7 @@ export default {
 
         imageUrl: "goidau.png",
         name: "Dau Goi Dau 4 F Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
-        price: "130000",
+        price: 130000,
         discount: 30,
         description: "Dau Goi Dau De 3",
         category: 'whitening',
@@ -259,7 +265,7 @@ export default {
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: "130000",
+        price: 130000,
         discount: 30,
         description: "Dau Goi Dau De 3",
         category: 'whitening',
@@ -274,11 +280,13 @@ export default {
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: "130000",
+        price: 130000,
         discount: 30,
         description: "Dau Goi Dau De 3",
         category: 'combo',
-        category: 'german', mark: 'goldWell'
+        category: 'german',
+
+        mark: 'goldWell'
 
       },
       {
@@ -287,7 +295,7 @@ export default {
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: "130000",
+        price: 130000,
         discount: 30,
         description: "Dau Goi Dau De 3",
       },
@@ -297,7 +305,7 @@ export default {
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: "130000",
+        price: 130000,
         discount: 40,
         description: "Dau Goi Dau De 3",
         category: 'hairCosmetic',
@@ -309,7 +317,7 @@ export default {
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: "130000",
+        price: 130000,
         discount: 50,
         description: "Dau Goi Dau De 3",
         category: 'hairCosmetic',
@@ -320,7 +328,7 @@ export default {
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: "130000",
+        price: 130000,
         discount: 10,
         description: "Dau Goi Dau De 3",
         category: 'hairCosmetic',
@@ -331,7 +339,7 @@ export default {
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: "130000",
+        price: 130000,
         discount: 12,
         description: "Dau Goi Dau De 3",
       },
