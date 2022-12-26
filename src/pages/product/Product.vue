@@ -1,25 +1,33 @@
 <template>
   <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm'">
 
-    <div class="" >
+    <div class="float-right">
+      <q-btn label="Admin edit" @click="setRole"></q-btn>
+    </div>
 
-        <div class="flex flex-center q-mt-lg" >
-          <q-input  style="width:30rem" v-model="findProduct" :rules="findProductValidate" label="Nhập tên sản phẩm" rounded outlined >
-            <template v-slot:append>
-              <q-btn flat icon="search" @click="findProductByName"/>
-        </template>
-      </q-input>
-        </div>
+    <!-- <div style>
+      <q-select rounded outlined label="Tất cả thương hiệu" transition-show="flip-up" transition-hide="flip-down"
+        v-model="marktSelected" :options="marktOptions" style="width: 250px" />
+    </div> -->
+
+
+
+    <div class="">
+
+      <div class="flex flex-center q-mt-lg">
+        <q-input style="width:30rem" v-model="findProduct" :rules="findProductValidate" label="Nhập tên sản phẩm"
+          rounded outlined>
+          <template v-slot:append>
+            <q-btn flat icon="search" @click="findProductByName" />
+          </template>
+        </q-input>
       </div>
+    </div>
     <div class="row q-mb-sm">
-      <div class="col-4">
-        <q-select rounded  outlined  label="Tất cả thương hiệu" transition-show="flip-up" transition-hide="flip-down"
-          v-model="marktSelected" :options="marktOptions" style="width: 250px" />
-      </div>
 
-      <div  class="col-6" style="display: flex; justify-content: flex-end;">
-        <q-select rounded outlined label="Sắp Xếp" transition-show="flip-up" transition-hide="flip-down"  v-model="filterSelected"
-          :options="filterOptions" style="width: 250px" />
+      <div style="display: flex; justify-content: flex-end;">
+        <q-select rounded outlined label="Sắp Xếp" transition-show="flip-up" transition-hide="flip-down"
+          v-model="filterSelected" :options="filterOptions" style="width: 250px" />
       </div>
 
     </div>
@@ -27,11 +35,21 @@
     <div>
       <div class="row">
         <div class="row" :style="$q.screen.lt.sm ? '' : 'width:92%'">
-          <div :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
-            return p.status == true
-          })" :key="product.id">
+          <!-- only Admin beginn -->
+
+          <div :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
+          <!-- only Admin end -->
+
+
+          <!-- <div :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
+            return p.status == 'on'
+          })" :key="product.id">
+            <productBox :product="product"></productBox>
+          </div> -->
+
+
         </div>
         <!-- <div > -->
 
@@ -131,13 +149,25 @@ export default {
     const $store = useStore();
 
     const router = useRouter();
-    const country = ref(route.params.country)
+
+    const ro = computed({
+      get: () => $store.state.cache.ro,
+    });
+
+
+    const productsCategoryOrig  = ref([])
+    const category = ref(route.params.category)
     const mark = ref(route.params.mark)
 
-    const products = [
+
+    // const products = computed({
+    // get: () => $store.getters['cache/getProduct']
+    // })
+
+    const products = ref([
       {
         id: 0,
-        status: true,
+        status: 'on',
         imageUrl: "goidau.png",
         imageUrl2: "dauxa.png",
         imageUrl3: "nau.png",
@@ -156,13 +186,15 @@ export default {
         description: "description.png",
         category: 'hair',
 
-        country: 'germany',
+        category: 'germany',
 
-        mark: 'goldWell'
+        mark: 'goldWell',
+        sale:'t',
+
       },
       {
         id: 1,
-        status: true,
+        status: 'on',
         subtitle: "BỘ PHỤC HỒI TÓC HƯ TỔN 3 BƯỚC MILBON DEESSE'S MẪU 2022 (600ML X 3): ",
 
         imageUrl: "dauxa.png",
@@ -171,12 +203,14 @@ export default {
         discount: 50,
         description: "",
 
-        country: 'germany',
-        mark: 'spWella'
+        category: 'germany',
+        mark: 'spWella',
+
+        sale:'t',
       },
       {
         id: 2,
-        status: true,
+        status: 'on',
 
         imageUrl: "goidau.png",
         name: "Dau Goi Dau 3 Dau Goi Dau 3  Dầu gội xả siêu mượt phục hồi và ngăn gãy rụng tóc Edocean Collagen Keratin 500mlx2 ",
@@ -184,12 +218,14 @@ export default {
         discount: 20,
         description: "Dau Goi Dau De 3",
         category: 'hair',
-        country: 'america',
-         mark: 'goldWell'
+        category: 'germany',
+        mark: 'goldWell',
+
+        sale:'t',
       },
       {
         id: 3,
-        status: true,
+        status: 'on',
 
         imageUrl: "goidau.png",
         name: "Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
@@ -197,6 +233,10 @@ export default {
         discount: 25,
         description: "Dau Goi Dau De 3",
         category: 'hair',
+        category: 'germany',
+        mark: 'goldWell',
+
+        sale:'t',
 
       },
       {
@@ -209,11 +249,13 @@ export default {
         discount: 30,
         description: "Dau Goi Dau De 3",
         category: 'whitening',
-        country: 'america', mark: 'goldWell'
+        category: 'hairCosmetic',
+
+        sale:'t',
       },
       {
         id: 5,
-        status: true,
+        status: 'on',
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
@@ -221,12 +263,14 @@ export default {
         discount: 30,
         description: "Dau Goi Dau De 3",
         category: 'whitening',
-        country: 'america', mark: 'goldWell'
+        category: 'america', mark: 'goldWell',
+
+        sale:'t',
 
       },
       {
         id: 6,
-        status: true,
+        status: 'on',
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
@@ -234,12 +278,12 @@ export default {
         discount: 30,
         description: "Dau Goi Dau De 3",
         category: 'combo',
-        country: 'german', mark: 'goldWell'
+        category: 'german', mark: 'goldWell'
 
       },
       {
         id: 7,
-        status: true,
+        status: 'on',
 
         imageUrl: "nau.png",
         name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
@@ -247,8 +291,51 @@ export default {
         discount: 30,
         description: "Dau Goi Dau De 3",
       },
-    ];
+      {
+        id: 8,
+        status: 'on',
 
+        imageUrl: "nau.png",
+        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+        price: "130000",
+        discount: 40,
+        description: "Dau Goi Dau De 3",
+        category: 'hairCosmetic',
+
+      },
+      {
+        id: 9,
+        status: 'off',
+
+        imageUrl: "nau.png",
+        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+        price: "130000",
+        discount: 50,
+        description: "Dau Goi Dau De 3",
+        category: 'hairCosmetic',
+      },
+      {
+        id: 10,
+        status: 'on',
+
+        imageUrl: "nau.png",
+        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+        price: "130000",
+        discount: 10,
+        description: "Dau Goi Dau De 3",
+        category: 'hairCosmetic',
+      },
+      {
+        id: 11,
+        status: 'on',
+
+        imageUrl: "nau.png",
+        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+        price: "130000",
+        discount: 12,
+        description: "Dau Goi Dau De 3",
+      },
+    ])
 
 
     const notice = ref({});
@@ -256,22 +343,22 @@ export default {
     //   notice.value = response.data;
     // });
     if (route.params.category != undefined) {
-      productsCategory.value = products.filter(p => {
+      productsCategory.value = products.value.filter(p => {
         return p.category == route.params.category
       })
     } else {
       productsCategory.value = products
     }
 
-    if(country.value != undefined ){
-      productsCategory.value = products.filter( p =>{
-        return p.country == country.value
+    if (category.value != undefined) {
+      productsCategory.value = products.value.filter(p => {
+        return p.category == category.value
       })
 
-      if( mark.value != undefined){
-        productsCategory.value = productsCategory.value.filter(m=> {
-        return m.mark == mark.value
-      })
+      if (mark.value != undefined) {
+        productsCategory.value = productsCategory.value.filter(m => {
+          return m.mark == mark.value
+        })
       }
     }
     const checkParam = ref(route.params.category)
@@ -281,12 +368,22 @@ export default {
       return priceInt * (1 - rest);
     }
     function removeAccents(str) {
-  return str.normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/đ/g, 'd').replace(/Đ/g, 'D');
-}
+      return str.normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd').replace(/Đ/g, 'D');
+
+    }
+    if(route.path === '/product/sale'){
+      productsCategory.value = products.value.filter(p => {
+        return p.sale == 't'
+      })
+    }
+console.log("checkParam ",route.path )
+    console.log("products aff ", productsCategory.value)
+
     return {
       products,
+      productsCategoryOrig,
       notice,
       hinweis_dialog: ref(true),
       productsCategory,
@@ -298,11 +395,13 @@ export default {
       priceWithDiscount,
       findProduct,
       removeAccents,
-        findProductValidate: [
+      admin_edit:ref(false),
+      ro,
+      findProductValidate: [
         (val) =>
           (val !== null &&
             val !== "" &&
-            !!val ) ||
+            !!val) ||
           // val.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g)) ||
           "Vui lòng nhập đúng số đơn ạ!",
         // (val) =>
@@ -311,6 +410,7 @@ export default {
       ],
 
     };
+
   },
   mounted() {
     this.$store.dispatch("cache/getProduct");
@@ -324,10 +424,10 @@ export default {
       window.scrollTo(0, top);
     },
 
-    findProductByName(){
+    findProductByName() {
       const productsOrig = productsCategory.value
 
-      if(this.findProduct.length == 0){
+      if (this.findProduct.length == 0) {
         productsCategory.value = productsOrig
       }
       var findName = this.findProduct
@@ -336,6 +436,9 @@ export default {
         return this.removeAccents(p.name).toLowerCase().includes(this.removeAccents(findName).toLowerCase())
       })
 
+    },
+    setRole(){
+      this.$store.dispatch("cache/setAdminRole")
     }
 
 
@@ -369,12 +472,22 @@ export default {
 
     },
 
-    findProduct(newFind ,old){
-      this.findProductByName()
-     if(newFind.length < old.length){
+    findProduct(newFind, old) {
 
-      productsCategory.value = this.products
-     }
+
+
+
+      if(old.length === 0){
+        this.productsCategoryOrig =  productsCategory.value
+      }
+
+      this.findProductByName()
+      if (newFind.length < old.length) {
+
+        productsCategory.value = this.productsCategoryOrig
+        this.findProductByName()
+      }
+
     }
 
   }

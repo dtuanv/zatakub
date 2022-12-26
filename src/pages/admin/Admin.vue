@@ -15,9 +15,9 @@
       </q-btn>
     </div>
     <q-separator />
-    <!-- Reservierung ADMIN -->
+    <!-- Order ADMIN -->
     <div class="flex flex-center">
-      <q-btn class="flex flex-center hoverButton" style="width: 120px" flat label="Reservierung"
+      <q-btn class="flex flex-center hoverButton" style="width: 120px" flat label="Order"
         to="/admin/reservation">
         <div v-if="$q.screen.gt.sm == true">
           <q-badge color="red" floating transparent>
@@ -35,6 +35,7 @@
     <q-separator />
 
     <q-btn v-if="role === 'ADMIN'" class="flex flex-center btn hoverButton" flat label="Admin Product" to="admin/product" />
+    <q-btn  class="flex flex-center btn hoverButton" flat label="Admin Product" to="admin/product" />
     <q-separator />
     <div>
       <q-separator />

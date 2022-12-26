@@ -2,21 +2,13 @@
   <div style="" class="q-pt-sm q-pl-sm">
     <q-card style="border: 5px solid cornflowerblue;min-height: 17rem;">
       <q-card-section>
+        <div>
 
-        <!-- only Admin beginn -->
-        <div v-if="ro == 'admin'">
           <q-btn icon="edit" @click='editProduct(product)' dense></q-btn>
-          <q-btn class="q-ml-xl" label="ON" :style="product.status == 'on' ? 'background-color:green' : ''" @click="changeStatusProduct(product)"></q-btn>
-          <q-btn label="OFF"  :style="product.status == 'off' ? 'background-color:red' : ''" @click="changeStatusProduct(product)"></q-btn>
+
+
+
           <q-btn class="float-right" icon="delete" color="negative" @click='deleteProduct(product)' dense></q-btn>
-        </div>
-        <!-- only Admin end -->
-        <div  class="row flex flex-center">
-          <div v-if="product.sale == 't'"  class=" text-h5" style="color: red;font-family: cursive;">Hot SALE %%!</div>
-          <div v-if="ro == 'admin'">
-              <q-btn v-if="product.sale == 't'"  label="bo sale" color="negative" @click="changeSaleStatus(product)"></q-btn>
-              <q-btn v-if="product.sale == 'f'"  label="them vao sale" color="negative" @click="changeSaleStatus(product)"></q-btn>
-          </div>
         </div>
 
         <div class="row">
@@ -149,6 +141,18 @@
               product.name
           }}</div>
           <q-separator></q-separator>
+          <!-- <div v-if="product.subtitle" class="q-pl-lg q-pr-sm" style="    font-size: 0.8rem;">
+            {{ product.subtitle }}
+          </div>
+          <div class="q-pl-lg q-pr-md">
+
+            <ul style="padding-left:0px ;list-style-image: linear-gradient(to left bottom, red, blue);">
+              <li v-if="product.body1">{{ product.body1 }}</li>
+              <li v-if="product.body2">{{ product.body2 }}</li>
+              <li v-if="product.body3">{{ product.body3 }}</li>
+              <li v-if="product.body4">{{ product.body4 }}</li>
+            </ul>
+          </div> -->
 
         </q-card-section>
         <div class="q-pa-md">
@@ -502,7 +506,8 @@
 <script>
 // import { count } from 'console';
 import { priceCalculator } from "/src/logic/logic.js";
-import { ref, computed, nextTick } from "vue";
+
+import { ref } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
 const $q = useQuasar();
@@ -516,11 +521,6 @@ export default {
     let countItem = ref(0);
     let countCart = ref(0);
 
-    const ro = computed({
-      get: () => $store.state.cache.ro,
-    });
-
-
     // $store.state.cart.products.quantity
     // const test = $store.state.cart.quantity
     function priceWithDiscount(price, discount) {
@@ -529,8 +529,7 @@ export default {
       return priceInt * (1 - rest);
     }
     function numberWithCommas(x) {
-      let round = Math.round(x)
-      return round.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     function addItem() {
       this.countItem++;
@@ -552,7 +551,6 @@ export default {
     }
 
     return {
-      ro,
       slide: ref(1),
       stars: ref(4),
       readMore: ref(false),
@@ -661,23 +659,6 @@ export default {
 
 
     },
-    changeStatusProduct(product){
-      // this.$store.dispatch("cache/changeStatusProduct",product)
-      if(product.status == 'on'){
-        product.status = 'off'
-      }else{
-        product.status = 'on'
-      }
-    },
-    changeSaleStatus(product){
-      if(product.sale == 't'){
-        product.sale = 'f'
-
-      }else{
-        product.sale = 't'
-      }
-
-    }
   },
   computed: {},
 };

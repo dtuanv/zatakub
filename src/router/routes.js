@@ -18,14 +18,26 @@ const routes = [
         name: "aboutMe",
         component: () => import("src/pages/infos/AboutMe.vue"),
       },
+      // product begin
+      // {
+      //   path: "/product/:category",
+      //   name: "productcategory",
+      //   component: () => import("src/pages/product/Product.vue"),
+      // },
+
       {
-        path: "/product/:country",
-        name: "productCountry",
+        path: "/product/category/:category",
+        name: "productCategory",
         component: () => import("src/pages/product/Product.vue"),
       },
       {
-        path: "/product/:country/:mark",
-        name: "productCountryMark",
+        path: "/product/category/:category/mark/:mark",
+        name: "productCategoryMark",
+        component: () => import("src/pages/product/Product.vue"),
+      },
+      {
+        path: "/product/sale",
+        name: "productSale",
         component: () => import("src/pages/product/Product.vue"),
       },
       {
@@ -33,6 +45,7 @@ const routes = [
         name: "product",
         component: () => import("src/pages/product/Product.vue"),
       },
+      // product end
       //  { path : '/product/:id', name :'product', props:true, component:() => import('src/pages/product/Product.vue')},
 
       {

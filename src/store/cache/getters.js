@@ -1,7 +1,7 @@
 
 
 export function getProduct (state) {
-  // console.log("Get Product")
+  console.log("Get Product",state.products )
     return state.products
 }
 export const cartItemCount = (state) => {
@@ -24,7 +24,8 @@ export const cartTotalPrice = (state) => {
 export const billDetail = (state) => {
 
 }
-// export function getCustomer(state){
-//   return state.customers
-// }
+
+export function getRo(state){
+  return state.ro
+}
 

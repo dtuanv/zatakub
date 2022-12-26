@@ -32,14 +32,19 @@
                 </q-avatar>
               </div>
 
-              <div>
+              <div v-if="$q.platform.is.mobile">
 
+                {{ getThreeWords(item.product.name) }}
+                <!-- {{ item.product.name }} -->
+                <q-badge> = {{ numberWithCommas(item.itemTotal) }} đ</q-badge>
+              </div>
+              <div v-else>
                 {{ item.product.name }}
                 <q-badge> = {{ numberWithCommas(item.itemTotal) }} đ</q-badge>
               </div>
             </q-chip>
 
-            <div>
+            <div class="q-pt-sm">
               <q-btn @click.prevent="removeProductFromCart(item.product)" icon="delete" color="negative" dense
                 flat></q-btn>
 
@@ -54,10 +59,10 @@
 
 
 
-        <div class="row  flex flex-center  "  >
-          <div class="col-4" style="align-self: self-end ;display: flex; justify-content: flex-end;"
+        <div class=" flex flex-center   ">
+          <div class=""
             :style="totalCode < total ? 'text-decoration-line: line-through;text-decoration-color: red;' : ''">
-            <div style="border: 4px solid cadetblue; color: coral; height: 1.9em;padding: 0px 7px;" >
+            <div style="border: 4px solid cadetblue; color: coral; height: 3.9em;padding: 14px 7px;">
               Tổng: {{ numberWithCommas(total) }} đ.
             </div>
 
@@ -68,19 +73,19 @@
           <div class="q-ml-lg">
             <q-input class="" outlined style="" label="Nhập mã" v-model="customer.code">
               <div>
-              <q-badge floating>
-                <div style="z-index:200" :style="`${badgeNotice.sty}`">
-                  {{ badgeNotice.description }}
+                <q-badge floating>
+                  <div style="z-index:200" :style="`${badgeNotice.sty}`">
+                    {{ badgeNotice.description }}
 
-                </div>
-              </q-badge>
-            </div>
+                  </div>
+                </q-badge>
+              </div>
 
             </q-input>
 
           </div>
           <div>
-            <q-btn flat style="text-transform: capitalize;max-width: 80px;" color="positive" label="kiểm tra mã"
+            <q-btn style="text-transform: capitalize;max-width: 80px;" color="positive" label="kiểm tra mã"
               @click="checkCode" />
           </div>
 
@@ -96,7 +101,7 @@
 
         </div>
 
-        <div  class="justify-center flex q-mt-sm" v-if="checkCodeValid == 1">
+        <div class="justify-center flex q-mt-sm" v-if="checkCodeValid == 1">
           <div style="border: 4px solid red; color: black;height: 1.9em;padding: 0px 7px;">
             Đã thêm mã giảm giá! Tổng mới: {{ numberWithCommas(totalCode) }} đ
 
@@ -112,7 +117,7 @@
               flat></q-btn>
           </div>
         </div>
-        >
+
 
 
       </div>
@@ -122,7 +127,7 @@
     <q-form @submit="itemCheckOut" v-if="items.length > 0">
       <q-card class="q-pl-md q-pr-md q-mt-sm" v-if="dialog_bill">
         <q-card-section>
-          <div class="text-h4 flex justify-center" style="font-family: cursive;color: cadetblue;">Thông tin khách hàng
+          <div class="text-h5 flex justify-center" style="font-family: cursive;color: cadetblue;">Thông tin khách hàng
           </div>
         </q-card-section>
         <q-separator />
@@ -145,7 +150,7 @@
 
       <q-card class="q-pl-md q-pr-mg q-mt-sm" v-if="dialog_bill">
         <q-card-section>
-          <div class="text-h4 flex justify-center" style="font-family: cursive;color: cadetblue;">Hình Thức Thanh toán
+          <div class="text-h5 flex justify-center" style="font-family: cursive;color: cadetblue;">Hình Thức Thanh toán
           </div>
         </q-card-section>
         <q-separator />
@@ -234,12 +239,14 @@ import { useQuasar } from "quasar";
 import mapActions from "vuex";
 import { DOMDirectiveTransforms } from "@vue/compiler-dom";
 
-import { priceCalculator } from "/src/logic/logic.js";
+import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
 
 const codes = [
   { description: 'A', discount: 30, status: 'valid' },
   { description: 'B', discount: 20, status: 'valid' },
   { description: 'C', discount: 10, status: 'invalid' },
+  { description: 'M', discount: 10000, status: 'valid' },
+  { description: 'N', discount: 10000, status: 'invalid' },
 ]
 
 const bill = ref({});
@@ -258,16 +265,7 @@ export default {
 
     const priceCalculators = new priceCalculator()
 
-    // const $q = useQuasar();
-    // const router = useRouter();
-    // axios.get("http://localhost:8686/product")
-    //     .then(response => {
-    //     products.value = response.data;
-    //     console.log(products.value);
-    // })
-    //     .catch(err => {
-    //     console.log(err);
-    // });
+
     const items = computed({
       get: () => $store.state.cache.cart,
     });
@@ -286,9 +284,13 @@ export default {
 
     const totalCode = ref()
     const checkCodeValid = ref(2)
+    const usedCode = ref(0)
+
     return {
       codes,
       checkCodeValid,
+      getThreeWords,
+      usedCode,
       badgeNotice,
       totalCode,
       total,
@@ -328,8 +330,8 @@ export default {
     },
   },
   watch: {
-    total(){
-      if(customer.value.code != undefined){
+    total() {
+      if (customer.value.code != undefined) {
         this.checkCode()
 
       }
@@ -343,8 +345,17 @@ export default {
       })
 
       if (dis != undefined) {
-        this.totalCode = this.total * (1 - (dis.discount / 100));
-        this.badgeNotice.description = 'Mã giảm giá ' + dis.discount + ' % đã áp dụng.'
+        if (dis.discount < 101) {
+          this.totalCode = this.total * (1 - (dis.discount / 100));
+          this.badgeNotice.description = 'Mã giảm giá ' + dis.discount + ' % đã áp dụng.'
+          this.usedCode = dis.discount;
+        } else {
+          this.totalCode = this.total - dis.discount
+          this.badgeNotice.description = 'Mã giảm giá ' + this.numberWithCommas(dis.discount) + 'đ đã áp dụng.'
+          this.usedCode = dis.discount
+
+        }
+
         this.badgeNotice.sty = '    color: forestgreen; background-color: antiquewhite;'
         this.checkCodeValid = 1
       } else {
@@ -352,6 +363,7 @@ export default {
         this.badgeNotice.description = '*Mã giảm giá sai hoặc đã hết hạn.'
         this.badgeNotice.sty = 'color: red;background-color: white;'
         this.checkCodeValid = 2
+        this.usedCode = 0
 
 
       }
@@ -393,6 +405,10 @@ export default {
     removeProductFromCart(product) {
       this.$store.dispatch("cache/removeProductFromCart", product);
     },
+
+
+
+
     itemCheckOut() {
       // this.dialog_bill = false
       // this.dialog_payment = true
@@ -400,6 +416,16 @@ export default {
 
       console.log("item ", this.items)
       console.log("Check user : ", customer.value);
+
+      var bill = {}
+
+      bill.items = this.items
+
+      bill.customer = customer.value
+
+      bill.discountCode = this.usedCode
+
+      console.log("bill ", bill)
 
 
       // if ($store.state.cache.cart.length === 0) {

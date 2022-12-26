@@ -11,4 +11,15 @@ export class priceCalculator{
     var rest = discount / 100;
     return priceInt * (1 - rest);
   }
+
+
+}
+
+export function getThreeWords(str){
+  var arr = str.split(" ");
+  var result = ''
+for(let i = 0 ; i< 3; i++ ){
+result += arr[i] + ' '
+}
+  return result + '...';
 }

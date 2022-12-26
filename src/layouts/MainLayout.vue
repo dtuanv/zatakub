@@ -30,10 +30,10 @@
               <q-menu fit @mouseleave="menu_cat_product = false" v-model="menu_cat_product" transition-show="flip-right"
                 transition-hide="flip-left">
                 <q-list dense class="text-grey-9 text-caption">
-                  <q-item to="/product/hair" clickable>
+                  <q-item to="/product/category/hair" clickable>
                     <q-item-section>Thuốc nhuộm tóc</q-item-section>
                   </q-item>
-                  <q-item to="/product/whitening" clickable>
+                  <q-item to="/product/category/whitening" clickable>
                     <q-item-section>Dưỡng Trắng</q-item-section>
                   </q-item>
                   <q-item @click="$router.push('/category')" clickable>
@@ -106,45 +106,43 @@
     <q-drawer v-model="drawer" show-if-above :mini="!drawer || miniState" @click.capture="drawerClick" :width="200"
       :breakpoint="500" bordered class="bg-grey-3">
       <q-scroll-area class="fit">
-        <q-list padding >
+        <q-list padding>
 
-          <q-item clickable v-ripple to="/product">
+          <q-item clickable v-ripple to="/product/sale">
             <q-item-section avatar>
               <q-img src="/img/icon/saleIcon.png" style="color: coral;" />
             </q-item-section>
 
-            <q-item-section> Khuyến mãi  </q-item-section>
+            <q-item-section> Khuyến mãi </q-item-section>
           </q-item>
 
-          <div v-for="(qItem,index) in drawItems" :key="index" >
+          <div v-for="(qItem, index) in drawItems" :key="index">
 
-            <q-item clickable v-ripple :to="qItem.link"  @mouseover="qItem.menu_cat = true, fmouseoverAllowOnlyOne(qItem)"    >
-            <q-item-section avatar >
-              <q-img :src="qItem.imgLink" style="color: coral;" />
-            </q-item-section>
+            <q-item clickable v-ripple :to="qItem.link"
+              @mouseover="qItem.menu_cat = true, fmouseoverAllowOnlyOne(qItem)">
+              <q-item-section avatar>
+                <q-img :src="qItem.imgLink" style="color: coral;" />
+              </q-item-section>
 
-            <q-item-section  > {{qItem.title}} </q-item-section>
-
-
-            <q-menu  @mouseover="qItem.menu_cat = true" fit v-model="qItem.menu_cat"
-          anchor="top right"
-          self="top left"
-          @mouseleave="qItem.menu_cat = false"
-        >
-        <div class="row" style="max-width:500px">
-          <q-list style="min-width: 100px"  v-for="mark in qItem.mark" :key="mark" >
-            <q-item clickable v-close-popup :to="mark.toLink">
-
-              <q-item-section>{{mark.label}}</q-item-section>
-
-
+              <q-item-section> {{ qItem.title }} </q-item-section>
             </q-item>
 
-          </q-list>
-        </div>
+            <q-menu @mouseover="qItem.menu_cat = true" fit v-model="qItem.menu_cat" anchor="top right" self="top left"
+              @mouseleave="qItem.menu_cat = false">
+              <div class="row" style="max-width:500px">
+                <q-list style="min-width: 100px" v-for="mark in qItem.mark" :key="mark">
+                  <q-item clickable v-close-popup :to="mark.toLink">
 
-        </q-menu>
-          </q-item>
+                    <q-item-section>{{ mark.label }}</q-item-section>
+
+
+                  </q-item>
+
+                </q-list>
+              </div>
+
+            </q-menu>
+
           </div>
 
 
@@ -205,7 +203,7 @@
 
     <q-page-container>
       <!-- This is where pages get injected -->
-      <router-view :key="$route.path"/>
+      <router-view :key="$route.path" />
       <Header></Header>
     </q-page-container>
   </q-layout>
@@ -230,27 +228,110 @@ import Header from "/src/components/header/Header.vue";
 
             <q-item-section>My Pham Duc </q-item-section>
           </q-item> */}
-          // src="~assets/img/roomInKonstanz.png"
+// src="~assets/img/roomInKonstanz.png"
 const drawItems = ref([
-  {role:'', link:'/deliveryStatus', imgLink: '/img/icon/instagram.png', title:'Tim Don',menu_cat:false, },
+  { role: 'admin', link: '/admin', imgLink: '/img/icon/admin.png', title: 'Admin', menu_cat: false, },
 
-  {role:'', link:'/product/german', imgLink: '/img/icon/germanFlat.png', title:'Thương hiệu Đức ',menu_cat:false,mark: [{toLink:'product/product/germany/goldWell',label:'Gold Well'},{toLink:'product/product/germany/spWella',label:'SP Wella'},]},
+  { role: '', link: '/deliveryStatus', imgLink: '/img/icon/instagram.png', title: 'Tim Don', menu_cat: false, },
 
-  {role:'', link:'/product/america', imgLink: '/img/icon/roomInKonstanz.png', title:'Thương hiệu Mỹ ',menu_cat:false,mark: [{toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
-  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
-  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
-  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
-  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
-  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'}
-  ,]},
+  {
+    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairstyle.png', title: 'Màu nhuộm tại nhà', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
 
-  {role:'', link:'/productt', imgLink: '/img/icon/roomInKonstanz.png', title:'Thương hiệu Mỹ ',menu_cat:false,mark: [{toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
-  {toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/america/spWella',label:'OLAPLEX'},
-  {toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
-  {toLink:'/product/germany/goldWell',label:'CHI'},{toLink:'/product/germany/spWella',label:'OLAPLEX'},
-  {toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/america/spWella',label:'OLAPLEX'},
-  {toLink:'/product/america/goldWell',label:'CHI'},{toLink:'/product/america/spWella',label:'OLAPLEX'}
-  ,]},
+    ]
+  },
+
+  {
+    role: '', link: '/product/category/hairCosmetic', imgLink: '/img/icon/layout/salonCosmetic.png', title: 'Mỹ phẩm tóc', menu_cat: false
+
+
+  },
+
+  {
+    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/skin.png', title: 'Mỹ phẩm Da', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+
+    ]
+  },
+
+  {
+    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairdevice.png', title: 'Dụng cụ làm tóc', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+
+    ]
+  },
+
+  {
+    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/iconMan.png', title: 'Mỹ phẩm nam', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+
+    ]
+  },
+
+  {
+    role: '', link: '/product/category/america', imgLink: '/img/icon/americanFlag.png', title: 'Thương hiệu Mỹ ', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' }
+      ,]
+  },
+
+
+
+  {
+    role: '', link: '/product/category/australia', imgLink: '/img/icon/flag/australia.png', title: 'Thương hiệu Úc ', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+
+    ]
+  },
+
+  {
+    role: '', link: '/product', imgLink: '/img/icon/flag/korean.png', title: 'Thương hiệu Hàn ', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+
+    ]
+  },
+
+  {
+    role: '', link: '/productt', imgLink: '/img/icon/flag/england.png', title: 'Thương hiệu Anh ', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+
+    ]
+  },
+
+  {
+    role: '', link: '/productt', imgLink: '/img/icon/flag/france.png', title: 'Thương hiệu Pháp ', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+
+    ]
+  },
+
+
+  {
+    role: '', link: '/productt', imgLink: '/img/icon/flag/italy.png', title: 'Thương hiệu Ý ', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+
+    ]
+  },
+
+  {
+    role: '', link: '/productt', imgLink: '/img/icon/flag/japan.png', title: 'Thương hiệu Nhật ', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+
+    ]
+  },
+
+  {
+    role: '', link: '/productt', imgLink: '/img/icon/roomInKonstanz.png', title: 'Thương hiệu Mỹ ', menu_cat: false, mark: [{ toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/germany/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' },
+    { toLink: '/product/category/america/goldWell', label: 'CHI' }, { toLink: '/product/category/america/spWella', label: 'OLAPLEX' }
+      ,]
+  },
 
 ])
 export default {
@@ -274,6 +355,7 @@ export default {
     const $router = useRouter();
     const $store = useStore();
 
+    const ro = ref('')
     const role = computed({
       get: () => $store.state.loginModule.role,
     });
@@ -295,6 +377,7 @@ export default {
       $router.replace("/");
     };
     return {
+
       drawItems,
       logout,
       amountItem,
@@ -306,7 +389,7 @@ export default {
       menu_cat_product: ref(false),
 
 
-
+      ro,
       role,
 
       toggleLeftDrawer() {
@@ -327,7 +410,7 @@ export default {
     };
   },
   methods: {
-    fmouseoverAllowOnlyOne(item){
+    fmouseoverAllowOnlyOne(item) {
       drawItems.value.forEach(d => {
         d.menu_cat = false
       })

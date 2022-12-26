@@ -1,12 +1,15 @@
 import axios from 'axios'
 import Product from "/src/apis/Product.js"
 // export const getProduct = ({commit}) => {
+
+
+
 //   // axios
 //   // .get("http://localhost:8687/product")
-//   Product.allProduct()
-//   .then((response) => {
-//    commit('SET_PRODUCT', response.data)
-//   });
+//   // Product.allProduct()
+//   // .then((response) => {
+//   //  commit('SET_PRODUCT', response.data)
+//   // });
 
 // }
 
@@ -47,4 +50,11 @@ export const setRole = ({commit},input) =>{
 }
 export const logOut = ({commit},input) =>{
   commit('LOG_OUT',input)
+}
+export const changeStatusProduct = ({commit},product) => {
+  commit('CHANGE_STATUS_PRODUCT',product)
+}
+
+export const setAdminRole = ({commit}) => {
+  commit('SET_ADMIN_ROLE')
 }
