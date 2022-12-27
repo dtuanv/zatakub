@@ -323,15 +323,7 @@ const drawItems = ref([
     ]
   },
 
-  {
-    role: '', link: '/productt', imgLink: '/img/icon/roomInKonstanz.png', title: 'Thương hiệu Mỹ ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/germany/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' }
-      ,]
-  },
+
 
 ])
 export default {

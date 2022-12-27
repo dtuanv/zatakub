@@ -35,7 +35,7 @@
 
 
     <div v-if="ro == 'admin'">
-      <q-btn icon="add"></q-btn>
+      <q-btn icon="add" @click="addNewProduct"></q-btn>
     </div>
 
     <div>
@@ -146,6 +146,8 @@ const productsCategory = ref([]);
 const marktSelected = ref();
 const filterSelected = ref();
 const findProduct = ref('');
+
+const products = ref([])
 export default {
   components: { productBox },
   setup() {
@@ -165,192 +167,12 @@ export default {
     const category = ref(route.params.category)
     const mark = ref(route.params.mark)
 
-
-    // const products = computed({
-    // get: () => $store.getters['cache/getProduct']
-    // })
-
-    const products = ref([
-      {
-        id: 0,
-        status: 'off',
-        imageUrl: "/icon/roomInKonstanz.png",
-        imageUrl2: "dauxa.png",
-        imageUrl3: "nau.png",
-
-        name: "Nhap Ten Tai Day",
-        price: 130000,
-        discount: 30,
-        subtitle: "BỘ PHỤC HỒI TÓC HƯ TỔN 3 BƯỚC MILBON DEESSE'S MẪU 2022 (600ML X 3): ",
-        body: 'subtitle.png',
-        body1: "123 Thường: cho tóc hư tổn có chất tóc sợi mỏng, mảnh",
-        body2: "123+: cho tóc hư tổn có chất tóc sợi trung bình",
-        body3: "123X: cho tóc hư tổn có chất tóc sợi to, dày",
-        body4: "cho 2 tóc hư tổn có chất tóc sợi trung bình",
+    axios.get(`${WebApi.server}/allProduct`).then(re => {
+      products.value = re.data
+      console.log("products ",products.value)
 
 
-        description: "description.png",
-        category: 'hair',
-
-        category: 'germany',
-
-        mark: 'goldWell',
-        sale:'t',
-
-      },
-      {
-        id: 1,
-        status: 'on',
-        subtitle: "BỘ PHỤC HỒI TÓC HƯ TỔN 3 BƯỚC MILBON DEESSE'S MẪU 2022 (600ML X 3): ",
-
-        imageUrl: "dauxa.png",
-        name: "Dầu gội xả siêu mượt phục hồi và ngăn gãy rụng tóc Edocean Collagen Keratin 500mlx2",
-        price: 130000,
-        discount: 50,
-        description: "",
-
-        category: 'germany',
-        mark: 'spWella',
-
-        sale:'t',
-      },
-      {
-        id: 2,
-        status: 'on',
-
-        imageUrl: "goidau.png",
-        name: "Dau Goi Dau 3 Dau Goi Dau 3  Dầu gội xả siêu mượt phục hồi và ngăn gãy rụng tóc Edocean Collagen Keratin 500mlx2 ",
-        price: 130000,
-        discount: 20,
-        description: "Dau Goi Dau De 3",
-        category: 'hair',
-        category: 'germany',
-        mark: 'goldWell',
-
-        sale:'t',
-      },
-      {
-        id: 3,
-        status: 'on',
-
-        imageUrl: "goidau.png",
-        name: "Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
-        price: 130000,
-        discount: 25,
-        description: "Dau Goi Dau De 3",
-        category: 'hair',
-        category: 'germany',
-        mark: 'goldWell',
-
-        sale:'t',
-
-      },
-      {
-        id: 4,
-        status: false,
-
-        imageUrl: "goidau.png",
-        name: "Dau Goi Dau 4 F Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
-        price: 130000,
-        discount: 30,
-        description: "Dau Goi Dau De 3",
-        category: 'whitening',
-        category: 'hairCosmetic',
-
-        sale:'t',
-      },
-      {
-        id: 5,
-        status: 'on',
-
-        imageUrl: "nau.png",
-        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: 130000,
-        discount: 30,
-        description: "Dau Goi Dau De 3",
-        category: 'whitening',
-        category: 'america', mark: 'goldWell',
-
-        sale:'t',
-
-      },
-      {
-        id: 6,
-        status: 'on',
-
-        imageUrl: "nau.png",
-        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: 130000,
-        discount: 30,
-        description: "Dau Goi Dau De 3",
-        category: 'combo',
-        category: 'german',
-
-        mark: 'goldWell'
-
-      },
-      {
-        id: 7,
-        status: 'on',
-
-        imageUrl: "nau.png",
-        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: 130000,
-        discount: 30,
-        description: "Dau Goi Dau De 3",
-      },
-      {
-        id: 8,
-        status: 'on',
-
-        imageUrl: "nau.png",
-        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: 130000,
-        discount: 40,
-        description: "Dau Goi Dau De 3",
-        category: 'hairCosmetic',
-
-      },
-      {
-        id: 9,
-        status: 'off',
-
-        imageUrl: "nau.png",
-        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: 130000,
-        discount: 50,
-        description: "Dau Goi Dau De 3",
-        category: 'hairCosmetic',
-      },
-      {
-        id: 10,
-        status: 'on',
-
-        imageUrl: "nau.png",
-        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: 130000,
-        discount: 10,
-        description: "Dau Goi Dau De 3",
-        category: 'hairCosmetic',
-      },
-      {
-        id: 11,
-        status: 'on',
-
-        imageUrl: "nau.png",
-        name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
-        price: 130000,
-        discount: 12,
-        description: "Dau Goi Dau De 3",
-      },
-    ])
-
-
-    const notice = ref({});
-    // axios.get(`${WebApi.server}/getNotice/productPage`).then((response) => {
-    //   notice.value = response.data;
-    // });
-    if (route.params.category != undefined) {
+      if (route.params.category != undefined) {
       productsCategory.value = products.value.filter(p => {
         return p.category == route.params.category
       })
@@ -369,6 +191,176 @@ export default {
         })
       }
     }
+
+    if(route.path === '/product/sale'){
+      productsCategory.value = products.value.filter(p => {
+        return p.sale == 't'
+      })
+    }
+
+
+    console.log("productsCategory.value ",productsCategory.value)
+    })
+console.log("reset")
+    // const products = computed({
+    // get: () => $store.getters['cache/getProduct']
+    // })
+
+    // const products = ref([
+
+    //   {
+    //     id: 1,
+    //     status: 'on',
+    //     subtitle: "BỘ PHỤC HỒI TÓC HƯ TỔN 3 BƯỚC MILBON DEESSE'S MẪU 2022 (600ML X 3): ",
+
+    //     imageUrl: "dauxa.png",
+    //     name: "Dầu gội xả siêu mượt phục hồi và ngăn gãy rụng tóc Edocean Collagen Keratin 500mlx2",
+    //     price: 130000,
+    //     discount: 50,
+    //     description: "",
+
+    //     category: 'germany',
+    //     mark: 'spWella',
+
+    //     sale:'t',
+    //   },
+    //   {
+    //     id: 2,
+    //     status: 'on',
+
+    //     imageUrl: "goidau.png",
+    //     name: "Dau Goi Dau 3 Dau Goi Dau 3  Dầu gội xả siêu mượt phục hồi và ngăn gãy rụng tóc Edocean Collagen Keratin 500mlx2 ",
+    //     price: 130000,
+    //     discount: 20,
+    //     description: "Dau Goi Dau De 3",
+    //     category: 'hair',
+    //     category: 'germany',
+    //     mark: 'goldWell',
+
+    //     sale:'t',
+    //   },
+    //   {
+    //     id: 3,
+    //     status: 'on',
+
+    //     imageUrl: "goidau.png",
+    //     name: "Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
+    //     price: 130000,
+    //     discount: 25,
+    //     description: "Dau Goi Dau De 3",
+    //     category: 'hair',
+    //     category: 'germany',
+    //     mark: 'goldWell',
+
+    //     sale:'t',
+
+    //   },
+    //   {
+    //     id: 4,
+    //     status: false,
+
+    //     imageUrl: "goidau.png",
+    //     name: "Dau Goi Dau 4 F Dau Goi Dau 3 Keratin thủy phân ORCHID_OIL KLERAL phục hồi cho mái tóc hư tổn, khô xơ, giòn, gẫy, xốp 10mlx10",
+    //     price: 130000,
+    //     discount: 30,
+    //     description: "Dau Goi Dau De 3",
+    //     category: 'whitening',
+    //     category: 'hairCosmetic',
+
+    //     sale:'t',
+    //   },
+    //   {
+    //     id: 5,
+    //     status: 'on',
+
+    //     imageUrl: "nau.png",
+    //     name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+    //     price: 130000,
+    //     discount: 30,
+    //     description: "Dau Goi Dau De 3",
+    //     category: 'whitening',
+    //     category: 'america', mark: 'goldWell',
+
+    //     sale:'t',
+
+    //   },
+    //   {
+    //     id: 6,
+    //     status: 'on',
+
+    //     imageUrl: "nau.png",
+    //     name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+    //     price: 130000,
+    //     discount: 30,
+    //     description: "Dau Goi Dau De 3",
+    //     category: 'combo',
+    //     category: 'german',
+
+    //     mark: 'goldWell'
+
+    //   },
+    //   {
+    //     id: 7,
+    //     status: 'on',
+
+    //     imageUrl: "nau.png",
+    //     name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+    //     price: 130000,
+    //     discount: 30,
+    //     description: "Dau Goi Dau De 3",
+    //   },
+    //   {
+    //     id: 8,
+    //     status: 'on',
+
+    //     imageUrl: "nau.png",
+    //     name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+    //     price: 130000,
+    //     discount: 40,
+    //     description: "Dau Goi Dau De 3",
+    //     category: 'hairCosmetic',
+
+    //   },
+    //   {
+    //     id: 9,
+    //     status: 'off',
+
+    //     imageUrl: "nau.png",
+    //     name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+    //     price: 130000,
+    //     discount: 50,
+    //     description: "Dau Goi Dau De 3",
+    //     category: 'hairCosmetic',
+    //   },
+    //   {
+    //     id: 10,
+    //     status: 'on',
+
+    //     imageUrl: "nau.png",
+    //     name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+    //     price: 130000,
+    //     discount: 10,
+    //     description: "Dau Goi Dau De 3",
+    //     category: 'hairCosmetic',
+    //   },
+    //   {
+    //     id: 11,
+    //     status: 'on',
+
+    //     imageUrl: "nau.png",
+    //     name: "TINH DẦU DƯỠNG TÓC KLERAL HUILE D’ARGAN CONDITIONING OIL 150ML",
+    //     price: 130000,
+    //     discount: 12,
+    //     description: "Dau Goi Dau De 3",
+    //   },
+    // ])
+
+
+    const notice = ref({});
+    // axios.get(`${WebApi.server}/getNotice/productPage`).then((response) => {
+    //   notice.value = response.data;
+    // });
+
     const checkParam = ref(route.params.category)
     function priceWithDiscount(price, discount) {
       var priceInt = parseInt(price);
@@ -381,13 +373,9 @@ export default {
         .replace(/đ/g, 'd').replace(/Đ/g, 'D');
 
     }
-    if(route.path === '/product/sale'){
-      productsCategory.value = products.value.filter(p => {
-        return p.sale == 't'
-      })
-    }
-console.log("checkParam ",route.path )
-    console.log("products aff ", productsCategory.value)
+
+    console.log("productsCategory.value  out",productsCategory.value)
+
 
     return {
       products,
@@ -421,7 +409,7 @@ console.log("checkParam ",route.path )
 
   },
   mounted() {
-    this.$store.dispatch("cache/getProduct");
+    // this.$store.dispatch("cache/getProduct");
   },
   data() { },
   methods: {
@@ -447,6 +435,36 @@ console.log("checkParam ",route.path )
     },
     setRole(){
       this.$store.dispatch("cache/setAdminRole")
+
+    },
+    addNewProduct(){
+      let intiProduct = productsCategory.value.find(p => {
+      return p.id === 0
+     })
+
+     if(intiProduct == undefined){
+      productsCategory.value.push(
+        {
+        id: 0,
+        status: 'off',
+        imageUrl: "roomInKonstanz.png",
+        imageUrl2: "dauxa.png",
+        imageUrl3: "nau.png",
+
+        name: "Nhap Ten Tai Day",
+        price: 130000,
+        discount: 30,
+        subtitle: "BỘ PHỤC HỒI TÓC HƯ TỔN 3 BƯỚC MILBON DEESSE'S MẪU 2022 (600ML X 3): ",
+        body: 'subtitle.png',
+
+        description: "description.png",
+
+        sale:'f',
+
+      },
+      )
+      productsCategory.value = productsCategory.value.sort((a,b) => a.id - b.id)
+     }
     }
 
 
@@ -496,6 +514,9 @@ console.log("checkParam ",route.path )
         this.findProductByName()
       }
 
+    },
+    products(){
+      console.log("p")
     }
 
   }

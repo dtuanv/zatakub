@@ -1,6 +1,9 @@
 <template>
   <div style="" class="q-pt-sm q-pl-sm">
-    <q-card style="border: 5px solid cornflowerblue;min-height: 17rem;">
+    <div>
+      <q-btn @click="reloadPage" label="reloadPage"></q-btn>
+    </div>
+    <q-card style="border: 5px solid cornflowerblue;min-height: 19rem;">
       <q-card-section>
 
         <!-- only Admin beginn -->
@@ -13,20 +16,12 @@
           <q-btn class="float-right" icon="delete" color="negative" @click='deleteProduct(product)' dense></q-btn>
         </div>
         <!-- only Admin end -->
-        <div class="row flex flex-center">
-          <div v-if="product.sale == 't'" class=" text-h5" style="color: red;font-family: cursive;">Hot SALE %%!</div>
-          <div v-if="ro == 'admin'">
-            <q-btn v-if="product.sale == 't'" label="bo sale" color="negative"
-              @click="changeSaleStatus(product)"></q-btn>
-            <q-btn v-if="product.sale == 'f'" label="them vao sale" color="negative"
-              @click="changeSaleStatus(product)"></q-btn>
-          </div>
-        </div>
+
 
         <div class="row">
           <div class="col-5">
             <div v-if="product.imageUrl != ''">
-              <img :src="'/img/' + product.imageUrl" alt=""
+              <img :src="'/img/upload/product/' + product.imageUrl" alt=""
                 style=" max-width: 100%; display:block;border: 2px solid cadetblue;height: 9rem;" />
             </div>
             <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true"
@@ -107,16 +102,31 @@
           </div>
         </div>
       </q-card-actions>
-    </q-card>
+      <!-- Sale begin -->
+      <div class="row flex flex-center">
+        <div v-if="product.sale == 't'" class=" text-h5" style="color: red;font-family: cursive;height:2rem">Hot SALE
+          %%!
+        </div>
+        <div v-else style="height:2rem;"></div>
+        <div v-if="ro == 'admin'">
+          <q-btn v-if="product.sale == 't'" label="bo sale" color="negative" @click="changeSaleStatus(product)"></q-btn>
+          <q-btn v-if="product.sale == 'f'" label="them vao sale" color="negative"
+            @click="changeSaleStatus(product)"></q-btn>
+        </div>
+      </div>
+      <!-- Sale end -->
 
+    </q-card>
 
 
     <!-- detail     dialog  -->
     <q-dialog v-model="dialog_detail">
 
       <q-card :style="$q.screen.lt.sm ? 'max-height:70%' : 'max-width:60%;'">
-
-        <q-btn icon="edit" @click='editProductDetail(product)' dense @dblclick="open_editor = false"></q-btn>
+        <div  v-if="ro == 'admin'">
+          <q-btn icon="edit" @click='editProductDetail(product)' dense @dblclick="open_editor = false"></q-btn>
+          <q-btn class="q-ml-lg" icon="add image" @click="uploadImage_dialog = true"></q-btn>
+        </div>
 
         <q-card-section style="max-width:100%;padding-right: 0px;">
           <div style="max-width:100%;border: 5px solid cadetblue;">
@@ -133,12 +143,15 @@
             </div>
             <q-carousel style="    height: 276px;" swipeable animated v-model="slide" thumbnails infinite>
 
-              <q-carousel-slide v-if="product.imageUrl" :name="1" :img-src="'/img/' + product.imageUrl"
+              <q-carousel-slide v-if="product.imageUrl" :name="1" :img-src="'/img/upload/product/' + product.imageUrl"
                 style="background-size: contain;" />
 
-              <q-carousel-slide v-if="product.imageUrl2" :name="2" :img-src="'/img/' + product.imageUrl2"
-                style="background-size: contain;" />
-              <q-carousel-slide v-if="product.imageUrl3" :name="3" :img-src="'/img/' + product.imageUrl3"
+              <q-carousel-slide v-if="product.imageUrl2" :name="2" :img-src="'/img/upload/product/' + product.imageUrl2"
+                style="background-size: contain;">
+
+
+              </q-carousel-slide>
+              <q-carousel-slide v-if="product.imageUrl3" :name="3" :img-src="'/img/upload/product/' + product.imageUrl3"
                 style="background-size: contain;" />
               <q-carousel-slide v-if="product.imageUrl4" :name="4" :img-src="'/img/' + product.imageUrl4"
                 style="background-size: contain;" />
@@ -146,6 +159,8 @@
                 style="background-size: contain;" />
               <q-carousel-slide v-if="product.imageUrl6" :name="6" :img-src="'/img/' + product.imageUrl4"
                 style="background-size: contain;" />
+
+
             </q-carousel>
 
           </div>
@@ -288,8 +303,8 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <q-tabs v-model="tab" dense align="left" class="bg-primary text-white shadow-2" :breakpoint="0">
                 <q-tab style="text-transform: capitalize;" name="Description" label="Mo Ta" />
-                <q-tab style="text-transform: capitalize;" name="Ratings & Reviews" label="Ratings & Reviews" />
-                <q-tab style="text-transform: capitalize;" name="test" label="test" />
+                <!-- <q-tab style="text-transform: capitalize;" name="Ratings & Reviews" label="Ratings & Reviews" />
+                <q-tab style="text-transform: capitalize;" name="test" label="test" /> -->
 
               </q-tabs>
               <q-tab-panels v-if="readMore" style="border: 1px solid lightgrey" v-model="tab">
@@ -418,14 +433,14 @@
                   </q-card-section>
                 </q-tab-panel>
 
-
+<!--
                 <q-tab-panel name="Ratings & Reviews">
 
                 </q-tab-panel>
 
                 <q-tab-panel name="test">
 
-                </q-tab-panel>
+                </q-tab-panel> -->
               </q-tab-panels>
             </div>
           </div>
@@ -459,7 +474,7 @@
 
         <q-card-actions v-if="open_editor == true">
           <div class="flex flex-center" style="width:100%">
-            <q-btn label="Save" color="positive" @click="saveEdit(product)">
+            <q-btn label="Save" color="positive" @click="saveNewProduct(product,1)">
 
             </q-btn>
           </div>
@@ -474,10 +489,9 @@
           <div class="flex flex-center ">Ảnh khác</div>
           <div>
 
-            <q-uploader ref="uploadBtn" field-name="file" extensions=".gif,.jpg,.jpeg,.png" @add="file_selected" label="Tải ảnh lên"
+            <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected" label="Tải ảnh lên"
               with-credentials color="purple" square flat bordered style="max-width: 300px" />
 
-            <q-btn @click="uploadFile()">Upload</q-btn>
 
           </div>
         </q-card-section>
@@ -505,8 +519,45 @@
               :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
           </div>
         </q-card-actions>
+
+        <q-card-actions>
+          <div class="flex flex-center col-12">
+            <q-btn label="Save" color="positive" @click="dialog_detail = true" />
+          </div>
+        </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <!-- uploadImage_dialog begin -->
+    <q-dialog v-model="uploadImage_dialog" >
+      <q-card>
+        <q-card-section>
+          <div>
+
+            <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected2"
+              label="Tải ảnh thu 2 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
+
+
+          </div>
+        </q-card-section>
+
+        <q-card-actions>
+          <div>
+
+            <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected3"
+              label="Tải ảnh thu 3 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
+
+
+          </div>
+        </q-card-actions>
+        <q-card-actions>
+          <div>
+            <q-btn label="Save" @click="saveNewProduct(product,2)"></q-btn>
+          </div>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <!-- uploadImage_dialog end -->
 
   </div>
 
@@ -528,6 +579,8 @@ import { WebApi } from "/src/apis/WebApi";
 
 
 const selected_file = ref('')
+const selected_file2 = ref('')
+const selected_file3 = ref('')
 const check_if_document_upload = ref(false)
 
 export default {
@@ -580,6 +633,8 @@ export default {
 
     return {
       selected_file,
+      selected_file2,
+      selected_file3,
       check_if_document_upload,
       ro,
       slide: ref(1),
@@ -599,6 +654,7 @@ export default {
       open_editor: ref(false),
       textColor: '#000',
       editColor: false,
+      uploadImage_dialog: ref(false),
 
       // addToCart,
     };
@@ -660,12 +716,12 @@ export default {
 
         axios.delete(`${WebApi.server}/admin/product/delete/` + product.id,
 
-          {
-            headers: {
-              Authorization: "Bearer " + jwt.value,
-            },
-            withCredentials: true,
-          }
+          // {
+          //   headers: {
+          //     Authorization: "Bearer " + jwt.value,
+          //   },
+          //   withCredentials: true,
+          // }
         )
           .then(response => {
             window.localStorage.setItem("productId", product.id);
@@ -680,6 +736,7 @@ export default {
 
 
             })
+            window.location.reload();
             console.log('is deleted: ')
           })
       }).onCancel(() => {
@@ -694,16 +751,22 @@ export default {
       // this.$store.dispatch("cache/changeStatusProduct",product)
       if (product.status == 'on') {
         product.status = 'off'
+        axios.post(`${WebApi.server}/changeStatusTo/off/id/` + product.id).then(
+        )
       } else {
         product.status = 'on'
+        axios.post(`${WebApi.server}/changeStatusTo/on/id/` + product.id).then(
+        )
       }
+
     },
     changeSaleStatus(product) {
       if (product.sale == 't') {
         product.sale = 'f'
-
+        axios.post(`${WebApi.server}/changeSaleTo/f/id/` + product.id)
       } else {
         product.sale = 't'
+        axios.post(`${WebApi.server}/changeSaleTo/t/id/` + product.id)
       }
 
     },
@@ -712,24 +775,28 @@ export default {
     },
 
     file_selected(file) {
-      let files = this.$refs.uploadBtn.files
 
-      console.log("files ",files)
-      this.selected_file = files[0];
+      console.log("files ", file)
+      this.selected_file = file[0];
       this.check_if_document_upload = true;
+    },
+
+    file_selected2(file) {
+
+      console.log("files2 ", file)
+      this.selected_file2 = file[0];
+    },
+
+    file_selected3(file) {
+
+      console.log("files3 ", file)
+      this.selected_file3 = file[0];
     },
 
     uploadFile() {
 
       const fd = new FormData();
       fd.append("file", this.selected_file);
-
-
-
-
-
-      console.log("fd ", fd.getAll('file'))
-
       axios.post(`${WebApi.server}/upload`, fd, {
         headers: { 'Content-Type': undefined },
       }).then(function (response) {
@@ -737,7 +804,97 @@ export default {
 
         }
       }.bind(this));
+    },
+
+
+    uploadFile2() {
+
+      const fd = new FormData();
+      fd.append("file", this.selected_file2);
+      axios.post(`${WebApi.server}/upload`, fd, {
+        headers: { 'Content-Type': undefined },
+      }).then(function (response) {
+        if (response.data.ok) {
+
+        }
+      }.bind(this));
+    },
+
+
+    uploadFile3() {
+
+      const fd = new FormData();
+      fd.append("file", this.selected_file3);
+      axios.post(`${WebApi.server}/upload`, fd, {
+        headers: { 'Content-Type': undefined },
+      }).then(function (response) {
+        if (response.data.ok) {
+
+        }
+      }.bind(this));
+    },
+
+    saveNewProduct(product,reloadOrrr) {
+
+      if (this.selected_file != undefined && this.selected_file != '') {
+
+        this.uploadFile()
+
+        product.imageUrl = this.selected_file.name;
+
+      }
+
+      if (this.selected_file2 != undefined && this.selected_file2 != '') {
+
+        this.uploadFile2()
+
+        product.imageUrl2 = this.selected_file2.name;
+
+      }
+      if (this.selected_file3 != undefined && this.selected_file3 != '') {
+
+        this.uploadFile3()
+
+        product.imageUrl3 = this.selected_file3.name;
+
+      }
+
+
+
+      product.category = this.$route.params.category
+
+      product.status = 'on'
+
+      if (this.$route.params.mark) {
+        product.mark = this.$route.params.mark
+      }
+
+      axios.post(`${WebApi.server}/saveProduct`, product).then(
+
+      )
+
+            this.$q.notify({
+                message: "new product was created",
+
+                color: "positive",
+                avatar: `${WebApi.iconUrl}`,
+
+              });
+              console.log("product saved");
+
+              if(reloadOrrr == 2){
+                this.uploadImage_dialog = false
+              }
+
+    },
+
+
+
+    reloadPage() {
+      window.location.reload();
     }
+
+
   },
   computed: {},
 };
