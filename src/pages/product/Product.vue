@@ -2,7 +2,7 @@
   <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm'">
 
 
-    <div class="float-right">
+    <div class="flex flex-center">
       <q-btn label="Admin edit" @click="setRole"></q-btn>
     </div>
 
@@ -448,16 +448,17 @@ console.log("reset")
         id: 0,
         status: 'off',
         imageUrl: "roomInKonstanz.png",
-        imageUrl2: "dauxa.png",
-        imageUrl3: "nau.png",
+        imageUrl2: "",
+        imageUrl3: "",
+        imageUrl4: "",
 
         name: "Nhap Ten Tai Day",
         price: 130000,
         discount: 30,
-        subtitle: "BỘ PHỤC HỒI TÓC HƯ TỔN 3 BƯỚC MILBON DEESSE'S MẪU 2022 (600ML X 3): ",
+        subtitle: "BỘ .....",
         body: 'subtitle.png',
 
-        description: "description.png",
+        description: "miêu tả",
 
         sale:'f',
 

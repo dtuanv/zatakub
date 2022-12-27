@@ -123,9 +123,10 @@
     <q-dialog v-model="dialog_detail">
 
       <q-card :style="$q.screen.lt.sm ? 'max-height:70%' : 'max-width:60%;'">
-        <div  v-if="ro == 'admin'">
+        <div v-if="ro == 'admin'">
           <q-btn icon="edit" @click='editProductDetail(product)' dense @dblclick="open_editor = false"></q-btn>
-          <q-btn class="q-ml-lg" icon="add image" @click="uploadImage_dialog = true"></q-btn>
+          <q-btn class="q-ml-lg" icon="add image"
+            @click="uploadImage_dialog_im = true, uploadImage_dialog = true"></q-btn>
         </div>
 
         <q-card-section style="max-width:100%;padding-right: 0px;">
@@ -153,11 +154,11 @@
               </q-carousel-slide>
               <q-carousel-slide v-if="product.imageUrl3" :name="3" :img-src="'/img/upload/product/' + product.imageUrl3"
                 style="background-size: contain;" />
-              <q-carousel-slide v-if="product.imageUrl4" :name="4" :img-src="'/img/' + product.imageUrl4"
+              <q-carousel-slide v-if="product.imageUrl4" :name="4" :img-src="'/img/upload/product/' + product.imageUrl4"
                 style="background-size: contain;" />
-              <q-carousel-slide v-if="product.imageUrl5" :name="5" :img-src="'/img/' + product.imageUrl4"
+              <q-carousel-slide v-if="product.imageUrl5" :name="5" :img-src="'/img/upload/product/' + product.imageUrl5"
                 style="background-size: contain;" />
-              <q-carousel-slide v-if="product.imageUrl6" :name="6" :img-src="'/img/' + product.imageUrl4"
+              <q-carousel-slide v-if="product.imageUrl6" :name="6" :img-src="'/img/upload/product/' + product.imageUrl6"
                 style="background-size: contain;" />
 
 
@@ -433,7 +434,7 @@
                   </q-card-section>
                 </q-tab-panel>
 
-<!--
+                <!--
                 <q-tab-panel name="Ratings & Reviews">
 
                 </q-tab-panel>
@@ -474,7 +475,7 @@
 
         <q-card-actions v-if="open_editor == true">
           <div class="flex flex-center" style="width:100%">
-            <q-btn label="Save" color="positive" @click="saveNewProduct(product,1)">
+            <q-btn label="Save" color="positive" @click="saveNewProduct(product, 1)">
 
             </q-btn>
           </div>
@@ -508,7 +509,7 @@
           <div>Giá: </div>
           <div class="q-ml-md">
             <q-input v-model.number="product.price" type="number"
-              :rules="[val => (0 < val && val < 1000000) || 'Vui lòng nhập lại % giảm giá']" />
+              :rules="[val => (0 < val && val < 1000000) || 'Vui lòng nhập lại  giá']" />
           </div>
         </q-card-actions>
         <q-separator />
@@ -522,17 +523,19 @@
 
         <q-card-actions>
           <div class="flex flex-center col-12">
-            <q-btn label="Save" color="positive" @click="dialog_detail = true" />
+            <q-btn label="Save" color="positive"
+              @click="dialog_detail = true, uploadImage_dialog = true, open_editor = true" />
           </div>
         </q-card-actions>
       </q-card>
     </q-dialog>
-
     <!-- uploadImage_dialog begin -->
-    <q-dialog v-model="uploadImage_dialog" >
+    <q-dialog
+      v-if="product.imageUrl2 == '' || product.imageUrl3 == '' || product.imageUrl4 || uploadImage_dialog_im == true"
+      v-model="uploadImage_dialog">
       <q-card>
         <q-card-section>
-          <div>
+          <div v-if="product.imageUrl2 == '' || uploadImage_dialog_im == true">
 
             <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected2"
               label="Tải ảnh thu 2 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
@@ -542,7 +545,7 @@
         </q-card-section>
 
         <q-card-actions>
-          <div>
+          <div v-if="product.imageUrl3 == '' || uploadImage_dialog_im == true">
 
             <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected3"
               label="Tải ảnh thu 3 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
@@ -550,9 +553,19 @@
 
           </div>
         </q-card-actions>
+
+        <q-card-actions>
+          <div v-if="product.imageUrl4 == '' || uploadImage_dialog_im == true">
+
+            <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected4"
+              label="Tải ảnh thu 4 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
+
+
+          </div>
+        </q-card-actions>
         <q-card-actions>
           <div>
-            <q-btn label="Save" @click="saveNewProduct(product,2)"></q-btn>
+            <q-btn label="Save" @click="saveSubImage()"></q-btn>
           </div>
         </q-card-actions>
       </q-card>
@@ -581,6 +594,7 @@ import { WebApi } from "/src/apis/WebApi";
 const selected_file = ref('')
 const selected_file2 = ref('')
 const selected_file3 = ref('')
+const selected_file4 = ref('')
 const check_if_document_upload = ref(false)
 
 export default {
@@ -635,6 +649,7 @@ export default {
       selected_file,
       selected_file2,
       selected_file3,
+      selected_file4,
       check_if_document_upload,
       ro,
       slide: ref(1),
@@ -655,6 +670,7 @@ export default {
       textColor: '#000',
       editColor: false,
       uploadImage_dialog: ref(false),
+      uploadImage_dialog_im: ref(false),
 
       // addToCart,
     };
@@ -793,6 +809,11 @@ export default {
       this.selected_file3 = file[0];
     },
 
+    file_selected4(file) {
+
+      this.selected_file4 = file[0];
+    },
+
     uploadFile() {
 
       const fd = new FormData();
@@ -834,7 +855,21 @@ export default {
       }.bind(this));
     },
 
-    saveNewProduct(product,reloadOrrr) {
+    uploadFile4() {
+
+      const fd = new FormData();
+      fd.append("file", this.selected_file4);
+      axios.post(`${WebApi.server}/upload`, fd, {
+        headers: { 'Content-Type': undefined },
+      }).then(function (response) {
+        if (response.data.ok) {
+
+        }
+      }.bind(this));
+    },
+
+
+    saveNewProduct(product, reloadOrrr) {
 
       if (this.selected_file != undefined && this.selected_file != '') {
 
@@ -859,6 +894,15 @@ export default {
 
       }
 
+      if (this.selected_file4 != undefined && this.selected_file4 != '') {
+
+        this.uploadFile4()
+
+        product.imageUrl4 = this.selected_file4.name;
+
+      }
+
+
 
 
       product.category = this.$route.params.category
@@ -873,19 +917,29 @@ export default {
 
       )
 
-            this.$q.notify({
-                message: "new product was created",
+      this.$q.notify({
+        message: "new product was created",
 
-                color: "positive",
-                avatar: `${WebApi.iconUrl}`,
+        color: "positive",
+        avatar: `${WebApi.iconUrl}`,
 
-              });
-              console.log("product saved");
+      });
+      console.log("product saved");
 
-              if(reloadOrrr == 2){
-                this.uploadImage_dialog = false
-              }
+      if (reloadOrrr == 2) {
+        this.uploadImage_dialog = false
+      }
 
+    },
+    saveSubImage() {
+      this.uploadImage_dialog = false
+      this.$q.notify({
+        message: "Đã lưu ảnh",
+
+        color: "positive",
+        avatar: `${WebApi.iconUrl}`,
+
+      });
     },
 
 

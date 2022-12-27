@@ -54,8 +54,8 @@
           </q-route-tab>
           <!-- Product end -->
 
-          <q-route-tab style="text-transform: capitalize;" :to="'/product'">Giới Thiệu</q-route-tab>
-          <q-route-tab style="text-transform: capitalize;" :to="'/product'">Liên Hệ</q-route-tab>
+          <q-route-tab style="text-transform: capitalize;" @click="saveMark">Giới Thiệu</q-route-tab>
+          <q-route-tab style="text-transform: capitalize;" @click="saveDrawItemF" >Liên Hệ</q-route-tab>
 
           <!-- markt begin -->
           <q-route-tab style="text-transform: capitalize;  " :to="'/product'">
@@ -229,16 +229,112 @@ import Header from "/src/components/header/Header.vue";
             <q-item-section>My Pham Duc </q-item-section>
           </q-item> */}
 // src="~assets/img/roomInKonstanz.png"
+// const drawItems = ref([
+//   { role: 'admin', link: '/admin', imgLink: '/img/icon/admin.png', title: 'Admin', menu_cat: false, },
+
+//   { role: '', link: '/deliveryStatus', imgLink: '/img/icon/instagram.png', title: 'Tim Don', menu_cat: false, },
+
+//   {
+//     role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairstyle.png', title: 'Màu nhuộm tại nhà', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+//   {
+//     role: '', link: '/product/category/hairCosmetic', imgLink: '/img/icon/layout/salonCosmetic.png', title: 'Mỹ phẩm tóc', menu_cat: false
+
+
+//   },
+
+//   {
+//     role: '', link: '/product/category/skin', imgLink: '/img/icon/layout/skin.png', title: 'Mỹ phẩm Da', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+//   {
+//     role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairdevice.png', title: 'Dụng cụ làm tóc', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+//   {
+//     role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/iconMan.png', title: 'Mỹ phẩm nam', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+//   {
+//     role: '', link: '/product/category/america', imgLink: '/img/icon/americanFlag.png', title: 'Thương hiệu Mỹ ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' }
+//       ,]
+//   },
+
+
+
+//   {
+//     role: '', link: '/product/category/australia', imgLink: '/img/icon/flag/australia.png', title: 'Thương hiệu Úc ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+//   {
+//     role: '', link: '/product', imgLink: '/img/icon/flag/korean.png', title: 'Thương hiệu Hàn ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+//   {
+//     role: '', link: '/productt', imgLink: '/img/icon/flag/england.png', title: 'Thương hiệu Anh ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+//   {
+//     role: '', link: '/productt', imgLink: '/img/icon/flag/france.png', title: 'Thương hiệu Pháp ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+
+//   {
+//     role: '', link: '/productt', imgLink: '/img/icon/flag/italy.png', title: 'Thương hiệu Ý ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+//   {
+//     role: '', link: '/productt', imgLink: '/img/icon/flag/japan.png', title: 'Thương hiệu Nhật ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
+//     { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
+
+//     ]
+//   },
+
+
+
+// ])
+
+
 const drawItems = ref([
   { role: 'admin', link: '/admin', imgLink: '/img/icon/admin.png', title: 'Admin', menu_cat: false, },
 
   { role: '', link: '/deliveryStatus', imgLink: '/img/icon/instagram.png', title: 'Tim Don', menu_cat: false, },
 
   {
-    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairstyle.png', title: 'Màu nhuộm tại nhà', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairstyle.png', title: 'Màu nhuộm tại nhà', menu_cat: false,
   },
 
   {
@@ -248,79 +344,46 @@ const drawItems = ref([
   },
 
   {
-    role: '', link: '/product/category/skin', imgLink: '/img/icon/layout/skin.png', title: 'Mỹ phẩm Da', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/product/category/skin', imgLink: '/img/icon/layout/skin.png', title: 'Mỹ phẩm Da', menu_cat: false,
   },
 
   {
-    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairdevice.png', title: 'Dụng cụ làm tóc', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairdevice.png', title: 'Dụng cụ làm tóc', menu_cat: false
   },
 
   {
-    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/iconMan.png', title: 'Mỹ phẩm nam', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/product/category/manCosmetic', imgLink: '/img/icon/layout/iconMan.png', title: 'Mỹ phẩm nam', menu_cat: false,
   },
 
   {
-    role: '', link: '/product/category/america', imgLink: '/img/icon/americanFlag.png', title: 'Thương hiệu Mỹ ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' }
-      ,]
+    role: '', link: '/product/category/america', imgLink: '/img/icon/americanFlag.png', title: 'Thương hiệu Mỹ ', menu_cat: false,
   },
 
 
 
   {
-    role: '', link: '/product/category/australia', imgLink: '/img/icon/flag/australia.png', title: 'Thương hiệu Úc ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/product/category/australia', imgLink: '/img/icon/flag/australia.png', title: 'Thương hiệu Úc ', menu_cat: false,
   },
 
   {
-    role: '', link: '/product', imgLink: '/img/icon/flag/korean.png', title: 'Thương hiệu Hàn ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/product', imgLink: '/img/icon/flag/korean.png', title: 'Thương hiệu Hàn ', menu_cat: false,
   },
 
   {
-    role: '', link: '/productt', imgLink: '/img/icon/flag/england.png', title: 'Thương hiệu Anh ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/productt', imgLink: '/img/icon/flag/england.png', title: 'Thương hiệu Anh ', menu_cat: false,
   },
 
   {
-    role: '', link: '/productt', imgLink: '/img/icon/flag/france.png', title: 'Thương hiệu Pháp ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/productt', imgLink: '/img/icon/flag/france.png', title: 'Thương hiệu Pháp ', menu_cat: false,
   },
 
 
   {
-    role: '', link: '/productt', imgLink: '/img/icon/flag/italy.png', title: 'Thương hiệu Ý ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/productt', imgLink: '/img/icon/flag/italy.png', title: 'Thương hiệu Ý ', menu_cat: false,
   },
 
   {
-    role: '', link: '/productt', imgLink: '/img/icon/flag/japan.png', title: 'Thương hiệu Nhật ', menu_cat: false, mark: [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/germany/mark/spWella', label: 'OLAPLEX' },
-    { toLink: '/product/category/america/mark/goldWell', label: 'CHI' }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' },
-
-    ]
+    role: '', link: '/productt', imgLink: '/img/icon/flag/japan.png', title: 'Thương hiệu Nhật ', menu_cat: false,
   },
 
 
@@ -408,7 +471,19 @@ export default {
       })
       item.menu_cat = true
 
+    },
+    saveDrawItemF(){
+      axios.post(`${WebApi.server}/saveDrawItem`,this.drawItems).then(
+        console.log("SAve DrawItem")
+      )
+    },
+    saveMark(){
+      let arr = [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI', drawItemId:7 }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' ,drawItemId:7}]
+      axios.post(`${WebApi.server}/saveMark`, arr).then(
+        console.log("SAve Mark")
+      )
     }
+
   }
 };
 </script>
