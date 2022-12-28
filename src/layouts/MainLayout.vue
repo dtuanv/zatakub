@@ -55,7 +55,7 @@
           <!-- Product end -->
 
           <q-route-tab style="text-transform: capitalize;" @click="saveMark">Giới Thiệu</q-route-tab>
-          <q-route-tab style="text-transform: capitalize;" @click="saveDrawItemF" >Liên Hệ</q-route-tab>
+          <q-route-tab style="text-transform: capitalize;" @click="saveDrawItemF">Liên Hệ</q-route-tab>
 
           <!-- markt begin -->
           <q-route-tab style="text-transform: capitalize;  " :to="'/product'">
@@ -127,18 +127,46 @@
               <q-item-section> {{ qItem.title }} </q-item-section>
             </q-item>
 
-            <q-menu @mouseover="qItem.menu_cat = true" fit v-model="qItem.menu_cat" anchor="top right" self="top left"
+            <q-menu style="min-height:3.5rem" @mouseover="qItem.menu_cat = true" fit v-model="qItem.menu_cat" anchor="top right" self="top left"
               @mouseleave="qItem.menu_cat = false">
               <div class="row" style="max-width:500px">
-                <q-list style="min-width: 100px" v-for="mark in qItem.mark" :key="mark">
+                <q-list style="min-width: 100px" v-for="mark in qItem.markDtos" :key="mark">
                   <q-item clickable v-close-popup :to="mark.toLink">
 
-                    <q-item-section>{{ mark.label }}</q-item-section>
+                    <q-item-section >
+                      <div >
+                      <q-badge style="background-color:aliceblue"><q-btn icon="delete" size="xs" flat color="negative" @click="deleteMark(qItem.markDtos,mark)"></q-btn></q-badge>
+
+                      <div>
+                        {{ mark.label }}
+                      </div>
+
+                      </div>
+
+                    </q-item-section>
 
 
                   </q-item>
 
                 </q-list>
+                <div v-if="ro == 'admin'">
+
+                  <div v-if="inputAddMarkt == true" v-for="addMark, i in qItem.markDtos.filter(m => {
+  return m.name == ''
+})" :key="i">
+                    <q-input class="q-mt-md" label="new mark" v-model="qItem.markDtos.filter(m => {
+  return m.name == ''
+})[i].label" square filled style="width:6rem" autogrow></q-input>
+
+                  </div>
+                  <q-btn icon="add" flat color="positive"
+                    @click="inputAddMarkt = true, addMarkForCategory(qItem.markDtos)"></q-btn>
+
+                  <q-btn v-if="inputAddMarkt == true" label="save" color="positive" @click="saveMark(qItem.markDtos.filter(m => {
+  return m.name == ''
+}))"></q-btn>
+                </div>
+
               </div>
 
             </q-menu>
@@ -386,7 +414,9 @@ const drawItems = ref([
     role: '', link: '/productt', imgLink: '/img/icon/flag/japan.png', title: 'Thương hiệu Nhật ', menu_cat: false,
   },
 
+])
 
+const addMarks = ref([
 
 ])
 export default {
@@ -410,7 +440,18 @@ export default {
     const $router = useRouter();
     const $store = useStore();
 
-    const ro = ref('')
+
+    const ro = computed({
+      get: () => $store.state.cache.ro,
+    });
+
+
+    axios.get(`${WebApi.server}/allDrawItem`).then(re => {
+      // let draw = []
+      drawItems.value = re.data.sort((a, b) => a.id - b.id)
+
+      console.log("draw ", drawItems.value)
+    })
     const role = computed({
       get: () => $store.state.loginModule.role,
     });
@@ -442,10 +483,12 @@ export default {
       card_cookie: ref(true),
       menu_cat_mark: ref(false),
       menu_cat_product: ref(false),
+      inputAddMarkt: ref(false),
 
 
       ro,
       role,
+      addMarks,
 
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
@@ -472,17 +515,43 @@ export default {
       item.menu_cat = true
 
     },
-    saveDrawItemF(){
-      axios.post(`${WebApi.server}/saveDrawItem`,this.drawItems).then(
+    saveDrawItemF() {
+      axios.post(`${WebApi.server}/saveDrawItem`, this.drawItems).then(
         console.log("SAve DrawItem")
       )
     },
-    saveMark(){
-      let arr = [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI', drawItemId:7 }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX' ,drawItemId:7}]
-      axios.post(`${WebApi.server}/saveMark`, arr).then(
+    saveMark(newMarks) {
+      // let arr = [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI', drawItemId: 7 }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX', drawItemId: 7 }]
+
+      console.log("params " + this.$route.params)
+
+      console.log("params.category " + this.$route.params.category)
+
+
+      newMarks.forEach(nm => {
+        nm.toLink = '/product/category/' + this.$route.params.category + '/mark/' + nm.label
+        // nm.drawItemId =
+      })
+
+      console.log("newMarks ", newMarks)
+      axios.post(`${WebApi.server}/saveMark`, newMarks).then(
         console.log("SAve Mark")
       )
+    },
+    addMarkForCategory(arr) {
+      arr.push({ name: '', drawItemId: arr[0].drawItemId })
+
+    },
+    deleteMark(markDtos,mark){
+     let i = markDtos.indexOf(mark)
+
+      markDtos.splice(i,1)
+
+      axios.delete(`${WebApi.server}/deleteMarkBy/`+mark.id).then(
+        console.log("delete ")
+      )
     }
+
 
   }
 };
