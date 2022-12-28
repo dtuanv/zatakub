@@ -25,7 +25,7 @@
           <q-route-tab style="text-transform: capitalize;  " :to="'/product'">
 
             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
-              @mouseover="menu_cat_product = true">
+              @mouseover="menu_cat_product = true ">
               Sản Phẩm
               <q-menu fit @mouseleave="menu_cat_product = false" v-model="menu_cat_product" transition-show="flip-right"
                 transition-hide="flip-left">
@@ -108,6 +108,14 @@
       <q-scroll-area class="fit">
         <q-list padding>
 
+          <q-item v-if="ro == 'admin'" clickable v-ripple to="/admin">
+            <q-item-section avatar>
+              <q-img src="/img/icon/admin.png" style="color: coral;" />
+            </q-item-section>
+
+            <q-item-section> Admin</q-item-section>
+          </q-item>
+
           <q-item clickable v-ripple to="/product/sale">
             <q-item-section avatar>
               <q-img src="/img/icon/saleIcon.png" style="color: coral;" />
@@ -115,6 +123,16 @@
 
             <q-item-section> Khuyến mãi </q-item-section>
           </q-item>
+
+          <q-item clickable v-ripple to="/deliveryStatus" @mouseover="drawItems[0].menu_cat = false">
+            <q-item-section avatar>
+              <q-img src="/img/icon/instagram.png" style="color: coral;" />
+            </q-item-section>
+
+            <q-item-section> Tim Don </q-item-section>
+          </q-item>
+
+
 
           <div v-for="(qItem, index) in drawItems" :key="index">
 
@@ -126,20 +144,25 @@
 
               <q-item-section> {{ qItem.title }} </q-item-section>
             </q-item>
+<div>
 
-            <q-menu style="min-height:3.5rem" @mouseover="qItem.menu_cat = true" fit v-model="qItem.menu_cat" anchor="top right" self="top left"
-              @mouseleave="qItem.menu_cat = false">
-              <div class="row" style="max-width:500px">
+</div>
+            <q-menu    style="min-height:3.5rem" @mouseover="qItem.menu_cat = true" fit v-model="qItem.menu_cat"
+              anchor="top right" self="top left" @mouseleave="qItem.menu_cat = false">
+              <div  class="row" style="max-width:500px">
                 <q-list style="min-width: 100px" v-for="mark in qItem.markDtos" :key="mark">
                   <q-item clickable v-close-popup :to="mark.toLink">
 
-                    <q-item-section >
+                    <q-item-section>
                       <div >
-                      <q-badge style="background-color:aliceblue"><q-btn icon="delete" size="xs" flat color="negative" @click="deleteMark(qItem.markDtos,mark)"></q-btn></q-badge>
+                        <q-badge v-if="ro == 'admin'" style="background-color:aliceblue"><q-btn icon="delete" size="xs" flat color="negative"
+                            @click="deleteMark(qItem.markDtos, mark)"></q-btn></q-badge>
 
-                      <div>
-                        {{ mark.label }}
-                      </div>
+                        <div>
+
+
+                          {{ mark.label }}
+                        </div>
 
                       </div>
 
@@ -160,7 +183,7 @@
 
                   </div>
                   <q-btn icon="add" flat color="positive"
-                    @click="inputAddMarkt = true, addMarkForCategory(qItem.markDtos)"></q-btn>
+                    @click="inputAddMarkt = true, addMarkForCategory(qItem)"></q-btn>
 
                   <q-btn v-if="inputAddMarkt == true" label="save" color="positive" @click="saveMark(qItem.markDtos.filter(m => {
   return m.name == ''
@@ -172,11 +195,6 @@
             </q-menu>
 
           </div>
-
-
-
-
-
 
           <q-item v-if="role === 'ADMIN' || role === 'USER'" clickable v-ripple to="/admin">
             <q-item-section avatar>
@@ -357,9 +375,6 @@ import Header from "/src/components/header/Header.vue";
 
 
 const drawItems = ref([
-  { role: 'admin', link: '/admin', imgLink: '/img/icon/admin.png', title: 'Admin', menu_cat: false, },
-
-  { role: '', link: '/deliveryStatus', imgLink: '/img/icon/instagram.png', title: 'Tim Don', menu_cat: false, },
 
   {
     role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairstyle.png', title: 'Màu nhuộm tại nhà', menu_cat: false,
@@ -394,24 +409,24 @@ const drawItems = ref([
   },
 
   {
-    role: '', link: '/product', imgLink: '/img/icon/flag/korean.png', title: 'Thương hiệu Hàn ', menu_cat: false,
+    role: '', link: '/product/category/korean', imgLink: '/img/icon/flag/korean.png', title: 'Thương hiệu Hàn ', menu_cat: false,
   },
 
   {
-    role: '', link: '/productt', imgLink: '/img/icon/flag/england.png', title: 'Thương hiệu Anh ', menu_cat: false,
+    role: '', link: '/product/category/england', imgLink: '/img/icon/flag/england.png', title: 'Thương hiệu Anh ', menu_cat: false,
   },
 
   {
-    role: '', link: '/productt', imgLink: '/img/icon/flag/france.png', title: 'Thương hiệu Pháp ', menu_cat: false,
+    role: '', link: '/product/category/france', imgLink: '/img/icon/flag/france.png', title: 'Thương hiệu Pháp ', menu_cat: false,
   },
 
 
   {
-    role: '', link: '/productt', imgLink: '/img/icon/flag/italy.png', title: 'Thương hiệu Ý ', menu_cat: false,
+    role: '', link: '/product/category/italy', imgLink: '/img/icon/flag/italy.png', title: 'Thương hiệu Ý ', menu_cat: false,
   },
 
   {
-    role: '', link: '/productt', imgLink: '/img/icon/flag/japan.png', title: 'Thương hiệu Nhật ', menu_cat: false,
+    role: '', link: '/product/category/japan', imgLink: '/img/icon/flag/japan.png', title: 'Thương hiệu Nhật ', menu_cat: false,
   },
 
 ])
@@ -538,18 +553,22 @@ export default {
         console.log("SAve Mark")
       )
     },
-    addMarkForCategory(arr) {
-      arr.push({ name: '', drawItemId: arr[0].drawItemId })
+    addMarkForCategory(qItem) {
+
+      qItem.markDtos.push({ name: '', drawItemId: qItem.id })
 
     },
-    deleteMark(markDtos,mark){
-     let i = markDtos.indexOf(mark)
+    deleteMark(markDtos, mark) {
+      let i = markDtos.indexOf(mark)
 
-      markDtos.splice(i,1)
+      markDtos.splice(i, 1)
 
-      axios.delete(`${WebApi.server}/deleteMarkBy/`+mark.id).then(
+      axios.delete(`${WebApi.server}/deleteMarkBy/` + mark.id).then(
         console.log("delete ")
       )
+    },
+    checkItem(qItem){
+      console.log("qq ",qItem.markDtos.length)
     }
 
 
