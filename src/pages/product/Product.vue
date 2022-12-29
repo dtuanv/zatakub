@@ -6,6 +6,20 @@
       <q-btn label="Admin edit" @click="setRole"></q-btn>
     </div>
 
+    <div class="flex flex-center row " >
+      <div class="text-h5"  style="    color: cadetblue;
+    font-family: emoji;">
+       {{categoryPath.title}}
+
+      </div>
+        <div v-if="$route.params.mark"  class="q-pa-sm text-h5">
+          //
+        </div>
+      <div class="text-body q-pt-xs" style="color:brown">
+         {{$route.params.mark}}
+      </div>
+    </div>
+
     <!-- <div style>
       <q-select rounded outlined label="Tất cả thương hiệu" transition-show="flip-up" transition-hide="flip-down"
         v-model="marktSelected" :options="marktOptions" style="width: 250px" />
@@ -31,6 +45,13 @@
           v-model="filterSelected" :options="filterOptions" style="width: 250px" />
       </div>
 
+      <div class="col-5">
+
+      </div>
+      <div  style="display: flex; justify-content: flex-end;">
+        <q-select rounded outlined label="chon thhuong hieu" transition-show="flip-up" transition-hide="flip-down"
+          v-model="filterMarkSelected" :options="filterMarkOptions" style="width: 250px" />
+      </div>
     </div>
 
 
@@ -43,15 +64,16 @@
         <div class="row" :style="$q.screen.lt.sm ? '' : 'width:92%'">
           <!-- only Admin beginn -->
 
-          <div v-if="ro == 'admin'" :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory" :key="product.id">
+          <div v-if="ro == 'admin'" :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'"
+            v-for="product in productsCategory" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
           <!-- only Admin end -->
 
 
           <div v-else :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
-            return p.status == 'on'
-          })" :key="product.id">
+  return p.status == 'on'
+})" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
 
@@ -140,12 +162,15 @@ const filterOptions = [
   { label: 'Giá từ cao đến thấp', name: 'hightToLow' },
   { label: 'Hot Sale', name: 'hotSale' },
 ]
-
+const filterMarkOptions = ref([])
 
 const productsCategory = ref([]);
 const marktSelected = ref();
 const filterSelected = ref();
+const filterMarkSelected = ref();
 const findProduct = ref('');
+
+const categoryPath = ref('')
 
 const products = ref([])
 export default {
@@ -158,50 +183,62 @@ export default {
 
     const router = useRouter();
 
+    axios.get(`${WebApi.server}/allDrawItem`).then(re => {
+      // let draw = []
+
+      console.log(" router.params ",route.params)
+      categoryPath.value = re.data.find(d => { return d.link.includes(route.params.category)})
+      filterMarkOptions.value = categoryPath.value.markDtos
+      console.log("categoryPath",categoryPath)
+    })
+
     const ro = computed({
       get: () => $store.state.cache.ro,
     });
 
 
-    const productsCategoryOrig  = ref([])
+    const rou = route.params.mark
+
+    console.log("rou  ", rou)
+    const productsCategoryOrig = ref([])
     const category = ref(route.params.category)
     const mark = ref(route.params.mark)
 
     axios.get(`${WebApi.server}/allProduct`).then(re => {
       products.value = re.data
-      console.log("products ",products.value)
+      console.log("products ", products.value)
 
 
       if (route.params.category != undefined) {
-      productsCategory.value = products.value.filter(p => {
-        return p.category == route.params.category
-      })
-    } else {
-      productsCategory.value = products
-    }
+        productsCategory.value = products.value.filter(p => {
+          return p.category == route.params.category
+        })
+      } else {
+        productsCategory.value = products
+      }
 
-    if (category.value != undefined) {
-      productsCategory.value = products.value.filter(p => {
-        return p.category == category.value
-      })
+      if (category.value != undefined) {
+        productsCategory.value = products.value.filter(p => {
+          return p.category == category.value
+        })
 
-      if (mark.value != undefined) {
-        productsCategory.value = productsCategory.value.filter(m => {
-          return m.mark == mark.value
+        if (mark.value != undefined) {
+          productsCategory.value = productsCategory.value.filter(m => {
+            return m.mark == mark.value
+          })
+        }
+      }
+
+      if (route.path === '/product/sale') {
+        productsCategory.value = products.value.filter(p => {
+          return p.sale == 't'
         })
       }
-    }
-
-    if(route.path === '/product/sale'){
-      productsCategory.value = products.value.filter(p => {
-        return p.sale == 't'
-      })
-    }
 
 
-    console.log("productsCategory.value ",productsCategory.value)
+      console.log("productsCategory.value ", productsCategory.value)
     })
-console.log("reset")
+    console.log("reset")
     // const products = computed({
     // get: () => $store.getters['cache/getProduct']
     // })
@@ -374,10 +411,11 @@ console.log("reset")
 
     }
 
-    console.log("productsCategory.value  out",productsCategory.value)
+    console.log("productsCategory.value  out", productsCategory.value)
 
 
     return {
+      categoryPath,
       products,
       productsCategoryOrig,
       notice,
@@ -386,12 +424,14 @@ console.log("reset")
       checkParam,
       marktSelected,
       filterSelected,
+      filterMarkSelected,
       marktOptions,
       filterOptions,
+      filterMarkOptions,
       priceWithDiscount,
       findProduct,
       removeAccents,
-      admin_edit:ref(false),
+      admin_edit: ref(false),
       ro,
       findProductValidate: [
         (val) =>
@@ -433,39 +473,39 @@ console.log("reset")
       })
 
     },
-    setRole(){
+    setRole() {
       this.$store.dispatch("cache/setAdminRole")
 
     },
-    addNewProduct(){
+    addNewProduct() {
       let intiProduct = productsCategory.value.find(p => {
-      return p.id === 0
-     })
+        return p.id === 0
+      })
 
-     if(intiProduct == undefined){
-      productsCategory.value.push(
-        {
-        id: 0,
-        status: 'off',
-        imageUrl: "roomInKonstanz.png",
-        imageUrl2: "",
-        imageUrl3: "",
-        imageUrl4: "",
+      if (intiProduct == undefined) {
+        productsCategory.value.push(
+          {
+            id: 0,
+            status: 'off',
+            imageUrl: "roomInKonstanz.png",
+            imageUrl2: "",
+            imageUrl3: "",
+            imageUrl4: "",
 
-        name: "Nhap Ten Tai Day",
-        price: 130000,
-        discount: 30,
-        subtitle: "BỘ .....",
-        body: 'subtitle.png',
+            name: "Nhap Ten Tai Day",
+            price: 130000,
+            discount: 30,
+            subtitle: "BỘ .....",
+            body: 'subtitle.png',
 
-        description: "miêu tả",
+            description: "miêu tả",
 
-        sale:'f',
+            sale: 'f',
 
-      },
-      )
-      productsCategory.value = productsCategory.value.sort((a,b) => a.id - b.id)
-     }
+          },
+        )
+        productsCategory.value = productsCategory.value.sort((a, b) => a.id - b.id)
+      }
     }
 
 
@@ -504,8 +544,8 @@ console.log("reset")
 
 
 
-      if(old.length === 0){
-        this.productsCategoryOrig =  productsCategory.value
+      if (old.length === 0) {
+        this.productsCategoryOrig = productsCategory.value
       }
 
       this.findProductByName()
@@ -516,8 +556,13 @@ console.log("reset")
       }
 
     },
-    products(){
+    products() {
       console.log("p")
+    },
+
+    filterMarkSelected(){
+      this.$router.push(filterMarkSelected.value.toLink)
+
     }
 
   }

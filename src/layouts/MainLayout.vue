@@ -147,7 +147,7 @@
             <div>
 
             </div>
-            <q-menu style="min-height:3.5rem" @mouseover="qItem.menu_cat = true" fit v-model="qItem.menu_cat"
+            <q-menu style="min-height:3.5rem" @mouseover="fmouseoverAllowOnlyOne(qItem)" fit v-model="qItem.menu_cat"
               anchor="top right" self="top left" @mouseleave="qItem.menu_cat = false">
               <div class="row" style="max-width:500px">
                 <q-list style="min-width: 100px" v-for="mark in qItem.markDtos" :key="mark">
@@ -249,7 +249,7 @@
 
     <q-page-container>
       <!-- This is where pages get injected -->
-      <router-view :key="$route.path" />
+      <router-view :key="$route.fullPath" />
       <Header></Header>
     </q-page-container>
   </q-layout>
@@ -465,12 +465,10 @@ export default {
       // let draw = []
       drawItems.value = re.data.sort((a, b) => a.id - b.id)
 
-      console.log("draw ", drawItems.value)
     })
     const role = computed({
       get: () => $store.state.loginModule.role,
     });
-    console.log("Role in computed: ", role);
 
 
     const logout = () => {
@@ -532,8 +530,10 @@ export default {
 
     },
     saveDrawItemF() {
+      // this.drawItems.forEach(d => {
+      //   d.link = '/product/category/' + d.title
+      // })
       axios.post(`${WebApi.server}/saveDrawItem`, this.drawItems).then(
-        console.log("SAve DrawItem")
       )
     },
     saveMark(newMarks) {
