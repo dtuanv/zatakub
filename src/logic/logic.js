@@ -23,3 +23,7 @@ result += arr[i] + ' '
 }
   return result + '...';
 }
+
+export default function isEmpty(str) {
+  return !str.trim().length;
+}

@@ -40,9 +40,14 @@
     <div>
       <q-separator />
 
-    <q-btn v-if="role === 'ADMIN'" class="flex flex-center btn hoverButton" flat label="Hinweis" to="admin/notice" />
+    <q-btn class="flex flex-center btn hoverButton" flat label="Thong bao" to="admin/notice" />
     <q-separator />
     </div>
+    <div class="flex flex-center col-12">
+      <q-btn  flat label="Them ma code" to="/admin/codeDiscount"></q-btn>
+    </div>
+    <q-separator />
+
 
 
   </q-page>

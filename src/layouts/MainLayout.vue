@@ -147,7 +147,7 @@
             <div>
 
             </div>
-            <q-menu style="min-height:3.5rem" @mouseover="fmouseoverAllowOnlyOne(qItem)" fit v-model="qItem.menu_cat"
+            <q-menu v-if="qItem.menu_cat == true" style="min-height:3.5rem" @mouseover="fmouseoverAllowOnlyOne(qItem)" fit v-model="qItem.menu_cat"
               anchor="top right" self="top left" @mouseleave="qItem.menu_cat = false">
               <div class="row" style="max-width:500px">
                 <q-list style="min-width: 100px" v-for="mark in qItem.markDtos" :key="mark">

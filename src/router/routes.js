@@ -71,6 +71,14 @@ const routes = [
 
       },
 
+
+      {
+        path: "/admin/codeDiscount",
+        name: "adminCodeDiscount",
+        component: () => import("src/pages/admin/discount/CodeDiscount.vue"),
+        meta: { isRequireAuth: true },
+      },
+
       {
         path: "/admin/message",
         name: "adminMessage",
@@ -100,13 +108,7 @@ const routes = [
         meta: { isRequireAuth: true },
 
       },
-      {
-        path: "/admin/product",
-        name: "adminProduct",
-        component: () => import("src/pages/admin/ProductAdmin.vue"),
-        meta: { isRequireAuth: true },
 
-      },
 
       {
         path: "/admin/product/edit/:id",
@@ -172,12 +174,7 @@ const routes = [
         component: () => import("src/pages/admin/login/RegisterPage.vue"),
       },
 
-      {
-        path: "/protected",
-        name: "protectedPage",
-        component: () => import("src/pages/admin/ProtectedHomePage.vue"),
-        meta: { isRequireAuth: true },
-      },
+
 
       {
         path: "/contact",

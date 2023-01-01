@@ -166,10 +166,10 @@ export default {
     });
     axios
       .get(`${WebApi.server}/admin/getNotice`, {
-        headers: {
-          Authorization: "Bearer " + jwt.value,
-        },
-        withCredentials: true,
+        // headers: {
+        //   Authorization: "Bearer " + jwt.value,
+        // },
+        // withCredentials: true,
       })
       .then((response) => {
         notice.value = response.data;
@@ -178,10 +178,10 @@ export default {
 
       axios
       .get(`${WebApi.server}/admin/getProductNotice`, {
-        headers: {
-          Authorization: "Bearer " + jwt.value,
-        },
-        withCredentials: true,
+        // headers: {
+        //   Authorization: "Bearer " + jwt.value,
+        // },
+        // withCredentials: true,
       })
       .then((response) => {
         noticeProduct.value = response.data;

@@ -206,7 +206,8 @@ export default {
 
     axios.get(`${WebApi.server}/allProduct`).then(re => {
       products.value = re.data
-      console.log("products ", products.value)
+
+      products.value.sort((a,b) => b.id - a.id)
 
 
       if (route.params.category != undefined) {

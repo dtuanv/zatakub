@@ -1,6 +1,9 @@
 <template>
   <q-page>
     <div class="q-mt-xl">
+      <div>
+        <q-btn @click="saveCode" label="save"></q-btn>
+      </div>
       <div class="justify-center flex">
         <q-img src="/img/shopping_cart.png" style="height: 140px; max-width: 150px" />
       </div>
@@ -28,7 +31,7 @@
               <div style="margin-right: 24px">{{ item.quantity }} x </div>
               <div>
                 <q-avatar>
-                  <img :src="'/img/' + item.product.imageUrl">
+                  <img :src="'/img/upload/product/' + item.product.imageUrl">
                 </q-avatar>
               </div>
 
@@ -136,9 +139,9 @@
 
           <!-- Input Validation -->
           <q-input v-model="customer.name" class="col-4" label="Tên" color="white" :rules="[
-            (val) =>
-              (!!val && val.length > 1 && val.match(/^([^0-9]*)$/)) || 'Xin vui lòng nhập đúng tên ạ',
-          ]"></q-input>
+  (val) =>
+    (!!val && val.length > 1 && val.match(/^([^0-9]*)$/)) || 'Xin vui lòng nhập đúng tên ạ',
+]"></q-input>
           <q-input v-model="customer.adresse" class="col-4" label="Địa chỉ" color="white"
             :rules="adresseRules"></q-input>
           <q-input v-model="customer.mobil" class="col-4" label="SĐT" color="white" :rules="mobilRules"></q-input>
@@ -241,6 +244,8 @@ import { DOMDirectiveTransforms } from "@vue/compiler-dom";
 
 import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
 
+import isEmpty from "/src/logic/logic.js"
+
 const codes = [
   { description: 'A', discount: 30, status: 'valid' },
   { description: 'B', discount: 20, status: 'valid' },
@@ -339,36 +344,68 @@ export default {
   },
   methods: {
 
+    saveCode() {
+      axios.post(`${WebApi.server}/saveCode`, this.codes).then(
+        console.log("save code", this.codes)
+      )
+    },
     checkCode() {
-      let dis = this.codes.find(c => {
-        return c.description === customer.value.code && c.status === 'valid'
-      })
 
-      if (dis != undefined) {
-        if (dis.discount < 101) {
-          this.totalCode = this.total * (1 - (dis.discount / 100));
-          this.badgeNotice.description = 'Mã giảm giá ' + dis.discount + ' % đã áp dụng.'
-          this.usedCode = dis.discount;
-        } else {
-          this.totalCode = this.total - dis.discount
-          this.badgeNotice.description = 'Mã giảm giá ' + this.numberWithCommas(dis.discount) + 'đ đã áp dụng.'
-          this.usedCode = dis.discount
+      // if(isEmpty(customer.value.code)){
+      //   console.log("empty")
+      // }
 
-        }
 
-        this.badgeNotice.sty = '    color: forestgreen; background-color: antiquewhite;'
-        this.checkCodeValid = 1
-      } else {
+      if (customer.value.code == '' || customer.value.code == undefined) {
+
         this.totalCode = this.total
-        this.badgeNotice.description = '*Mã giảm giá sai hoặc đã hết hạn.'
+        this.badgeNotice.description = '*Vui lòng nhập mã khuyến mãi ạ.'
         this.badgeNotice.sty = 'color: red;background-color: white;'
         this.checkCodeValid = 2
         this.usedCode = 0
+      } else {
+        axios.get(`${WebApi.server}/checkCode/` + customer.value.code).then(re => {
+          let dis = ''
+          dis = re.data
 
+          if (dis != undefined && dis.status === 'valid') {
+            if (dis.discount < 101) {
+              this.totalCode = this.total * (1 - (dis.discount / 100));
+              this.badgeNotice.description = 'Mã giảm giá ' + dis.discount + ' % đã áp dụng.'
+              this.usedCode = dis.discount;
+            } else {
+              this.totalCode = this.total - dis.discount
+              this.badgeNotice.description = 'Mã giảm giá ' + this.numberWithCommas(dis.discount) + 'đ đã áp dụng.'
+              this.usedCode = dis.discount
+
+            }
+
+            this.badgeNotice.sty = '    color: forestgreen; background-color: antiquewhite;'
+            this.checkCodeValid = 1
+          } else {
+
+            this.totalCode = this.total
+            this.badgeNotice.description = '*Mã giảm giá sai hoặc đã hết hạn.'
+            this.badgeNotice.sty = 'color: red;background-color: white;'
+            this.checkCodeValid = 2
+            this.usedCode = 0
+
+
+          }
+
+        }
+        )
 
       }
-      // console.log("dis ", dis)
-      //  this.totalCode =this.total / 2;
+
+
+
+      // let dis = this.codes.find(c => {
+      //   return c.description === customer.value.code && c.status === 'valid'
+      // })
+
+
+
 
     },
     subtractItem(item) {
