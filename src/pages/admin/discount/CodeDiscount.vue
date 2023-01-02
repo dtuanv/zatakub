@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <div>
-      <q-btn label="Thêm mã Code"></q-btn>
+      <q-btn to="/admin/addCodeDiscount" label="Thêm mã Code"></q-btn>
     </div>
     <div>
       <q-table
@@ -27,8 +27,12 @@
         {{ props.value }}
         </q-td>
       </template>
+
+
     </q-table>
     </div>
+
+
   </q-page>
 </template>
 
@@ -67,6 +71,7 @@ const rows = ref(
     setup(){
       axios.get(`${WebApi.server}/allDiscountCode`).then(re => {
         rows.value = re.data
+
 
         console.log("Rows ",rows.value)
       })

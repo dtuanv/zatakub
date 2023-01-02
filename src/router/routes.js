@@ -80,6 +80,13 @@ const routes = [
       },
 
       {
+        path: "/admin/addCodeDiscount",
+        name: "adminAddCodeDiscount",
+        component: () => import("src/pages/admin/discount/AddCodeDiscount.vue"),
+        meta: { isRequireAuth: true },
+      },
+
+      {
         path: "/admin/message",
         name: "adminMessage",
         component: () => import("src/pages/admin/Message.vue"),
