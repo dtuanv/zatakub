@@ -47,6 +47,7 @@ import { WebApi } from "/src/apis/WebApi";
 const columns = [
   {name : 'name', label: 'Mã Code', field:'description' },
   {name : 'status', label: 'Trạng thái', field:'status' },
+  {name : 'quantity', label: 'Số lượng', field:'quantity' },
   {name : 'actions', label: 'Chức năng', field:'actions' },
 ]
 
