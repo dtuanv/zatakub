@@ -41,16 +41,16 @@
     <div class="row q-mb-sm">
 
       <div style="display: flex; justify-content: flex-end;">
-        <q-select rounded outlined label="Sắp Xếp" transition-show="flip-up" transition-hide="flip-down"
-          v-model="filterSelected" :options="filterOptions" style="width: 250px" />
+        <q-select rounded outlined label="Sắp Xếp"
+          v-model="filterSelected" :options="filterOptions" :style="$q.platform.is.mobile ? 'width: 170px':'width: 250px'" />
       </div>
 
-      <div class="col-5">
+      <div  :class="$q.platform.is.mobile ?'q-ml-sm q-mr-sm' :'col-5'">
 
       </div>
       <div  style="display: flex; justify-content: flex-end;">
-        <q-select rounded outlined label="chon thhuong hieu" transition-show="flip-up" transition-hide="flip-down"
-          v-model="filterMarkSelected" :options="filterMarkOptions" style="width: 250px" />
+        <q-select rounded outlined label="chon thhuong hieu"
+          v-model="filterMarkSelected" :options="filterMarkOptions" :style="$q.platform.is.mobile ? 'width: 170px':'width: 250px'" />
       </div>
     </div>
 
@@ -182,6 +182,8 @@ export default {
     const $store = useStore();
 
     const router = useRouter();
+
+    console.log("IS Mobil ", $q.platform.is.mobile)
 
     axios.get(`${WebApi.server}/allDrawItem`).then(re => {
       // let draw = []

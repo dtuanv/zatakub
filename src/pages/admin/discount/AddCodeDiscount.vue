@@ -7,44 +7,66 @@
 
 
     <div class="flex flex-center">
-      <div class="row justify-aroundt">
-        <div class="col-4">
-          <q-input outlined label="Tên Code" v-model="code.description"></q-input>
+      <div style="max-width:300px">
+        <q-form @submit="saveCodeDiscount">
+          <div style="" class="row q-mt-sm q-col-gutter-md">
+          <div class="col-5">
+            <q-input outlined label="Tên Code" v-model="code.description" lazy-rules :rules="[val => !!val || 'Field is required']"></q-input>
+
+          </div>
+
+          <div class="col-5">
+            <q-input outlined label="Số lượng" v-model.number="code.quantity" type="number"
+
+              :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại Số lượng code']"
+            ></q-input>
+
+          </div>
 
         </div>
-        <div class="col-2"></div>
-        <div class=" col-4 ">
-          <q-input outlined v-model.number="code.discount" label="Giảm giá %" type="number"
-            :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
+
+        <div class="row q-mt-md q-col-gutter-md">
+
+
+          <div  v-if="input_DiscontPercent" class=" col-5 ">
+            <q-input outlined v-model.number="code.discount"  label="Giảm giá %" type="number"
+
+              :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
+
+
+          </div>
+          <div  v-else class="col-5">
+            <q-input outlined label="giảm giá money" v-model.number="code.discount"
+            type="number"
+
+              :rules="[val => (0 < val && val < 20000000) || 'Vui lòng nhập lại money giảm giá']"
+            ></q-input>
+
+
+          </div>
+          <div class="col-5">
+              <q-btn label="Change" @click="changeInputDiscount"></q-btn>
+          </div>
         </div>
 
-        <div class="">
-          <q-input outlined label="Số lượng" v-model="code.quantity"></q-input>
 
+        <div class="row q-mt-md q-col-gutter-md">
+          <div class="col-5">
+            <q-btn label="Quay lại"></q-btn>
+
+          </div>
+          <div class="col-1"></div>
+          <div class="col-5 " >
+            <q-btn label="Lưu" color="positive" type="submit" ></q-btn>
+          </div>
         </div>
+        </q-form>
+
+
       </div>
 
     </div>
-
-
-
-
-
-    <div class="">
-
-      <div style="width:100%" class="row flex flex-center q-mt-md">
-        <div class="">
-          <q-btn label="Quay lại"></q-btn>
-        </div>
-        <div class="col-2"></div>
-        <div class="">
-          <q-btn label="Lưu" color="positive"></q-btn>
-        </div>
-
-      </div>
-    </div>
-
-
+    <!-- div class="row q-mt-sm q-col-gutter-lg" -->
 
   </q-page>
 </template>
@@ -64,6 +86,23 @@ export default {
 
     return {
       code,
+      input_DiscontPercent: ref(false),
+    }
+  },
+  methods: {
+    changeInputDiscount() {
+      if (this.input_DiscontPercent == false) {
+        this.input_DiscontPercent = true
+      } else {
+        this.input_DiscontPercent = false
+      }
+    },
+    saveCodeDiscount(){
+      console.log("save Code Discount", code.value)
+
+      axios.post(`${WebApi.server}/saveCodeDiscount`, code.value).then(() => {
+        console.log("code discount save!")
+      })
     }
   }
 }

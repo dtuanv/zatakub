@@ -465,6 +465,8 @@ export default {
       // let draw = []
       drawItems.value = re.data.sort((a, b) => a.id - b.id)
 
+      console.log("show drawItem" ,drawItems.value)
+
     })
     const role = computed({
       get: () => $store.state.loginModule.role,
@@ -533,6 +535,8 @@ export default {
       // this.drawItems.forEach(d => {
       //   d.link = '/product/category/' + d.title
       // })
+
+      console.log("DarawItems ", drawItems.value)
       axios.post(`${WebApi.server}/saveDrawItem`, this.drawItems).then(
       )
     },

@@ -485,7 +485,9 @@
     <!-- detail     dialog  end-->
     <!-- edit beginn -->
     <q-dialog v-model="edit_card">
-      <q-card class="q-pa-sm">
+
+        <q-card class="q-pa-sm">
+          <q-form @submit="saveProductEdit">
         <q-card-section>
           <div class="flex flex-center ">Ảnh khác</div>
           <div>
@@ -499,7 +501,7 @@
         <q-card-actions>
           <div style="width:100%">
             Thay tên :
-            <q-input v-model="product.name" filled autogrow />
+            <q-input v-model="product.name" label="Nhap Ten Tai Day" filled autogrow />
           </div>
 
 
@@ -514,7 +516,7 @@
         </q-card-actions>
         <q-separator />
         <q-card-actions>
-          <div> Giảm giá: </div>
+          <div> Giảm giá %: </div>
           <div class="q-ml-md">
             <q-input v-model.number="product.discount" type="number"
               :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
@@ -523,11 +525,14 @@
 
         <q-card-actions>
           <div class="flex flex-center col-12">
-            <q-btn label="Save" color="positive"
-              @click="dialog_detail = true, uploadImage_dialog = true, open_editor = true" />
+            <q-btn label="Save" color="positive" type="submit"
+              @click="" />
           </div>
         </q-card-actions>
+      </q-form>
       </q-card>
+
+
     </q-dialog>
     <!-- uploadImage_dialog begin -->
     <q-dialog
@@ -676,6 +681,9 @@ export default {
     };
   },
   methods: {
+    saveProductEdit(){
+      this.dialog_detail = true, this.uploadImage_dialog = true, this.open_editor = true
+    },
     addToCart() {
       this.$store.dispatch("cache/addProductToCart", {
         product: this.product,
