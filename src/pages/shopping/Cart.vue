@@ -74,7 +74,7 @@
           <!-- <div style="align-self: self-end"  :style="`${badgeNotice.sty}`">{{ badgeNotice.description }}</div> -->
 
           <div class="q-ml-lg">
-            <q-input class="" outlined style="" label="Nhập mã" v-model="customer.code">
+            <q-input class="" outlined style="" label="Nhập mã" v-model="codeInput">
               <div>
                 <q-badge floating>
                   <div style="z-index:200" :style="`${badgeNotice.sty}`">
@@ -268,6 +268,8 @@ export default {
     const router = useRouter();
     var hashmap = new Map();
 
+    const codeInput = ref('')
+
     const priceCalculators = new priceCalculator()
 
 
@@ -308,6 +310,7 @@ export default {
       expand_codPayment: ref(false),
       expand_cardPayment: ref(false),
       numberWithCommas,
+      codeInput,
       // input validation
       adresseRules: [
         (val) =>
@@ -356,7 +359,7 @@ export default {
       // }
 
 
-      if (customer.value.code == '' || customer.value.code == undefined) {
+      if (this.codeInput == '' || this.codeInput  == undefined) {
 
         this.totalCode = this.total
         this.badgeNotice.description = '*Vui lòng nhập mã khuyến mãi ạ.'
@@ -364,7 +367,7 @@ export default {
         this.checkCodeValid = 2
         this.usedCode = 0
       } else {
-        axios.get(`${WebApi.server}/checkCode/` + customer.value.code).then(re => {
+        axios.get(`${WebApi.server}/checkCode/` + this.codeInput).then(re => {
           let dis = ''
           dis = re.data
 
@@ -373,6 +376,7 @@ export default {
               this.totalCode = this.total * (1 - (dis.discount / 100));
               this.badgeNotice.description = 'Mã giảm giá ' + dis.discount + ' % đã áp dụng.'
               this.usedCode = dis.discount;
+              customer.value.code = this.codeInput
             } else {
               this.totalCode = this.total - dis.discount
               this.badgeNotice.description = 'Mã giảm giá ' + this.numberWithCommas(dis.discount) + 'đ đã áp dụng.'
@@ -451,18 +455,24 @@ export default {
       // this.dialog_payment = true
 
 
-      console.log("item ", this.items)
-      console.log("Check user : ", customer.value);
+      // console.log("item ", this.items)
+      // console.log("Check user : ", customer.value);
 
       var bill = {}
 
-      bill.items = this.items
+      bill.itemSet = this.items
 
-      bill.customer = customer.value
+      bill.customerDto = customer.value
 
       bill.discountCode = this.usedCode
 
       console.log("bill ", bill)
+
+      axios.post(`${WebApi.server}/saveBillItem`,bill).then( () =>{
+        console.log("save BillItems")
+      }
+      )
+
 
 
       // if ($store.state.cache.cart.length === 0) {

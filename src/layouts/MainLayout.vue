@@ -124,13 +124,13 @@
             <q-item-section> Khuyến mãi </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/deliveryStatus" @mouseover="drawItems[0].menu_cat = false">
+          <!-- <q-item clickable v-ripple to="/deliveryStatus" @mouseover="drawItems[0].menu_cat = false">
             <q-item-section avatar>
               <q-img src="/img/icon/instagram.png" style="color: coral;" />
             </q-item-section>
 
             <q-item-section> Tim Don </q-item-section>
-          </q-item>
+          </q-item> -->
 
 
 

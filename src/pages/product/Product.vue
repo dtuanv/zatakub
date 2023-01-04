@@ -6,19 +6,22 @@
       <q-btn label="Admin edit" @click="setRole"></q-btn>
     </div>
 
-    <div class="flex flex-center row " >
-      <div class="text-h5"  style="    color: cadetblue;
-    font-family: emoji;">
-       {{categoryPath.title}}
+    <div class="flex flex-center row " v-if="categoryPath != undefined">
+      <div class="text-h5" style="color: cadetblue; font-family: emoji;">
+        {{ categoryPath.title }}
 
       </div>
-        <div v-if="$route.params.mark"  class="q-pa-sm text-h5">
-          //
-        </div>
+      <div v-if="$route.params.mark" class="q-pa-sm text-h5">
+        //
+      </div>
       <div class="text-body q-pt-xs" style="color:brown">
-         {{$route.params.mark}}
+        {{ $route.params.mark }}
       </div>
     </div>
+    <div v-else>
+        <div class="text-h5 flex flex-center" style="color: red; font-family: emoji;" >HOT SALE %%</div>
+    </div>
+
 
     <!-- <div style>
       <q-select rounded outlined label="Tất cả thương hiệu" transition-show="flip-up" transition-hide="flip-down"
@@ -41,16 +44,18 @@
     <div class="row q-mb-sm">
 
       <div style="display: flex; justify-content: flex-end;">
-        <q-select rounded outlined label="Sắp Xếp"
-          v-model="filterSelected" :options="filterOptions" :style="$q.platform.is.mobile ? 'width: 170px':'width: 250px'" />
+        <q-select rounded outlined label="Sắp Xếp" v-model="filterSelected" :options="filterOptions"
+          :style="$q.platform.is.mobile ? 'width: 170px' : 'width: 250px'" />
       </div>
 
-      <div  :class="$q.platform.is.mobile ?'q-ml-sm q-mr-sm' :'col-5'">
+      <div :class="$q.platform.is.mobile ? 'q-ml-sm q-mr-sm' : 'col-5'">
 
       </div>
-      <div  style="display: flex; justify-content: flex-end;">
-        <q-select rounded outlined label="chon thhuong hieu"
-          v-model="filterMarkSelected" :options="filterMarkOptions" :style="$q.platform.is.mobile ? 'width: 170px':'width: 250px'" />
+
+      <div style="display: flex; justify-content: flex-end;" v-if="filterMarkOptions.length > 0">
+
+        <q-select rounded outlined label="Lọc theo mục" v-model="filterMarkSelected" :options="filterMarkOptions"
+          :style="$q.platform.is.mobile ? 'width: 170px' : 'width: 250px'" />
       </div>
     </div>
 
@@ -170,7 +175,7 @@ const filterSelected = ref();
 const filterMarkSelected = ref();
 const findProduct = ref('');
 
-const categoryPath = ref('')
+const categoryPath = ref({})
 
 const products = ref([])
 export default {
@@ -188,10 +193,15 @@ export default {
     axios.get(`${WebApi.server}/allDrawItem`).then(re => {
       // let draw = []
 
-      console.log(" router.params ",route.params)
-      categoryPath.value = re.data.find(d => { return d.link.includes(route.params.category)})
-      filterMarkOptions.value = categoryPath.value.markDtos
-      console.log("categoryPath",categoryPath)
+      console.log(" router.params ", route.params)
+      categoryPath.value = re.data.find(d => { return d.link.includes(route.params.category) })
+
+      console.log("categoryPath.value ", categoryPath.value)
+      if (categoryPath.value != undefined) {
+        filterMarkOptions.value = categoryPath.value.markDtos
+
+      }
+      console.log("categoryPath", categoryPath)
     })
 
     const ro = computed({
@@ -209,7 +219,7 @@ export default {
     axios.get(`${WebApi.server}/allProduct`).then(re => {
       products.value = re.data
 
-      products.value.sort((a,b) => b.id - a.id)
+      products.value.sort((a, b) => b.id - a.id)
 
 
       if (route.params.category != undefined) {
@@ -563,7 +573,7 @@ export default {
       console.log("p")
     },
 
-    filterMarkSelected(){
+    filterMarkSelected() {
       this.$router.push(filterMarkSelected.value.toLink)
 
     }

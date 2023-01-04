@@ -1,8 +1,8 @@
 <template>
   <div style="" class="q-pt-sm q-pl-sm">
-    <div>
+    <!-- <div>
       <q-btn @click="reloadPage" label="reloadPage"></q-btn>
-    </div>
+    </div> -->
     <q-card style="border: 5px solid cornflowerblue;min-height: 19rem;">
       <q-card-section>
 
