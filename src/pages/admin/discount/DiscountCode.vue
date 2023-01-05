@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-md">
     <div>
-      <q-btn to="/admin/addCodeDiscount" label="Thêm mã Code"></q-btn>
+      <q-btn to="/admin/discountCode/Detail/0" label="Thêm mã Code"></q-btn>
     </div>
     <div>
       <q-table
@@ -13,8 +13,8 @@
       <template v-slot:body-cell-actions="props">
         <q-td :props="props">
           <div >
-            <q-btn icon="edit" color="positive"></q-btn>
-            <q-btn icon="delete" color="negative"></q-btn>
+            <q-btn icon="edit" color="positive" @click="editDiscountCode(props)"></q-btn>
+            <q-btn icon="delete" color="negative" @click="deleteDiscountCode(props)"></q-btn>
           </div>
         </q-td>
       </template>
@@ -42,6 +42,8 @@ import { priceCalculator } from "/src/logic/logic.js";
 import { ref, computed, nextTick } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
+import { useRoute, useRouter } from "vue-router";
+
 import axios from "axios";
 import { WebApi } from "/src/apis/WebApi";
 const columns = [
@@ -74,12 +76,21 @@ const rows = ref(
         rows.value = re.data
 
 
-        console.log("Rows ",rows.value)
+        console.log("Rows codes ",rows.value)
       })
 
       return{
         columns,
         rows,
+      }
+    },
+    methods:{
+      editDiscountCode(props){
+        console.log("props.row ",props.row)
+        this.$router.push("/admin/discountCode/Detail/"+props.row.id)
+      },
+      deleteDiscountCode(props){
+
       }
     }
   }

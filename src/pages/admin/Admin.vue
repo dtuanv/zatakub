@@ -44,7 +44,7 @@
     <q-separator />
     </div>
     <div class="flex flex-center col-12">
-      <q-btn  flat label="Them ma code" to="/admin/codeDiscount"></q-btn>
+      <q-btn  flat label="Them ma code" to="/admin/discountCode"></q-btn>
     </div>
     <q-separator />
 

@@ -73,16 +73,16 @@ const routes = [
 
 
       {
-        path: "/admin/codeDiscount",
+        path: "/admin/discountCode",
         name: "adminCodeDiscount",
-        component: () => import("src/pages/admin/discount/CodeDiscount.vue"),
+        component: () => import("src/pages/admin/discount/DiscountCode.vue"),
         meta: { isRequireAuth: true },
       },
 
       {
-        path: "/admin/addCodeDiscount",
+        path: "/admin/discountCode/Detail/:discountCodeId",
         name: "adminAddCodeDiscount",
-        component: () => import("src/pages/admin/discount/AddCodeDiscount.vue"),
+        component: () => import("src/pages/admin/discount/DiscountCodeDetail.vue"),
         meta: { isRequireAuth: true },
       },
 

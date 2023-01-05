@@ -2,9 +2,9 @@
   <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm'">
 
 
-    <div class="flex flex-center">
+    <!-- <div class="flex flex-center">
       <q-btn label="Admin edit" @click="setRole"></q-btn>
-    </div>
+    </div> -->
 
     <div class="flex flex-center row " v-if="categoryPath != undefined">
       <div class="text-h5" style="color: cadetblue; font-family: emoji;">

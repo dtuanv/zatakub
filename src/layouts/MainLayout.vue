@@ -88,6 +88,9 @@
             </div>
 
           </q-route-tab>
+
+
+          <q-route-tab  @click="setRole">SETADMIN</q-route-tab>
           <!-- markt end -->
         </q-tabs>
         <!-- to shoping cart -->
@@ -523,6 +526,10 @@ export default {
     };
   },
   methods: {
+    setRole() {
+      this.$store.dispatch("cache/setAdminRole")
+
+    },
     fmouseoverAllowOnlyOne(item) {
       drawItems.value.forEach(d => {
         d.menu_cat = false
