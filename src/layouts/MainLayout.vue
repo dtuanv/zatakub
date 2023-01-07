@@ -90,7 +90,7 @@
           </q-route-tab>
 
 
-          <q-route-tab  @click="setRole">SETADMIN</q-route-tab>
+          <q-route-tab @click="setRole">SETADMIN</q-route-tab>
           <!-- markt end -->
         </q-tabs>
         <!-- to shoping cart -->
@@ -150,8 +150,8 @@
             <div>
 
             </div>
-            <q-menu v-if="qItem.menu_cat == true" style="min-height:3.5rem" @mouseover="fmouseoverAllowOnlyOne(qItem)" fit v-model="qItem.menu_cat"
-              anchor="top right" self="top left" @mouseleave="qItem.menu_cat = false">
+            <q-menu v-if="qItem.menu_cat == true" style="min-height:3.5rem" @mouseover="fmouseoverAllowOnlyOne(qItem)"
+              fit v-model="qItem.menu_cat" anchor="top right" self="top left" @mouseleave="qItem.menu_cat = false">
               <div class="row" style="max-width:500px">
                 <q-list style="min-width: 100px" v-for="mark in qItem.markDtos" :key="mark">
                   <q-item clickable v-close-popup :to="mark.toLink">
@@ -178,19 +178,19 @@
                 <div v-if="ro == 'admin'">
 
                   <div v-if="inputAddMarkt == true" v-for="addMark, i in qItem.markDtos.filter(m => {
-  return m.name == ''
-})" :key="i">
+                    return m.name == ''
+                  })" :key="i">
                     <q-input class="q-mt-md" label="new mark" v-model="qItem.markDtos.filter(m => {
-  return m.name == ''
-})[i].label" square filled style="width:6rem" autogrow></q-input>
+                      return m.name == ''
+                    })[i].label" square filled style="width:6rem" autogrow></q-input>
 
                   </div>
                   <q-btn icon="add" flat color="positive"
                     @click="inputAddMarkt = true, addMarkForCategory(qItem)"></q-btn>
 
                   <q-btn v-if="inputAddMarkt == true" label="save" color="positive" @click="saveMark(qItem.markDtos.filter(m => {
-  return m.name == ''
-}))"></q-btn>
+                    return m.name == ''
+                  }))"></q-btn>
                 </div>
 
               </div>
@@ -468,7 +468,7 @@ export default {
       // let draw = []
       drawItems.value = re.data.sort((a, b) => a.id - b.id)
 
-      console.log("show drawItem" ,drawItems.value)
+      console.log("show drawItem", drawItems.value)
 
     })
     const role = computed({
@@ -573,13 +573,44 @@ export default {
 
     },
     deleteMark(markDtos, mark) {
-      let i = markDtos.indexOf(mark)
 
-      markDtos.splice(i, 1)
+      this.$q.dialog(
+        {
+          title: 'Xác nhận Xóa ',
+          message: 'Bạn có thực sự muốn xóa  ' + mark.label + ' không?',
+          // cancel:true,
 
-      axios.delete(`${WebApi.server}/deleteMarkBy/` + mark.id).then(
-        console.log("delete ")
-      )
+
+          persistent: true,//User can not dismmiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it!
+          ok: {
+            push: true
+          },
+          cancel: {
+            push: true,
+            color: 'negative'
+          }
+
+        }
+      ).onOk(() => {
+        axios.delete(`${WebApi.server}/deleteMarkBy/` + mark.id).then(() => {
+
+
+          let i = markDtos.indexOf(mark)
+
+          markDtos.splice(i, 1)
+
+          this.$q.notify({
+            message: 'Đã xóa ' + mark.label,
+            color: 'positive',
+            avatar: `${WebApi.iconUrl}`
+          })
+        }
+        )
+      }).onCancel(() => {
+      }).onDismiss(() => {
+
+      })
+
     },
 
 

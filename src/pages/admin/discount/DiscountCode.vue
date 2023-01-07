@@ -33,6 +33,8 @@
     </div>
 
 
+
+
   </q-page>
 </template>
 
@@ -72,16 +74,18 @@ const rows = ref(
   export default{
 
     setup(){
+      const $q = useQuasar()
       axios.get(`${WebApi.server}/allDiscountCode`).then(re => {
-        rows.value = re.data
+        rows.value = re.data.sort((a,b) => b.id - a.id)
 
 
-        console.log("Rows codes ",rows.value)
+        // console.log("Rows codes ",rows.value)
       })
 
       return{
         columns,
         rows,
+        dialog_deleteConfirm: ref(false),
       }
     },
     methods:{
@@ -90,6 +94,44 @@ const rows = ref(
         this.$router.push("/admin/discountCode/Detail/"+props.row.id)
       },
       deleteDiscountCode(props){
+
+        console.log("props a0" ,props.row)
+        this.$q.dialog(
+          {
+            title:'Xác nhận Xóa Code',
+            message: 'Bạn có thực sự muốn xóa mã giảm giá '+ props.row.description +' không?',
+            // cancel:true,
+
+
+            persistent:true,//User can not dismmiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it!
+            ok:{
+              push:true
+            },
+            cancel: {
+              push:true,
+              color: 'negative'
+            }
+
+          }
+        ).onOk(() => {
+
+
+          axios.delete(`${WebApi.server}/deleteCodeBy/`+props.row.id).then((re) => {
+              if(re.data == 1){
+                let indexCode = rows.value.indexOf(props.row)
+          rows.value.splice(indexCode,1)
+              this.$q.notify({
+                message: 'Đã xóa code '+ props.row.description,
+                color: 'positive',
+                avatar: `${WebApi.iconUrl}`
+              })
+              }
+
+          })
+        }).onCancel(() => {
+        }).onDismiss(() => {
+
+        })
 
       }
     }

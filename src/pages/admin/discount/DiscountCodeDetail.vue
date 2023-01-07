@@ -1,19 +1,26 @@
 <template>
 
   <q-page class="q-pa-lg">
-    <div class="flex flex-center text-h5">Thêm mã code</div>
+    <div class="flex flex-center text-h5" >
+      <div v-if="this.$route.params.discountCodeId == 0">
+        Thêm mã code
+      </div>
+      <div v-else>
+        Chỉnh sửa code khuyến mãi
+      </div>
 
-
-
+    </div>
 
     <div class="flex flex-center">
       <div style="max-width:300px">
         <q-form @submit="saveCodeDiscount">
-          <div v-if="code.status == 'valid'" class="row">
-            <div style="align-self: center;color:green">Con Hieu luc</div>
+          <div  class="row" v-if="code.status != undefined">
+            <div style="align-self: center;color:green" v-if="code.status == 'valid'">Còn hiệu lực</div>
+
+            <div style="align-self: center;color:red" v-else>Hết hiệu lực</div>
 
             <div>
-              <q-btn flat label="Stop" color="negative" @click="changeDiscountCodeSatus"></q-btn>
+              <q-btn flat :label="code.status == 'valid' ? 'Stop' : 'Mở Code'" :color="code.status == 'valid' ? 'negative' : 'positive'" @click="changeDiscountCodeSatus(code)"></q-btn>
             </div>
           </div>
           <div style="" class="row q-mt-sm q-col-gutter-md">
@@ -57,7 +64,7 @@
 
           <div class="row q-mt-md q-col-gutter-md">
             <div class="col-5">
-              <q-btn label="Quay lại"></q-btn>
+              <q-btn to="/admin/discountCode" label="Quay lại"></q-btn>
 
             </div>
             <div class="col-1"></div>
@@ -92,9 +99,12 @@ export default {
   setup() {
     const route = useRoute();
 
+    const $q = useQuasar();
+
     if (route.params.discountCodeId == 0) {
       code.value = {}
     } else {
+
       axios.get(`${WebApi.server}/discountCodeBy/` + route.params.discountCodeId).then(response => {
         code.value = response.data
 
@@ -123,6 +133,36 @@ export default {
         this.$router.push("/admin/discountCode")
         console.log("code discount save!")
       })
+    },
+    changeDiscountCodeSatus(code){
+      if(code.status == 'valid'){
+        code.status = 'invalid'
+
+
+              axios.post(`${WebApi.server}/saveDiscountCode`, code).then(() => {
+        // this.$router.push("/admin/discountCode")
+        // console.log("code discount save!")
+
+        this.$q.notify({
+                message: 'Đã cập nhập Code ',
+                color: 'positive',
+                avatar: `${WebApi.iconUrl}`
+              })
+      })
+
+      }else{
+        code.status = 'valid'
+        axios.post(`${WebApi.server}/saveDiscountCode`, code).then(() => {
+          this.$q.notify({
+                message: 'Đã cập nhập Code ',
+                color: 'positive',
+                avatar: `${WebApi.iconUrl}`
+              })
+
+      })
+
+
+      }
     }
   }
 }

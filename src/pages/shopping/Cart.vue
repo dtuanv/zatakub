@@ -139,11 +139,11 @@
 
           <!-- Input Validation -->
           <q-input v-model="customer.name" class="col-4" label="Tên" color="white" :rules="[
-  (val) =>
-    (!!val && val.length > 1 && val.match(/^([^0-9]*)$/)) || 'Xin vui lòng nhập đúng tên ạ',
-]"></q-input>
-          <q-input v-model="customer.adresse" class="col-4" label="Địa chỉ" color="white"
-            :rules="adresseRules"></q-input>
+            (val) =>
+              (!!val && val.length > 1 && val.match(/^([^0-9]*)$/)) || 'Xin vui lòng nhập đúng tên ạ',
+          ]"></q-input>
+          <q-input v-model="customer.address" class="col-4" label="Địa chỉ" color="white"
+            :rules="addresseRules"></q-input>
           <q-input v-model="customer.mobil" class="col-4" label="SĐT" color="white" :rules="mobilRules"></q-input>
           <q-input label="Ghi chú" v-model="customer.note" autogrow />
 
@@ -198,7 +198,8 @@
           <div v-if="expand_codPayment == true && expand_cardPayment == false">
             <div>Ghi chú</div>
             <div>
-              <q-input v-model="customer.paymentNotice" filled autogrow />
+
+              <q-input v-model="billInput.paymentNotice" filled autogrow />
             </div>
           </div>
           <div v-if="expand_cardPayment == true && expand_codPayment == false">
@@ -254,7 +255,7 @@ const codes = [
   { description: 'N', discount: 10000, status: 'invalid' },
 ]
 
-const bill = ref({});
+const billInput = ref({});
 const customer = ref({});
 const badgeNotice = ref(
   { description: 'Bạn có mã giảm giá không?', sty: 'color: black;background-color: antiquewhite;' }
@@ -303,7 +304,7 @@ export default {
       total,
       product,
       customer,
-      bill,
+      billInput,
       items,
       hashmap,
       dialog_payment: ref(true),
@@ -312,7 +313,7 @@ export default {
       numberWithCommas,
       codeInput,
       // input validation
-      adresseRules: [
+      addresseRules: [
         (val) =>
           (val !== null && val !== "" && !!val) ||
           "Xin vui lòng nhập địa chỉ của bạn!!",
@@ -359,7 +360,7 @@ export default {
       // }
 
 
-      if (this.codeInput == '' || this.codeInput  == undefined) {
+      if (this.codeInput == '' || this.codeInput == undefined) {
 
         this.totalCode = this.total
         this.badgeNotice.description = '*Vui lòng nhập mã khuyến mãi ạ.'
@@ -367,7 +368,7 @@ export default {
         this.checkCodeValid = 2
         this.usedCode = 0
       } else {
-        axios.get(`${WebApi.server}/checkCode/` + this.codeInput).then(re => {
+        axios.get(`${WebApi.server}/getDiscountCodeByDescription/` + this.codeInput).then(re => {
           let dis = ''
           dis = re.data
 
@@ -458,7 +459,7 @@ export default {
       // console.log("item ", this.items)
       // console.log("Check user : ", customer.value);
 
-      var bill = {}
+      let bill = {}
 
       bill.itemSet = this.items
 
@@ -466,9 +467,16 @@ export default {
 
       bill.discountCode = this.usedCode
 
-      console.log("bill ", bill)
+      if ( this.expand_cardPayment == true){
+        bill.paymentMethod = 'card'
+      }
+      if(this.expand_codPayment == true){
+        bill.paymentMethod = 'cash'
+      }
+      bill.paymentNotice = billInput.value.paymentNotice
+        console.log("bill ", bill)
 
-      axios.post(`${WebApi.server}/saveBillItem`,bill).then( () =>{
+      axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
         console.log("save BillItems")
       }
       )
