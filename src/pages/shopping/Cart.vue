@@ -238,12 +238,12 @@ import { ref, computed, nextTick } from "vue";
 import { WebApi } from "/src/apis/WebApi";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
+import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
 
 import { useQuasar } from "quasar";
 import mapActions from "vuex";
 import { DOMDirectiveTransforms } from "@vue/compiler-dom";
 
-import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
 
 import isEmpty from "/src/logic/logic.js"
 
@@ -340,7 +340,8 @@ export default {
   },
   watch: {
     total() {
-      if (customer.value.code != undefined) {
+
+      if (this.codeInput != undefined ||this.codeInput != '' ) {
         this.checkCode()
 
       }
@@ -355,6 +356,7 @@ export default {
     },
     checkCode() {
 
+      // console.log("check Code")
       // if(isEmpty(customer.value.code)){
       //   console.log("empty")
       // }
@@ -377,7 +379,7 @@ export default {
               this.totalCode = this.total * (1 - (dis.discount / 100));
               this.badgeNotice.description = 'Mã giảm giá ' + dis.discount + ' % đã áp dụng.'
               this.usedCode = dis.discount;
-              customer.value.code = this.codeInput
+              // customer.value.code = this.codeInput
             } else {
               this.totalCode = this.total - dis.discount
               this.badgeNotice.description = 'Mã giảm giá ' + this.numberWithCommas(dis.discount) + 'đ đã áp dụng.'
@@ -467,6 +469,8 @@ export default {
 
       bill.discountCode = this.usedCode
 
+      bill.status = 'unread'
+
       if ( this.expand_cardPayment == true){
         bill.paymentMethod = 'card'
       }
@@ -474,7 +478,27 @@ export default {
         bill.paymentMethod = 'cash'
       }
       bill.paymentNotice = billInput.value.paymentNotice
+
+
+        console.log("total ", this.total)
+
+
+        if(this.totalCode == undefined){
+          this.totalCode = this.total
+        }
+
+        bill.total = this.total
+
+        bill.totalCode = this.totalCode
+
+        if(bill.discountCode > 0){
+          bill.codeInput = this.codeInput
+        }
+
+        console.log("totalCode ", this.totalCode)
+
         console.log("bill ", bill)
+
 
       axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
         console.log("save BillItems")
@@ -483,55 +507,6 @@ export default {
 
 
 
-      // if ($store.state.cache.cart.length === 0) {
-      //   router.replace("/product");
-      //   $q.notify({
-      //     message: "You have no items",
-
-      //     color: "negative",
-      //     avatar: `${WebApi.iconUrl}`,
-
-      //   }).catch((err) => {
-      //     console.log(err);
-      //   });
-      //   return;
-      // }
-
-
-
-      // console.log("before Post request: ", $store.state.cache.cart);
-      // axios({
-      //   method: "post",
-      //   url: `${WebApi.server}/checkOut`,
-      //   // data: JSON.stringify(product),
-
-      //   data: {
-      //     // name : $store.state.cache.cart.getName,
-      //     customer: customer.value,
-      //     product: $store.state.cache.cart,
-      //     total: $store.getters["cache/cartTotalPrice"],
-      //   },
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // })
-      //   .then(() => {
-      //     console.log("check Bill ", bill);
-
-      //     $q.notify({
-      //       message: "checkouted",
-
-      //       color: "positive",
-      //       avatar: `${WebApi.iconUrl}`,
-
-      //     });
-
-      //     router.replace("/thank");
-      //     $store.dispatch("cache/checkOut");
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
     },
     // removeProductFromCart(product){
     //   this.$store.dispatch("cache/removeProductFromCart", product)

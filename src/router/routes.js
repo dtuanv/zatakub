@@ -92,11 +92,7 @@ const routes = [
         component: () => import("src/pages/admin/Message.vue"),
         meta: { isRequireAuth: true },
       },
-      {
-        path: "/admin/bill",
-        name: "adminBill",
-        component: () => import("src/pages/admin/Bill.vue"),
-      },
+
 
       {
         path: "/admin/category/add",
@@ -112,6 +108,14 @@ const routes = [
         path: "/admin/product/add/:id",
         name: "addProduct",
         component: () => import("src/pages/product/AddProduct.vue"),
+        meta: { isRequireAuth: true },
+
+      },
+
+      {
+        path: "/admin/orderManager",
+        name: "adminOrderManager",
+        component: () => import("src/pages/admin/bill/OrderManager.vue"),
         meta: { isRequireAuth: true },
 
       },
@@ -141,7 +145,7 @@ const routes = [
       {
         path: "/admin/reservation",
         name: "adminResieveren",
-        component: () => import("src/pages/admin/ReservierungManager.vue"),
+        component: () => import("src/pages/admin/bill/ReservierungAmin.vue"),
         meta: { isRequireAuth: true },
 
       },

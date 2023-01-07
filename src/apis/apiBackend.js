@@ -4,12 +4,7 @@ const server = process.env.DEV ? "http://localhost:8690" : "https://koto-asianki
 //const server = "http://85.214.156.202:8686" ;
 const iconUrl = "/img/icon/nha.png"
 
-const getAxios = (url) => {
-  return axios.get(`${server}${url}`)
-}
-export const WebApi ={
-  server,
-  iconUrl,
-  getAxios
-
+export function getAxios(url) {
+  return  axios.get(`${server}`+url)
+  // console.log("get Axios", url)
 }

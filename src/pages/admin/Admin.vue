@@ -18,7 +18,7 @@
     <!-- Order ADMIN -->
     <div class="flex flex-center">
       <q-btn class="flex flex-center hoverButton" style="width: 120px" flat label="Order"
-        to="/admin/reservation">
+        to="/admin/orderManager">
         <div v-if="$q.screen.gt.sm == true">
           <q-badge color="red" floating transparent>
             {{ NumReservationUnseen }}

@@ -1,6 +1,6 @@
 <template>
   <q-page class="q-pa-md">
-    <div class="text-h5 flex justify-center">Reservierung </div>
+    <div class="text-h5 flex justify-center">Quản lý Đơn  </div>
     <!-- <div>
         <div class="q-pb-sm q-gutter-sm">
           <q-badge color="teal">

@@ -511,7 +511,7 @@
           <div>Giá: </div>
           <div class="q-ml-md">
             <q-input v-model.number="product.price" type="number"
-              :rules="[val => (0 < val && val < 1000000) || 'Vui lòng nhập lại  giá']" />
+              :rules="[val => (0 < val && val < 10000000) || 'Vui lòng nhập lại  giá']" />
           </div>
         </q-card-actions>
         <q-separator />
