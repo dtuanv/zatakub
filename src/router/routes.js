@@ -113,7 +113,7 @@ const routes = [
       },
 
       {
-        path: "/admin/orderManager",
+        path: "/admin/orderManager/numUnread/:numUnread",
         name: "adminOrderManager",
         component: () => import("src/pages/admin/bill/OrderManager.vue"),
         meta: { isRequireAuth: true },

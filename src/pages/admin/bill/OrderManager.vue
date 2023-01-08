@@ -1,14 +1,45 @@
 <template>
 
-  <q-page class="q-pa-md">
-    <div class="flex flex-center text-h5 q-mb-md">Quản lý đơn hàng ZaTaKub</div>
+  <q-page class="q-pa-sm">
+    <div v-if="numChange > 0" class="row flex flex-center">
 
-    <div class="row">
+      <div style="align-self:center;border: 4px solid cadetblue; color: coral; height: 2.9em;padding: 7px 7px">Có {{
+        numChange
+      }} đơn mới ! </div>
+      <div class="q-ml-sm"><q-btn icon="restart_alt" color="positive" @click="reloadPage"></q-btn></div>
+    </div>
+    <div class="flex flex-center text-h5 q-mb-md">
+     <div v-if="isBillAWeek == 'true'">
+      Quản lý đơn hàng ZaTaKub từ: {{ lastWeek }} đến : {{ todayFormated }}
+
+     </div>
+     <div v-else>
+      Tất cả đơn của Zatakub
+     </div>
+     <div  v-if="isBillAWeek == 'true'" style="margin-left:100px">
+      <q-btn label="All" @click="getAllBill()"></q-btn>
+     </div>
+
+     <div v-else  style="margin-left:100px">
+      <q-btn label="A Week"  @click="getBillInAWeek()"></q-btn>
+     </div>
+
+    </div>
+
+    <div class="row ">
+      <div class="col-1"></div>
+      <q-btn class=" q-mr-md" style="text-transform: capitalize;" label="Only New Bill" @click="setOnlyNewBill"></q-btn>
+      <q-btn class="q-mr-md" style="text-transform: capitalize;" label="Received bill" @click="setReceivedBill"></q-btn>
+      <q-btn style="text-transform: capitalize;" label="All Bill" @Click="setAllBill"></q-btn>
+    </div>
+    <div class="row flex flex-center">
+
       <div v-for="bill in bills" :key="bill">
         <div class="q-pa-sm" style="">
           <q-card style="min-width:400px; min-height:450px;"
             :style="bill.status == 'unread' ? 'background-color:burlywood' : ''">
-            <q-card-section :style="bill.status == 'received' ? 'background-color:chartreuse' : 'background-color:brown'">
+            <q-card-section
+              :style="bill.status == 'received' ? 'background-color:chartreuse' : 'background-color:brown'">
               <div v-if="bill.status == 'unread'" class="flex flex-center text-h5">
                 <div style="color:white">
                   Đơn mới ! Chưa Xem...
@@ -37,8 +68,10 @@
               <div class="row">
                 <div v-if="bill.paymentMethod == 'card'">Thanh toán chuyển khoản.</div>
                 <div v-else>Thanh toán Code.</div>
-                <div>Ghi chú thanh toán : {{ bill.paymentNotice }}</div>
+                <div v-if="bill.paymentNotice != undefined">Ghi chú thanh toán : {{ bill.paymentNotice }}</div>
               </div>
+
+              <div>Ngày đặt hàng: {{ bill.orderDate }}</div>
 
 
             </q-card-section>
@@ -121,37 +154,20 @@ import { useQuasar } from "quasar";
 import axios from "axios";
 import ItemInCardBox from "src/components/item/ItemInCardBox.vue";
 import productBox from "src/components/product/ProductBox.vue";
+import { WebApi } from "/src/apis/WebApi";
+import { useRoute, useRouter } from "vue-router";
+
+import { date } from "quasar"
+
+
+
 
 const $q = useQuasar();
+const numUnreadBill = ref(0)
+
+const billsCopy = ref([])
 
 
-
-// server run automatish
-function getBillData() {
-
-  console.log("call")
-  axios.get(`${WebApi.server}/allBill`).then((re) => {
-    bills.value = re.data.sort((a, b) => b.id - a.id)
-    bills.value = bills.value.sort((a, b) => {
-      let stA = a.status.toUpperCase()
-      let stB = b.status.toUpperCase()
-
-      if (stA > stB) {
-        return -1;
-      }
-      if (stA < stB) {
-        return 1
-      }
-      return 0
-
-    })
-    bills.value.forEach(b => {
-      b.itemSet = b.itemSet.sort((a, b) => a.id - b.id)
-    })
-    // bills.value.itemSet = bills.value.itemSet.sort((a,b) => a.id - b.id)
-  })
-  setTimeout(getBillData, 6000)
-}
 
 const bills = ref([])
 
@@ -161,22 +177,194 @@ function numberWithCommas(x) {
   return round.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-import { WebApi } from "/src/apis/WebApi";
+
+
 // import  {getAxios}  from "/src/apis/apiBackend.js";
 export default {
   components: { ItemInCardBox },
   setup() {
+    const numChange = ref(0)
 
+    const route = useRoute()
+
+    const today = Date.now();
+
+    const isBillAWeek = ref('true')
+
+    const todayFormated = ref(date.formatDate(today, "DD-MM-YYYY"))
+
+
+    Date.prototype.subtractDays = function (days) {
+      var dateIn = new Date(this.valueOf());
+      dateIn.setDate(dateIn.getDate() - days);
+      return dateIn;
+    };
+    var dateNowOrig = new Date();
+
+    const lastWeek = date.formatDate(dateNowOrig.subtractDays(7), "DD-MM-YYYY")
+
+    console.log("nextWEEK ", lastWeek)
+
+    // /getBillAWeek/from/08-01-2023/to/25-01-2023
+    function getBillData() {
+
+      axios.get(`${WebApi.server}/getBillAWeek/from/` + lastWeek + '/to/' + todayFormated.value).then((re) => {
+        bills.value = re.data.sort((a, b) => b.id - a.id)
+        bills.value = bills.value.sort((a, b) => {
+          let stA = a.status.toUpperCase()
+          let stB = b.status.toUpperCase()
+
+          if (stA > stB) {
+            return -1;
+          }
+          if (stA < stB) {
+            return 1
+          }
+          return 0
+
+        })
+        bills.value.forEach(b => {
+          b.itemSet = b.itemSet.sort((a, b) => a.id - b.id)
+        })
+
+
+
+        billsCopy.value = [...bills.value]
+        // bills.value.itemSet = bills.value.itemSet.sort((a,b) => a.id - b.id)
+      })
+
+      // setTimeout(getBillData, 60000)
+    }
+
+
+    // server run automatish
+    // allbill begin
+    // function getBillData() {
+
+    //   axios.get(`${WebApi.server}/allBill`).then((re) => {
+    //     bills.value = re.data.sort((a, b) => b.id - a.id)
+    //     bills.value = bills.value.sort((a, b) => {
+    //       let stA = a.status.toUpperCase()
+    //       let stB = b.status.toUpperCase()
+
+    //       if (stA > stB) {
+    //         return -1;
+    //       }
+    //       if (stA < stB) {
+    //         return 1
+    //       }
+    //       return 0
+
+    //     })
+    //     bills.value.forEach(b => {
+    //       b.itemSet = b.itemSet.sort((a, b) => a.id - b.id)
+    //     })
+
+
+
+    //     billsCopy.value = [...bills.value]
+    //     // bills.value.itemSet = bills.value.itemSet.sort((a,b) => a.id - b.id)
+    //   })
+
+    //   // setTimeout(getBillData, 60000)
+    // }
+    // all bill end
+
+
+    function getNumUnreadBillF() {
+
+      axios.get(`${WebApi.server}/getNumUnreadBill`).then((re) => {
+        numUnreadBill.value = re.data
+
+        if (numUnreadBill.value > route.params.numUnread) {
+          numChange.value = numUnreadBill.value - route.params.numUnread
+        }
+      })
+
+      setTimeout(getNumUnreadBillF, 3000)
+    }
+
+
+    getNumUnreadBillF()
     getBillData()
-
     return {
 
       bills,
       numberWithCommas,
+      billsCopy,
+      numChange,
+      lastWeek,
+      todayFormated,
+      isBillAWeek,
+      getBillData,
 
     }
   },
   methods: {
+    getBillInAWeek(){
+      this.getBillData()
+
+      this.$q.notify({
+          message: 'Hiển thị đơn hàng trong 1 tuần qua',
+          color: "positive",
+          avatar: `${WebApi.iconUrl}`,
+        })
+
+        this.isBillAWeek = 'true'
+    },
+    getAllBill(){
+      axios.get(`${WebApi.server}/allBill`).then((re) => {
+        bills.value = re.data.sort((a, b) => b.id - a.id)
+        bills.value = bills.value.sort((a, b) => {
+          let stA = a.status.toUpperCase()
+          let stB = b.status.toUpperCase()
+
+          if (stA > stB) {
+            return -1;
+          }
+          if (stA < stB) {
+            return 1
+          }
+          return 0
+
+        })
+        bills.value.forEach(b => {
+          b.itemSet = b.itemSet.sort((a, b) => a.id - b.id)
+        })
+
+        this.isBillAWeek = 'false'
+
+
+
+        billsCopy.value = [...bills.value]
+        // bills.value.itemSet = bills.value.itemSet.sort((a,b) => a.id - b.id)
+      })
+
+      this.$q.notify({
+          message: 'Hiển thị tất cả đơn hàng',
+          color: "positive",
+          avatar: `${WebApi.iconUrl}`,
+        })
+    },
+    reloadPage() {
+      this.$router.push("/admin/orderManager/numUnread/" + numUnreadBill.value)
+    },
+    setOnlyNewBill() {
+
+      bills.value = billsCopy.value.filter(b => {
+        return b.status == 'unread'
+      })
+    },
+    setReceivedBill() {
+      bills.value = billsCopy.value.filter(b => {
+        return b.status == 'received'
+      })
+
+    },
+    setAllBill() {
+      bills.value = billsCopy.value
+
+    },
     changeBillStatus(bill) {
       if (bill.status == 'unread') {
         bill.status = 'received'

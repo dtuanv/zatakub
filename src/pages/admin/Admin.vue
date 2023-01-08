@@ -4,12 +4,12 @@
       <q-btn class=" btn hoverButton" style="width: 120px" flat label="Nachricht" to="/admin/message">
         <div v-if="$q.screen.gt.sm == true">
           <q-badge color="red" floating transparent>
-            {{ NumUnseen }}
+            {{ numUnread }}
           </q-badge>
         </div>
         <div v-else>
           <q-badge color="red" floating transparent>
-            {{ NumUnseen }}
+            {{ numUnread }}
           </q-badge>
         </div>
       </q-btn>
@@ -17,16 +17,15 @@
     <q-separator />
     <!-- Order ADMIN -->
     <div class="flex flex-center">
-      <q-btn class="flex flex-center hoverButton" style="width: 120px" flat label="Order"
-        to="/admin/orderManager">
+      <q-btn class="flex flex-center hoverButton" style="width: 120px" flat label="Order" @click="toOrderManagerPath(numUnreadBill)"  >
         <div v-if="$q.screen.gt.sm == true">
           <q-badge color="red" floating transparent>
-            {{ NumReservationUnseen }}
+            {{ numUnreadBill }}
           </q-badge>
         </div>
         <div v-else>
           <q-badge color="red" floating transparent>
-            {{ NumReservationUnseen }}
+            {{ numUnreadBill }}
           </q-badge>
         </div>
       </q-btn>
@@ -67,8 +66,8 @@ import { useStore } from "vuex";
 const loggedIn = localStorage.getItem("user");
 export default {
   setup() {
-    const NumUnseen = ref(0)
-    const NumReservationUnseen = ref(0)
+    const numUnread = ref(0)
+    const numUnreadBill = ref(0)
     const route = useRoute();
     const $q = useQuasar();
     const $store = useStore();
@@ -76,6 +75,11 @@ export default {
     const router = useRouter();
     const today = Date.now();
     const formattedString = ref(date.formatDate(today, "DD-MM-YYYY"));
+
+    axios.get(`${WebApi.server}/getNumUnreadBill`).then((re) => {
+      numUnreadBill.value = re.data
+
+    })
 
     const role = computed({
       get: () => $store.state.loginModule.role,
@@ -94,29 +98,29 @@ const jwt = computed(() => {
           }
     )
       .then(response => {
-        NumUnseen.value = response.data;
+        numUnread.value = response.data;
       })
       .catch(err => {
         console.log(err);
       });
     // Reservation num
-    axios.get(`${WebApi.server}/admin/countUnseenReservation/` + formattedString.value,
-       {
-            headers: {
-              Authorization: "Bearer " + jwt.value,
-            },
-            withCredentials: true,
-          }
-    )
-      .then(response => {
-        NumReservationUnseen.value = response.data;
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    // axios.get(`${WebApi.server}/admin/countUnreadBill/` + formattedString.value,
+    //   //  {
+    //   //       headers: {
+    //   //         Authorization: "Bearer " + jwt.value,
+    //   //       },
+    //   //       withCredentials: true,
+    //   //     }
+    // )
+    //   .then(response => {
+    //     numUnreadBill.value = response.data;
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
     return {
-      NumUnseen,
-      NumReservationUnseen,
+      numUnread,
+      numUnreadBill,
       role,
       logOut() {
         localStorage.removeItem("user");
@@ -135,6 +139,12 @@ const jwt = computed(() => {
       },
     };
   },
+  methods:{
+
+    toOrderManagerPath(numUnread){
+      this.$router.push('/admin/orderManager/numUnread/'+numUnread)
+    }
+  }
 };
 </script>
 <style>

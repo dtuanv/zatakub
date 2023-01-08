@@ -243,6 +243,7 @@ import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
 import { useQuasar } from "quasar";
 import mapActions from "vuex";
 import { DOMDirectiveTransforms } from "@vue/compiler-dom";
+import {date} from "quasar"
 
 
 import isEmpty from "/src/logic/logic.js"
@@ -268,6 +269,10 @@ export default {
     const $store = useStore();
     const router = useRouter();
     var hashmap = new Map();
+
+    const today = Date.now();
+
+    const todayFormated  = ref(date.formatDate(today, "DD-MM-YYYY"))
 
     const codeInput = ref('')
 
@@ -312,6 +317,7 @@ export default {
       expand_cardPayment: ref(false),
       numberWithCommas,
       codeInput,
+      todayFormated ,
       // input validation
       addresseRules: [
         (val) =>
@@ -494,6 +500,8 @@ export default {
         if(bill.discountCode > 0){
           bill.codeInput = this.codeInput
         }
+
+        bill.orderDate = this.todayFormated
 
         console.log("totalCode ", this.totalCode)
 
