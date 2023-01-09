@@ -1,9 +1,7 @@
 <template>
   <q-page>
     <div class="q-mt-xl">
-      <div>
-        <q-btn @click="saveCode" label="save"></q-btn>
-      </div>
+
       <div class="justify-center flex">
         <q-img src="/img/shopping_cart.png" style="height: 140px; max-width: 150px" />
       </div>
@@ -138,14 +136,38 @@
         <q-card-actions vertical>
 
           <!-- Input Validation -->
-          <q-input v-model="customer.name" class="col-4" label="Tên" color="white" :rules="[
-            (val) =>
-              (!!val && val.length > 1 && val.match(/^([^0-9]*)$/)) || 'Xin vui lòng nhập đúng tên ạ',
-          ]"></q-input>
-          <q-input v-model="customer.address" class="col-4" label="Địa chỉ" color="white"
-            :rules="addresseRules"></q-input>
-          <q-input v-model="customer.mobil" class="col-4" label="SĐT" color="white" :rules="mobilRules"></q-input>
-          <q-input label="Ghi chú" v-model="customer.note" autogrow />
+          <div class="row">
+            <q-input outlined filled v-model="customer.name" class="col-4" label="Họ và Tên" color="white" :rules="[
+              (val) =>
+                (!!val && val.length > 1 && val.match(/^([^0-9]*)$/)) || 'Xin vui lòng nhập đúng tên ạ',
+            ]"></q-input>
+            <div class="col-3"></div>
+            <q-input  filled outlined v-model="customer.mobil" class="col-4 q-ml-sm" label="Số điện thoại" color="white"
+              :rules="mobilRules"></q-input>
+
+          </div>
+
+          <div class="row q-mt-sm">
+            <div class="col-4">
+              <q-input filled outlined v-model="customer.address" label="Địa chỉ" color="white" lazy-rules
+                :rules="addresseRules"></q-input>
+            </div>
+            <div class="col-3 q-ml-sm">
+              <q-select label="Tỉnh Thành" use-input @filter="filterProvinces" filled square outlined
+                v-model="provinceSelected" :options="provincesOptions" :option-label="(province) => province.name"   :rules="provinceRules"/>
+            </div>
+
+            <div class="col-3 q-ml-sm">
+              <q-select label="Quận Huyện" filled square outlined v-model="districtSelected" :options="districtsOptions"
+                :option-label="(district) => district.name" :rules="districtRules" />
+            </div>
+
+          </div>
+          <div class="row">
+            <q-input  class="col-4" filled outlined label="Ghi chú" v-model="customer.note" autogrow />
+            <div></div>
+          </div>
+
 
         </q-card-actions>
       </q-card>
@@ -212,13 +234,11 @@
           </div>
         </q-card-actions>
         <q-card-actions>
-          <div class="row" style="width:100%">
-            <div class="col-6">
-              <q-btn label="Quay lại" color="negative"></q-btn>
-            </div>
-            <div class="col-6" v-if="expand_codPayment == true || expand_cardPayment == true">
+          <div class="" style="width:100%">
+
+            <div class="flex flex-center" v-if="expand_codPayment == true || expand_cardPayment == true">
               <div v-if="items.length > 0" style="display: flex; justify-content: flex-end;">
-                <q-btn type="submit" label="Đặt hàng" color="positive"></q-btn>
+                <q-btn  type="submit" label="Đặt hàng" color="positive" style="font-family: 'Material Icons';width: 150px;"></q-btn>
               </div>
             </div>
           </div>
@@ -226,9 +246,7 @@
       </q-card>
     </q-form>
     <!-- Payment end -->
-    <div class="q-ml-lg">
-      <q-btn to="/product" label="Back to Product"></q-btn>
-    </div>
+
   </q-page>
 
 </template>
@@ -242,8 +260,9 @@ import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
 
 import { useQuasar } from "quasar";
 import mapActions from "vuex";
-import { DOMDirectiveTransforms } from "@vue/compiler-dom";
-import {date} from "quasar"
+import { date } from "quasar"
+
+import addresses from "/src/apis/addresses.json"
 
 
 import isEmpty from "/src/logic/logic.js"
@@ -264,6 +283,19 @@ const badgeNotice = ref(
 export default {
   name: "Cart",
   setup() {
+
+    const provinces = addresses.provinces
+
+    const districts = addresses.districts
+
+    const provinceSelected = ref({})
+
+    const districtSelected = ref({})
+
+    const districtsOptions = ref(districts)
+    const provincesOptions = ref(provinces)
+
+    console.log(" provinces ", provinces)
     const $q = useQuasar();
     const product = ref({});
     const $store = useStore();
@@ -272,7 +304,7 @@ export default {
 
     const today = Date.now();
 
-    const todayFormated  = ref(date.formatDate(today, "DD-MM-YYYY"))
+    const todayFormated = ref(date.formatDate(today, "DD-MM-YYYY"))
 
     const codeInput = ref('')
 
@@ -295,11 +327,28 @@ export default {
       return round.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
+    function removeAccents(str) {
+      return str.normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd').replace(/Đ/g, 'D');
+
+    }
+
+    function isObjectEmpty(obj){
+      return Object.keys(obj).length === 0
+    }
+
     const totalCode = ref()
     const checkCodeValid = ref(2)
     const usedCode = ref(0)
 
     return {
+      districts,
+      isObjectEmpty,
+      districtsOptions,
+      provincesOptions,
+      provinceSelected,
+      districtSelected,
       codes,
       checkCodeValid,
       getThreeWords,
@@ -315,28 +364,77 @@ export default {
       dialog_payment: ref(true),
       expand_codPayment: ref(false),
       expand_cardPayment: ref(false),
+      removeAccents,
       numberWithCommas,
       codeInput,
-      todayFormated ,
+      provinces,
+      todayFormated,
       // input validation
       addresseRules: [
         (val) =>
           (val !== null && val !== "" && !!val) ||
           "Xin vui lòng nhập địa chỉ của bạn!!",
+
+        (val) =>
+          (val.length > 4) || "Xin vui lòng nhập đày đủ địa chỉ của bạn!!",
       ],
       mobilRules: [
         (val) =>
           (val !== null && val !== "" && !!val) ||
-          "Xin vui lòng nhập đúng số điện thoại ạ",
+          "Xin vui lòng nhập số điện thoại ạ",
+        // (val) =>
+        //   (val.includes(0) && !!val) || "Xin vui lòng nhập SĐT bắt đầu bằng 0 ạ",
+
         (val) =>
-          (val.includes(0) && !!val) || "Xin vui lòng nhập SĐT bắt đầu bằng 0 ạ",
+          (val.charAt(0) == 0 && !!val) || "Xin vui lòng nhập SĐT bắt đầu bằng 0 ạ",
+
+        (val) =>
+          (val.length < 12) || "SĐT quá dài, xin vui lòng nhập đúng SĐT ạ!",
+
+        (val) =>
+          (val.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?.*$/g)) ||
+          // val.match(/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{5})$/g)) ||
+          "Xin vui lòng nhập đúng số điện thoại ạ",
+
+        (val) => (val.match(/^[0-9]+$/)) || "Xin vui lòng nhập đúng SĐT ạ! "
+
+
       ],
       //end Input validation
       dialog_bill: ref(false),
 
+      filterProvinces(val, update) {
+        if (val === '') {
+          update(() => {
+            provincesOptions.value = provinces
+          })
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          // provincesOptions.value = provinces.filter(p => p.name.toLowerCase().indexOf(needle) > -1)
+          provincesOptions.value = provinces.filter(p => removeAccents(p.name).toLowerCase().includes(removeAccents(needle).toLowerCase()))
+        })
+      },
+
+
+
+      provinceRules: [
+        (val) => (isObjectEmpty(val) != true) || "Xin vui lòng chọn tỉnh thành ạ"
+      ],
+
+
+      districtRules: [
+        (val) => (isObjectEmpty(val) != true) || "Xin vui lòng chọn quận huyện ạ"
+      ],
+
+
+
 
     };
   },
+
   computed: {
 
     cartItems() { },
@@ -345,9 +443,24 @@ export default {
     },
   },
   watch: {
+    provinceSelected() {
+      this.districtSelected = {}
+      console.log("provinceSelected w ", this.provinceSelected)
+      console.log("this.districtsOptions w ", this.districtsOptions)
+      if (this.provinceSelected != null) {
+        this.districtsOptions =
+          this.districts.filter((district) => {
+            return this.provinceSelected.id == district.province_id
+          })
+
+        console.log("this.districtsOptions af ", this.districtsOptions)
+
+      }
+
+    },
     total() {
 
-      if (this.codeInput != undefined ||this.codeInput != '' ) {
+      if (this.codeInput != undefined || this.codeInput != '') {
         this.checkCode()
 
       }
@@ -473,45 +586,48 @@ export default {
 
       bill.customerDto = customer.value
 
+      bill.customerDto.address = bill.customerDto.address + ' , ' + this.districtSelected.name + ' , Tỉnh ' + this.provinceSelected.name
+
       bill.discountCode = this.usedCode
 
       bill.status = 'unread'
 
-      if ( this.expand_cardPayment == true){
+      if (this.expand_cardPayment == true) {
         bill.paymentMethod = 'card'
       }
-      if(this.expand_codPayment == true){
+      if (this.expand_codPayment == true) {
         bill.paymentMethod = 'cash'
       }
       bill.paymentNotice = billInput.value.paymentNotice
 
 
-        console.log("total ", this.total)
+      console.log("total ", this.total)
 
 
-        if(this.totalCode == undefined){
-          this.totalCode = this.total
-        }
-
-        bill.total = this.total
-
-        bill.totalCode = this.totalCode
-
-        if(bill.discountCode > 0){
-          bill.codeInput = this.codeInput
-        }
-
-        bill.orderDate = this.todayFormated
-
-        console.log("totalCode ", this.totalCode)
-
-        console.log("bill ", bill)
-
-
-      axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
-        console.log("save BillItems")
+      if (this.totalCode == undefined) {
+        this.totalCode = this.total
       }
-      )
+
+      bill.total = this.total
+
+      bill.totalCode = this.totalCode
+
+      if (bill.discountCode > 0) {
+        bill.codeInput = this.codeInput
+      }
+
+      bill.orderDate = this.todayFormated
+
+      console.log("totalCode ", this.totalCode)
+
+      console.log("bill ", bill)
+
+
+
+      // axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
+      //   console.log("save BillItems")
+      // }
+      // )
 
 
 
