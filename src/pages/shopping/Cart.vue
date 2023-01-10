@@ -624,10 +624,10 @@ export default {
 
 
 
-      // axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
-      //   console.log("save BillItems")
-      // }
-      // )
+      axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
+        console.log("save BillItems")
+      }
+      )
 
 
 

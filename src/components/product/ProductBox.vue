@@ -53,10 +53,10 @@
                   </div>
                   <div class="flex flex-center" style="color: red; font-size: 1em; width: 100%;font-family: fantasy;">
                     {{
-    numberWithCommas(
-      priceWithDiscount(product.price, product.discount)
-    )
-}}
+  numberWithCommas(
+    priceWithDiscount(product.price, product.discount)
+)
+                    }}
                     đ
                   </div>
                 </div>
@@ -75,8 +75,8 @@
               <q-btn @click="subtractItem()" icon="remove" color="negative" flat></q-btn>
             </div>
             <q-item style="padding-left: 0px; padding-right: 0px">{{
-    countItem
-}}</q-item>
+              countItem
+            }}</q-item>
             <div style="padding-left:2px">
               <q-btn @click="addItem()" icon="add" color="positive" flat></q-btn>
             </div>
@@ -166,8 +166,8 @@
 
           </div>
           <div class="flex flex-center q-mt-sm  " style="font-size: 1.2rem;padding: 0px 14px;color: cadetblue;">{{
-    product.name
-}}</div>
+            product.name
+          }}</div>
           <q-separator></q-separator>
 
         </q-card-section>
@@ -188,100 +188,100 @@
 
             <div class="col-10">
               <q-editor v-model="product.subtitle" :dense="$q.screen.lt.md" :definitions="{
-  fontColor: {
-    tip: 'Change font color',
-    icon: 'colorize',
-    label: 'Font Color',
-    handler: fontColor
-  }
-}" :toolbar="
+                fontColor: {
+                  tip: 'Change font color',
+                  icon: 'colorize',
+                  label: 'Font Color',
+                  handler: fontColor
+                }
+              }" :toolbar="
 
 
+[
   [
-    [
-      {
-        label: $q.lang.editor.align,
-        icon: $q.iconSet.editor.align,
-        fixedLabel: true,
-        list: 'only-icons',
-        options: ['left', 'center', 'right', 'justify']
-      },
-      {
-        label: $q.lang.editor.align,
-        icon: $q.iconSet.editor.align,
-        fixedLabel: true,
-        options: ['left', 'center', 'right', 'justify']
-      }
-    ],
-    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-    ['token', 'hr', 'link', 'custom_btn'],
-    ['print', 'fullscreen'],
-    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
-    [
-      {
-        label: $q.lang.editor.formatting,
-        icon: $q.iconSet.editor.formatting,
-        list: 'no-icons',
-        options: [
-          'p',
-          'h1',
-          'h2',
-          'h3',
-          'h4',
-          'h5',
-          'h6',
-          'code'
-        ]
-      },
-      {
-        label: $q.lang.editor.fontSize,
-        icon: $q.iconSet.editor.fontSize,
-        fixedLabel: true,
-        fixedIcon: true,
-        list: 'no-icons',
-        options: [
-          'size-1',
-          'size-2',
-          'size-3',
-          'size-4',
-          'size-5',
-          'size-6',
-          'size-7'
-        ]
-      },
-      {
-        label: $q.lang.editor.defaultFont,
-        icon: $q.iconSet.editor.font,
-        fixedIcon: true,
-        list: 'no-icons',
-        options: [
-          'default_font',
-          'arial',
-          'arial_black',
-          'comic_sans',
-          'courier_new',
-          'impact',
-          'lucida_grande',
-          'times_new_roman',
-          'verdana'
-        ]
-      },
-      'removeFormat'
-    ],
-    ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+    {
+      label: $q.lang.editor.align,
+      icon: $q.iconSet.editor.align,
+      fixedLabel: true,
+      list: 'only-icons',
+      options: ['left', 'center', 'right', 'justify']
+    },
+    {
+      label: $q.lang.editor.align,
+      icon: $q.iconSet.editor.align,
+      fixedLabel: true,
+      options: ['left', 'center', 'right', 'justify']
+    }
+  ],
+  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+  ['token', 'hr', 'link', 'custom_btn'],
+  ['print', 'fullscreen'],
+  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
+  [
+    {
+      label: $q.lang.editor.formatting,
+      icon: $q.iconSet.editor.formatting,
+      list: 'no-icons',
+      options: [
+        'p',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'code'
+      ]
+    },
+    {
+      label: $q.lang.editor.fontSize,
+      icon: $q.iconSet.editor.fontSize,
+      fixedLabel: true,
+      fixedIcon: true,
+      list: 'no-icons',
+      options: [
+        'size-1',
+        'size-2',
+        'size-3',
+        'size-4',
+        'size-5',
+        'size-6',
+        'size-7'
+      ]
+    },
+    {
+      label: $q.lang.editor.defaultFont,
+      icon: $q.iconSet.editor.font,
+      fixedIcon: true,
+      list: 'no-icons',
+      options: [
+        'default_font',
+        'arial',
+        'arial_black',
+        'comic_sans',
+        'courier_new',
+        'impact',
+        'lucida_grande',
+        'times_new_roman',
+        'verdana'
+      ]
+    },
+    'removeFormat'
+  ],
+  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-    ['undo', 'redo'],
-    ['viewsource']
-  ]" :fonts="{
-  arial: 'Arial',
-  arial_black: 'Arial Black',
-  comic_sans: 'Comic Sans MS',
-  courier_new: 'Courier New',
-  impact: 'Impact',
-  lucida_grande: 'Lucida Grande',
-  times_new_roman: 'Times New Roman',
-  verdana: 'Verdana'
-}" />
+  ['undo', 'redo'],
+  ['viewsource']
+]" :fonts="{
+    arial: 'Arial',
+    arial_black: 'Arial Black',
+    comic_sans: 'Comic Sans MS',
+    courier_new: 'Courier New',
+    impact: 'Impact',
+    lucida_grande: 'Lucida Grande',
+    times_new_roman: 'Times New Roman',
+    verdana: 'Verdana'
+  }" />
 
             </div>
             <div class="col-2">
@@ -327,100 +327,100 @@
 
                       <div class="col-10">
                         <q-editor v-model="product.description" :dense="$q.screen.lt.md" :definitions="{
-  fontColor: {
-    tip: 'Change font color',
-    icon: 'colorize',
-    label: 'Font Color',
-    handler: fontColor
-  }
-}" :toolbar="
+                          fontColor: {
+                            tip: 'Change font color',
+                            icon: 'colorize',
+                            label: 'Font Color',
+                            handler: fontColor
+                          }
+                        }" :toolbar="
 
 
+[
   [
-    [
-      {
-        label: $q.lang.editor.align,
-        icon: $q.iconSet.editor.align,
-        fixedLabel: true,
-        list: 'only-icons',
-        options: ['left', 'center', 'right', 'justify']
-      },
-      {
-        label: $q.lang.editor.align,
-        icon: $q.iconSet.editor.align,
-        fixedLabel: true,
-        options: ['left', 'center', 'right', 'justify']
-      }
-    ],
-    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-    ['token', 'hr', 'link', 'custom_btn'],
-    ['print', 'fullscreen'],
-    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
-    [
-      {
-        label: $q.lang.editor.formatting,
-        icon: $q.iconSet.editor.formatting,
-        list: 'no-icons',
-        options: [
-          'p',
-          'h1',
-          'h2',
-          'h3',
-          'h4',
-          'h5',
-          'h6',
-          'code'
-        ]
-      },
-      {
-        label: $q.lang.editor.fontSize,
-        icon: $q.iconSet.editor.fontSize,
-        fixedLabel: true,
-        fixedIcon: true,
-        list: 'no-icons',
-        options: [
-          'size-1',
-          'size-2',
-          'size-3',
-          'size-4',
-          'size-5',
-          'size-6',
-          'size-7'
-        ]
-      },
-      {
-        label: $q.lang.editor.defaultFont,
-        icon: $q.iconSet.editor.font,
-        fixedIcon: true,
-        list: 'no-icons',
-        options: [
-          'default_font',
-          'arial',
-          'arial_black',
-          'comic_sans',
-          'courier_new',
-          'impact',
-          'lucida_grande',
-          'times_new_roman',
-          'verdana'
-        ]
-      },
-      'removeFormat'
-    ],
-    ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+    {
+      label: $q.lang.editor.align,
+      icon: $q.iconSet.editor.align,
+      fixedLabel: true,
+      list: 'only-icons',
+      options: ['left', 'center', 'right', 'justify']
+    },
+    {
+      label: $q.lang.editor.align,
+      icon: $q.iconSet.editor.align,
+      fixedLabel: true,
+      options: ['left', 'center', 'right', 'justify']
+    }
+  ],
+  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+  ['token', 'hr', 'link', 'custom_btn'],
+  ['print', 'fullscreen'],
+  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
+  [
+    {
+      label: $q.lang.editor.formatting,
+      icon: $q.iconSet.editor.formatting,
+      list: 'no-icons',
+      options: [
+        'p',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'code'
+      ]
+    },
+    {
+      label: $q.lang.editor.fontSize,
+      icon: $q.iconSet.editor.fontSize,
+      fixedLabel: true,
+      fixedIcon: true,
+      list: 'no-icons',
+      options: [
+        'size-1',
+        'size-2',
+        'size-3',
+        'size-4',
+        'size-5',
+        'size-6',
+        'size-7'
+      ]
+    },
+    {
+      label: $q.lang.editor.defaultFont,
+      icon: $q.iconSet.editor.font,
+      fixedIcon: true,
+      list: 'no-icons',
+      options: [
+        'default_font',
+        'arial',
+        'arial_black',
+        'comic_sans',
+        'courier_new',
+        'impact',
+        'lucida_grande',
+        'times_new_roman',
+        'verdana'
+      ]
+    },
+    'removeFormat'
+  ],
+  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-    ['undo', 'redo'],
-    ['viewsource']
-  ]" :fonts="{
-  arial: 'Arial',
-  arial_black: 'Arial Black',
-  comic_sans: 'Comic Sans MS',
-  courier_new: 'Courier New',
-  impact: 'Impact',
-  lucida_grande: 'Lucida Grande',
-  times_new_roman: 'Times New Roman',
-  verdana: 'Verdana'
-}" />
+  ['undo', 'redo'],
+  ['viewsource']
+]" :fonts="{
+    arial: 'Arial',
+    arial_black: 'Arial Black',
+    comic_sans: 'Comic Sans MS',
+    courier_new: 'Courier New',
+    impact: 'Impact',
+    lucida_grande: 'Lucida Grande',
+    times_new_roman: 'Times New Roman',
+    verdana: 'Verdana'
+  }" />
 
                       </div>
                       <div class="col-2">
@@ -486,50 +486,49 @@
     <!-- edit beginn -->
     <q-dialog v-model="edit_card">
 
-        <q-card class="q-pa-sm">
-          <q-form @submit="saveProductEdit">
-        <q-card-section>
-          <div class="flex flex-center ">Ảnh khác</div>
-          <div>
+      <q-card class="q-pa-sm">
+        <q-form @submit="saveProductEdit">
+          <q-card-section>
+            <div class="flex flex-center ">Ảnh khác</div>
+            <div>
 
-            <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected" label="Tải ảnh lên"
-              with-credentials color="purple" square flat bordered style="max-width: 300px" />
-
-
-          </div>
-        </q-card-section>
-        <q-card-actions>
-          <div style="width:100%">
-            Thay tên :
-            <q-input v-model="product.name" label="Nhap Ten Tai Day" filled autogrow />
-          </div>
+              <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected" label="Tải ảnh lên"
+                with-credentials color="purple" square flat bordered style="max-width: 300px" />
 
 
-        </q-card-actions>
-        <q-separator />
-        <q-card-actions>
-          <div>Giá: </div>
-          <div class="q-ml-md">
-            <q-input v-model.number="product.price" type="number"
-              :rules="[val => (0 < val && val < 10000000) || 'Vui lòng nhập lại  giá']" />
-          </div>
-        </q-card-actions>
-        <q-separator />
-        <q-card-actions>
-          <div> Giảm giá %: </div>
-          <div class="q-ml-md">
-            <q-input v-model.number="product.discount" type="number"
-              :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
-          </div>
-        </q-card-actions>
+            </div>
+          </q-card-section>
+          <q-card-actions>
+            <div style="width:100%">
+              Thay tên :
+              <q-input v-model="product.name" label="Nhap Ten Tai Day" filled autogrow />
+            </div>
 
-        <q-card-actions>
-          <div class="flex flex-center col-12">
-            <q-btn label="Save" color="positive" type="submit"
-              @click="" />
-          </div>
-        </q-card-actions>
-      </q-form>
+
+          </q-card-actions>
+          <q-separator />
+          <q-card-actions>
+            <div>Giá: </div>
+            <div class="q-ml-md">
+              <q-input v-model.number="product.price" type="number"
+                :rules="[val => (0 < val && val < 10000000) || 'Vui lòng nhập lại  giá']" />
+            </div>
+          </q-card-actions>
+          <q-separator />
+          <q-card-actions>
+            <div> Giảm giá %: </div>
+            <div class="q-ml-md">
+              <q-input v-model.number="product.discount" type="number"
+                :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
+            </div>
+          </q-card-actions>
+
+          <q-card-actions>
+            <div class="flex flex-center col-12">
+              <q-btn label="Save" color="positive" type="submit" @click="" />
+            </div>
+          </q-card-actions>
+        </q-form>
       </q-card>
 
 
@@ -681,7 +680,7 @@ export default {
     };
   },
   methods: {
-    saveProductEdit(){
+    saveProductEdit() {
       this.dialog_detail = true, this.uploadImage_dialog = true, this.open_editor = true
     },
     addToCart() {
@@ -921,9 +920,13 @@ export default {
         product.mark = this.$route.params.mark
       }
 
-      axios.post(`${WebApi.server}/saveProduct`, product).then(
+      axios.post(`${WebApi.server}/saveProduct`, product).then((re) => {
+        console.log("server return ", re.data)
+      }
 
-      )
+      ).catch(error => {
+        console.log(error);
+      });
 
       this.$q.notify({
         message: "new product was created",
@@ -933,6 +936,8 @@ export default {
 
       });
       console.log("product saved");
+
+      // window.location.reload();
 
       if (reloadOrrr == 2) {
         this.uploadImage_dialog = false
