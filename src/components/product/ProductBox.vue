@@ -800,6 +800,7 @@ export default {
     file_selected(file) {
 
       console.log("files ", file)
+
       this.selected_file = file[0];
       this.check_if_document_upload = true;
     },
@@ -824,9 +825,15 @@ export default {
     uploadFile() {
 
       const fd = new FormData();
+
+      console.log("this.selected_file ",this.selected_file)
       fd.append("file", this.selected_file);
+
+      console.log("fdd ",fd)
       axios.post(`${WebApi.server}/upload`, fd, {
-        headers: { 'Content-Type': undefined },
+        headers: {
+        "Content-Type": "multipart/form-data"
+      },
       }).then(function (response) {
         if (response.data.ok) {
 
@@ -839,8 +846,12 @@ export default {
 
       const fd = new FormData();
       fd.append("file", this.selected_file2);
+
+
       axios.post(`${WebApi.server}/upload`, fd, {
-        headers: { 'Content-Type': undefined },
+        headers: {
+        "Content-Type": "multipart/form-data"
+      },
       }).then(function (response) {
         if (response.data.ok) {
 

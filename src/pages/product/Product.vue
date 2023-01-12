@@ -1,7 +1,6 @@
 <template>
   <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm'">
 
-
     <!-- <div class="flex flex-center">
       <q-btn label="Admin edit" @click="setRole"></q-btn>
     </div> -->
@@ -19,7 +18,7 @@
       </div>
     </div>
     <div v-else>
-        <div class="text-h5 flex flex-center" style="color: red; font-family: emoji;" >HOT SALE %%</div>
+      <div class="text-h5 flex flex-center" style="color: red; font-family: emoji;">HOT SALE %%</div>
     </div>
 
 
@@ -77,8 +76,8 @@
 
 
           <div v-else :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
-  return p.status == 'on'
-})" :key="product.id">
+            return p.status == 'on'
+          })" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
 
@@ -155,6 +154,9 @@ import Detail from "../customer/Detail.vue";
 import productBox from "src/components/product/ProductBox.vue";
 import Product from "/src/apis/Product.js";
 import { WebApi } from "/src/apis/WebApi";
+
+const selected_file = ref('')
+
 
 const marktOptions = [
   { label: 'Đức', name: 'duc' },
@@ -445,7 +447,10 @@ export default {
       findProduct,
       removeAccents,
       admin_edit: ref(false),
+      editNoticeImage_dialog: ref(false),
       ro,
+      selected_file ,
+
       findProductValidate: [
         (val) =>
           (val !== null &&
@@ -466,6 +471,35 @@ export default {
   },
   data() { },
   methods: {
+    file_selected(file) {
+
+      console.log("files ", file)
+
+      this.selected_file = file[0];
+      this.check_if_document_upload = true;
+    },
+
+    uploadFile() {
+
+const fd = new FormData();
+
+console.log("this.selected_file ",this.selected_file)
+fd.append("file", this.selected_file);
+
+console.log("fdd ",fd)
+axios.post(`${WebApi.server}/uploadNoticeImage`, fd, {
+  headers: {
+  "Content-Type": "multipart/form-data"
+},
+}).then(function (response) {
+  if (response.data.ok) {
+
+  }
+}.bind(this)).catch(error => {
+        console.log(error);
+      });;
+},
+
     scrollMeTo(refName) {
       var element = this.$refs[refName];
       var top = element.offsetTop;
