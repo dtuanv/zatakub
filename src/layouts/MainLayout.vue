@@ -90,7 +90,7 @@
           </q-route-tab>
 
 
-          <q-route-tab @click="setRole">SETADMIN</q-route-tab>
+          <q-route-tab v-if="role === 'ADMIN' || role === 'USER'" @click="setRole">SETADMIN</q-route-tab>
           <!-- markt end -->
         </q-tabs>
         <!-- to shoping cart -->
@@ -265,7 +265,7 @@
           </q-item>
         </div>
         <div v-if="ro == 'admin'" class="flex flex-center">
-          <q-btn  icon="edit" @click="editNoticeImage_dialog = true"></q-btn>
+          <q-btn icon="edit" @click="editNoticeImage_dialog = true"></q-btn>
         </div>
 
         <div>
@@ -294,9 +294,35 @@
 
 
         <div class="animation" style="width:100%">
-          <div class="animation-text"  style="color:red;">Zatakub chúc quý khách một năm mới an khang thịnh vượng</div>
-          <div>
-            <q-img class="animation-scooter" style="height:auto ; width:80px"   src="/img/upload/notice/tetmeo.jpg"/>
+          <div v-if="$q.screen.gt.sm" class="animation-text" style="color:red;">Zatakub chúc quý khách một năm mới an
+            khang thịnh vượng</div>
+          <div v-else class="animation-text" style="color:red;">Zatakub chúc quý khách một năm mới an khang thịnh vượng
+          </div>
+          <div style="width:100%" class="row">
+            <div :class="$q.screen.gt.sm ? 'col-11' : 'col-12'">
+              <q-img v-if="$q.screen.gt.sm" src="/img/upload/notice/cmnm.jpg"
+                style="height:auto ; width:100px; background-image: none;" flat></q-img>
+
+              <q-img class="animation-scooter" style="height:auto ; width:100px"
+                src="/img/upload/notice/2023chuc.png" />
+
+              <q-img v-if="$q.screen.gt.sm" class="animation-scooter" style="height:auto ; width:100px"
+                src="/img/upload/notice/daynoitet.jpg" />
+
+              <q-img class="animation-scooter" style="height:auto ; width:100px" src="/img/upload/notice/quymao2.png" />
+              <q-img class="animation-scooter" style="height:auto ; width:100px"
+                src="/img/upload/notice/daynoitet.jpg" />
+
+              <q-img class="animation-scooter" style="height:auto ; width:100px"
+                src="/img/upload/notice/tetdenroi.png" />
+            </div>
+            <div class="col-1" v-if="$q.screen.gt.sm">
+              <q-img src="/img/upload/notice/hoamai.jpg" style="height:auto ; width:100px; background-image: none;"
+                class="float-right"></q-img>
+            </div>
+
+
+
 
           </div>
         </div>
@@ -409,23 +435,43 @@ export default {
     const $router = useRouter();
     const $store = useStore();
 
+
+
+    const jwt = computed(() => {
+      return $store.getters["loginModule/getJwt"];
+    });
+
+
+
+
     const selected_file = ref()
     const noticeImageMobil = ref({})
     const noticeImageDesktop = ref({})
 
-    axios.get(`${WebApi.server}/getNoticeImage`).then((res) => {
+    axios.get(`${WebApi.server}/getNoticeImage`,
+
+    ).then((res) => {
       let noticeImages = res.data
       noticeImageMobil.value = noticeImages.find(ni => { return ni.category == 'mobil' })
       noticeImageDesktop.value = noticeImages.find(ni => { return ni.category == 'desktop' })
 
-      console.log("noticeImageMobil.value ", noticeImageMobil.value)
-      console.log("noticeImageDesktop.value ", noticeImageDesktop.value)
+
     })
 
 
     const ro = computed({
       get: () => $store.state.cache.ro,
     });
+
+
+    // const drawItemsStore = computed({
+    //   get: () => $store.state.cache.drawItems,
+    // });
+
+    // console.log("drawItems ", drawItemsStore)
+
+    // drawItems.value = drawItemsStore.value
+
 
 
     axios.get(`${WebApi.server}/allDrawItem`).then(re => {
@@ -455,6 +501,7 @@ export default {
       $router.replace("/");
     };
     return {
+      jwt,
       selected_file,
       noticeImageMobil,
       noticeImageDesktop,
@@ -492,6 +539,10 @@ export default {
       },
     };
   },
+
+  // mounted() {
+  //   this.$store.dispatch("cache/setDrawItems");
+  // },
   methods: {
 
     file_selected(file) {
@@ -506,14 +557,17 @@ export default {
 
       const fd = new FormData();
 
-      console.log("this.selected_file ", this.selected_file)
       fd.append("file", this.selected_file);
 
       console.log("fdd ", fd)
       axios.post(`${WebApi.server}/uploadNoticeImage`, fd, {
         headers: {
-          "Content-Type": "multipart/form-data"
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + this.jwt,
         },
+        withCredentials: true,
+
+
       }).then(function (response) {
         if (response.data.ok) {
 
@@ -539,8 +593,19 @@ export default {
           saveObject = this.noticeImageMobil
         }
 
-        axios.post(`${WebApi.server}/saveNoticeImageUrl`, saveObject).then(
+        axios.post(`${WebApi.server}/saveNoticeImageUrl`, saveObject,
+          {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
+        ).then(() => {
+
+          this.editNoticeImage_dialog = false
           console.log("Save img ", saveObject)
+        }
+
         )
 
 
@@ -563,8 +628,14 @@ export default {
       //   d.link = '/product/category/' + d.title
       // })
 
-      console.log("DarawItems ", drawItems.value)
-      axios.post(`${WebApi.server}/saveDrawItem`, this.drawItems).then(
+      axios.post(`${WebApi.server}/saveDrawItem`, this.drawItems,
+        {
+          headers: {
+            Authorization: "Bearer " + this.jwt,
+          },
+          withCredentials: true,
+        }
+      ).then(
       )
     },
     saveMark(newMarks) {
@@ -576,7 +647,14 @@ export default {
         // nm.drawItemId =
       })
 
-      axios.post(`${WebApi.server}/saveMark`, newMarks).then(
+      axios.post(`${WebApi.server}/saveMark`, newMarks,
+        {
+          headers: {
+            Authorization: "Bearer " + this.jwt,
+          },
+          withCredentials: true,
+        }
+      ).then(
         this.$q.notify(
           {
             message: " product was updated",
@@ -612,7 +690,14 @@ export default {
 
         }
       ).onOk(() => {
-        axios.delete(`${WebApi.server}/deleteMarkBy/` + mark.id).then(() => {
+        axios.delete(`${WebApi.server}/deleteMarkBy/` + mark.id,
+          {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
+        ).then(() => {
 
 
           let i = markDtos.indexOf(mark)
@@ -643,14 +728,15 @@ export default {
   /* align-self: stretch; */
 }
 
-.animation{
+.animation {
   width: 100%;
 }
-.animation-text{
+
+.animation-text {
   font-weight: bold;
   color: #fbfbfb;
   animation-name: rightToLeft;
-  animation-duration:25s;
+  animation-duration: 30s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
@@ -668,12 +754,20 @@ export default {
 
 
 }
-.animation-scooter{
+
+/* .animation-image{
+  border-image: url('../img/upload/notice/hoa.jpg');
+border-image-width: 0 0 10px 0;
+border-image-repeat: stretch;
+} */
+.animation-scooter {
   /* margin: 0 0 0 -400px;
   width: 30%;
   height: 30%; */
   /* transition: transform 10s ease-in; */
   animation: left-to-right 15s ease-in infinite forwards;
+
+
 }
 
 @keyframes left-to-right {
@@ -684,9 +778,11 @@ export default {
   0% {
     left: 0;
   }
+
   50% {
-    left: calc(100% - 100px);
-   }
+    left: calc(100% - 570px);
+  }
+
   100% {
     left: 0;
   }

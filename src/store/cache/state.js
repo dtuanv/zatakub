@@ -1,15 +1,7 @@
 export default function () {
   return {
     // products: [],
-    vorspeiseProducts: [],
-    hauptgangProducts: [],
-    sushiMixProducts: [],
-    sushiProducts: [],
-    nigiriProducts: [],
-    makiProducts: [],
-    insideOutProducts: [],
-    tempuraProducts: [],
-    spezialProducts: [],
+    drawItems : [],
     cart: [],
     bills: [],
     infoPath:{},

@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-mt-sm">
     <div class="flex flex-center" v-if="role === 'ADMIN'">
-      <q-btn class=" btn hoverButton" style="width: 120px" flat label="Nachricht" to="/admin/message">
+      <q-btn class=" btn hoverButton" style="width: 120px" flat label="Tin nhan" to="/admin/message">
         <div v-if="$q.screen.gt.sm == true">
           <q-badge color="red" floating transparent>
             {{ numUnread }}
@@ -33,8 +33,8 @@
 
     <q-separator />
 
-    <q-btn v-if="role === 'ADMIN'" class="flex flex-center btn hoverButton" flat label="Admin Product" to="admin/product" />
-    <q-btn  class="flex flex-center btn hoverButton" flat label="Admin Product" to="admin/product" />
+    <!-- <q-btn v-if="role === 'ADMIN'" class="flex flex-center btn hoverButton" flat label="Admin Product" to="admin/product" />
+    <q-btn  class="flex flex-center btn hoverButton" flat label="Admin Product" to="admin/product" /> -->
     <q-separator />
     <div>
       <q-separator />
@@ -76,10 +76,7 @@ export default {
     const today = Date.now();
     const formattedString = ref(date.formatDate(today, "DD-MM-YYYY"));
 
-    axios.get(`${WebApi.server}/getNumUnreadBill`).then((re) => {
-      numUnreadBill.value = re.data
 
-    })
 
     const role = computed({
       get: () => $store.state.loginModule.role,
@@ -103,6 +100,20 @@ const jwt = computed(() => {
       .catch(err => {
         console.log(err);
       });
+
+
+
+      axios.get(`${WebApi.server}/getNumUnreadBill`,
+    {
+            headers: {
+              Authorization: "Bearer " + jwt.value,
+            },
+            withCredentials: true,
+          }
+    ).then((re) => {
+      numUnreadBill.value = re.data
+
+    })
     // Reservation num
     // axios.get(`${WebApi.server}/admin/countUnreadBill/` + formattedString.value,
     //   //  {

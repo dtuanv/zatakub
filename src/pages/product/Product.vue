@@ -188,14 +188,21 @@ export default {
 
     const $store = useStore();
 
+
+
+
+    const jwt = computed(() => {
+      return $store.getters["loginModule/getJwt"];
+    });
+
+
     const router = useRouter();
 
-    console.log("IS Mobil ", $q.platform.is.mobile)
+    // console.log("IS Mobil ", $q.platform.is.mobile)
 
     axios.get(`${WebApi.server}/allDrawItem`).then(re => {
       // let draw = []
 
-      console.log(" router.params ", route.params)
       categoryPath.value = re.data.find(d => { return d.link.includes(route.params.category) })
 
       console.log("categoryPath.value ", categoryPath.value)
@@ -203,7 +210,6 @@ export default {
         filterMarkOptions.value = categoryPath.value.markDtos
 
       }
-      console.log("categoryPath", categoryPath)
     })
 
     const ro = computed({
@@ -213,7 +219,6 @@ export default {
 
     const rou = route.params.mark
 
-    console.log("rou  ", rou)
     const productsCategoryOrig = ref([])
     const category = ref(route.params.category)
     const mark = ref(route.params.mark)
@@ -251,9 +256,9 @@ export default {
       }
 
 
-      console.log("productsCategory.value ", productsCategory.value)
+      // console.log("productsCategory.value ", productsCategory.value)
     })
-    console.log("reset")
+    // console.log("reset")
     // const products = computed({
     // get: () => $store.getters['cache/getProduct']
     // })
@@ -430,6 +435,7 @@ export default {
 
 
     return {
+      jwt,
       categoryPath,
       products,
       productsCategoryOrig,
@@ -449,7 +455,7 @@ export default {
       admin_edit: ref(false),
       editNoticeImage_dialog: ref(false),
       ro,
-      selected_file ,
+      selected_file,
 
       findProductValidate: [
         (val) =>
@@ -481,24 +487,25 @@ export default {
 
     uploadFile() {
 
-const fd = new FormData();
+      const fd = new FormData();
 
-console.log("this.selected_file ",this.selected_file)
-fd.append("file", this.selected_file);
+      fd.append("file", this.selected_file);
 
-console.log("fdd ",fd)
-axios.post(`${WebApi.server}/uploadNoticeImage`, fd, {
-  headers: {
-  "Content-Type": "multipart/form-data"
-},
-}).then(function (response) {
-  if (response.data.ok) {
+      axios.post(`${WebApi.server}/uploadNoticeImage`, fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
 
-  }
-}.bind(this)).catch(error => {
+      }).then(function (response) {
+        if (response.data.ok) {
+
+        }
+      }.bind(this)).catch(error => {
         console.log(error);
       });;
-},
+    },
 
     scrollMeTo(refName) {
       var element = this.$refs[refName];
@@ -563,7 +570,6 @@ axios.post(`${WebApi.server}/uploadNoticeImage`, fd, {
     '$route'(to, from) {
       const category = to.params.category
       // this.AJAXRequest(id)
-      console.log("change product", category)
       if (category != undefined) {
         productsCategory.value = this.products.filter(p => {
           return p.category == category

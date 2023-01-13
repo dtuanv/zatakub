@@ -4,32 +4,24 @@
       <q-btn to="/admin/discountCode/Detail/0" label="Thêm mã Code"></q-btn>
     </div>
     <div>
-      <q-table
-      title="Danh sách Codes"
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-    >
-      <template v-slot:body-cell-actions="props">
-        <q-td :props="props">
-          <div >
-            <q-btn icon="edit" color="positive" @click="editDiscountCode(props)"></q-btn>
-            <q-btn icon="delete" color="negative" @click="deleteDiscountCode(props)"></q-btn>
-          </div>
-        </q-td>
-      </template>
+      <q-table title="Danh sách Codes" :rows="rows" :columns="columns" row-key="name">
+        <template v-slot:body-cell-actions="props">
+          <q-td :props="props">
+            <div>
+              <q-btn icon="edit" color="positive" @click="editDiscountCode(props)"></q-btn>
+              <q-btn icon="delete" color="negative" @click="deleteDiscountCode(props)"></q-btn>
+            </div>
+          </q-td>
+        </template>
 
-      <template v-slot:body-cell ="props">
-        <q-td
-          :props="props"
-          :class="props.row.status == 'invalid'?'bg-red ':'bg-green'"
-        >
-        {{ props.value }}
-        </q-td>
-      </template>
+        <template v-slot:body-cell="props">
+          <q-td :props="props" :class="props.row.status == 'invalid' ? 'bg-red ' : 'bg-green'">
+            {{ props.value }}
+          </q-td>
+        </template>
 
 
-    </q-table>
+      </q-table>
     </div>
 
 
@@ -49,91 +41,114 @@ import { useRoute, useRouter } from "vue-router";
 import axios from "axios";
 import { WebApi } from "/src/apis/WebApi";
 const columns = [
-  {name : 'name', label: 'Mã Code', field:'description' },
-  {name : 'status', label: 'Trạng thái', field:'status' },
-  {name : 'quantity', label: 'Số lượng', field:'quantity' },
-  {name : 'actions', label: 'Chức năng', field:'actions' },
+  { name: 'name', label: 'Mã Code', field: 'description' },
+  { name: 'status', label: 'Trạng thái', field: 'status' },
+  { name: 'quantity', label: 'Số lượng', field: 'quantity' },
+  { name: 'actions', label: 'Chức năng', field: 'actions' },
 ]
 
 const rows = ref(
   [
-  // {
-  //   description:'A',
-  //   status : 'valid',
-  // },
+    // {
+    //   description:'A',
+    //   status : 'valid',
+    // },
 
-  // {
-  //   description:'B',
-  //   status : 'invalid',
-  //   color:'red',
-  // },
+    // {
+    //   description:'B',
+    //   status : 'invalid',
+    //   color:'red',
+    // },
 
 
-]
+  ]
 )
-  export default{
+export default {
 
-    setup(){
-      const $q = useQuasar()
-      axios.get(`${WebApi.server}/allDiscountCode`).then(re => {
-        rows.value = re.data.sort((a,b) => b.id - a.id)
+  setup() {
+    const $q = useQuasar()
+
+    const $store = useStore();
 
 
-        // console.log("Rows codes ",rows.value)
-      })
+    const jwt = computed(() => {
+      return $store.getters["loginModule/getJwt"];
+    });
 
-      return{
-        columns,
-        rows,
-        dialog_deleteConfirm: ref(false),
+    axios.get(`${WebApi.server}/allDiscountCode`,
+      {
+        headers: {
+          Authorization: "Bearer " + jwt.value,
+        },
+        withCredentials: true,
       }
+    ).then(re => {
+      rows.value = re.data.sort((a, b) => b.id - a.id)
+
+
+      // console.log("Rows codes ",rows.value)
+    })
+
+    return {
+      columns,
+      rows,
+      dialog_deleteConfirm: ref(false),
+      jwt,
+    }
+  },
+  methods: {
+    editDiscountCode(props) {
+      console.log("props.row ", props.row)
+      this.$router.push("/admin/discountCode/Detail/" + props.row.id)
     },
-    methods:{
-      editDiscountCode(props){
-        console.log("props.row ",props.row)
-        this.$router.push("/admin/discountCode/Detail/"+props.row.id)
-      },
-      deleteDiscountCode(props){
+    deleteDiscountCode(props) {
 
-        console.log("props a0" ,props.row)
-        this.$q.dialog(
-          {
-            title:'Xác nhận Xóa Code',
-            message: 'Bạn có thực sự muốn xóa mã giảm giá '+ props.row.description +' không?',
-            // cancel:true,
+      console.log("props a0", props.row)
+      this.$q.dialog(
+        {
+          title: 'Xác nhận Xóa Code',
+          message: 'Bạn có thực sự muốn xóa mã giảm giá ' + props.row.description + ' không?',
+          // cancel:true,
 
 
-            persistent:true,//User can not dismmiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it!
-            ok:{
-              push:true
-            },
-            cancel: {
-              push:true,
-              color: 'negative'
-            }
-
+          persistent: true,//User can not dismmiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it!
+          ok: {
+            push: true
+          },
+          cancel: {
+            push: true,
+            color: 'negative'
           }
-        ).onOk(() => {
+
+        }
+      ).onOk(() => {
 
 
-          axios.delete(`${WebApi.server}/deleteCodeBy/`+props.row.id).then((re) => {
-              if(re.data == 1){
-                let indexCode = rows.value.indexOf(props.row)
-          rows.value.splice(indexCode,1)
-              this.$q.notify({
-                message: 'Đã xóa code '+ props.row.description,
-                color: 'positive',
-                avatar: `${WebApi.iconUrl}`
-              })
-              }
-
-          })
-        }).onCancel(() => {
-        }).onDismiss(() => {
+        axios.delete(`${WebApi.server}/deleteCodeBy/` + props.row.id,
+          {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
+        ).then((re) => {
+          if (re.data == 1) {
+            let indexCode = rows.value.indexOf(props.row)
+            rows.value.splice(indexCode, 1)
+            this.$q.notify({
+              message: 'Đã xóa code ' + props.row.description,
+              color: 'positive',
+              avatar: `${WebApi.iconUrl}`
+            })
+          }
 
         })
+      }).onCancel(() => {
+      }).onDismiss(() => {
 
-      }
+      })
+
     }
   }
+}
 </script>

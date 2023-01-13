@@ -1,7 +1,7 @@
 <template>
 
   <q-page class="q-pa-lg">
-    <div class="flex flex-center text-h5" >
+    <div class="flex flex-center text-h5">
       <div v-if="this.$route.params.discountCodeId == 0">
         Thêm mã code
       </div>
@@ -14,13 +14,15 @@
     <div class="flex flex-center">
       <div style="max-width:300px">
         <q-form @submit="saveCodeDiscount">
-          <div  class="row" v-if="code.status != undefined">
+          <div class="row" v-if="code.status != undefined">
             <div style="align-self: center;color:green" v-if="code.status == 'valid'">Còn hiệu lực</div>
 
             <div style="align-self: center;color:red" v-else>Hết hiệu lực</div>
 
             <div>
-              <q-btn flat :label="code.status == 'valid' ? 'Stop' : 'Mở Code'" :color="code.status == 'valid' ? 'negative' : 'positive'" @click="changeDiscountCodeSatus(code)"></q-btn>
+              <q-btn flat :label="code.status == 'valid' ? 'Stop' : 'Mở Code'"
+                :color="code.status == 'valid' ? 'negative' : 'positive'"
+                @click="changeDiscountCodeSatus(code)"></q-btn>
             </div>
           </div>
           <div style="" class="row q-mt-sm q-col-gutter-md">
@@ -101,17 +103,33 @@ export default {
 
     const $q = useQuasar();
 
+    const $store = useStore();
+
+
+    const jwt = computed(() => {
+      return $store.getters["loginModule/getJwt"];
+    });
+
+
     if (route.params.discountCodeId == 0) {
       code.value = {}
     } else {
 
-      axios.get(`${WebApi.server}/discountCodeBy/` + route.params.discountCodeId).then(response => {
+      axios.get(`${WebApi.server}/discountCodeBy/` + route.params.discountCodeId,
+        {
+          headers: {
+            Authorization: "Bearer " + jwt.value,
+          },
+          withCredentials: true,
+        }
+      ).then(response => {
         code.value = response.data
 
         console.log("code.value ", code.value)
       })
     }
     return {
+      jwt,
       code,
       input_DiscontPercent: ref(false),
     }
@@ -129,37 +147,61 @@ export default {
       code.value.status = 'valid'
       console.log("save Code Discount", code.value)
 
-      axios.post(`${WebApi.server}/saveDiscountCode`, code.value).then(() => {
+      axios.post(`${WebApi.server}/saveDiscountCode`, code.value,
+
+        {
+          headers: {
+            Authorization: "Bearer " + this.jwt,
+          },
+          withCredentials: true,
+        }
+      ).then(() => {
         this.$router.push("/admin/discountCode")
         console.log("code discount save!")
       })
     },
-    changeDiscountCodeSatus(code){
-      if(code.status == 'valid'){
+    changeDiscountCodeSatus(code) {
+      if (code.status == 'valid') {
         code.status = 'invalid'
 
 
-              axios.post(`${WebApi.server}/saveDiscountCode`, code).then(() => {
-        // this.$router.push("/admin/discountCode")
-        // console.log("code discount save!")
+        axios.post(`${WebApi.server}/saveDiscountCode`, code,
 
-        this.$q.notify({
-                message: 'Đã cập nhập Code ',
-                color: 'positive',
-                avatar: `${WebApi.iconUrl}`
-              })
-      })
+          {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
+        ).then(() => {
+          // this.$router.push("/admin/discountCode")
+          // console.log("code discount save!")
 
-      }else{
-        code.status = 'valid'
-        axios.post(`${WebApi.server}/saveDiscountCode`, code).then(() => {
           this.$q.notify({
-                message: 'Đã cập nhập Code ',
-                color: 'positive',
-                avatar: `${WebApi.iconUrl}`
-              })
+            message: 'Đã cập nhập Code ',
+            color: 'positive',
+            avatar: `${WebApi.iconUrl}`
+          })
+        })
 
-      })
+      } else {
+        code.status = 'valid'
+        axios.post(`${WebApi.server}/saveDiscountCode`, code,
+
+          {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
+        ).then(() => {
+          this.$q.notify({
+            message: 'Đã cập nhập Code ',
+            color: 'positive',
+            avatar: `${WebApi.iconUrl}`
+          })
+
+        })
 
 
       }

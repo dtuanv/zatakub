@@ -1,6 +1,17 @@
 import { priceCalculator } from "/src/logic/logic.js";
 
 
+export const SET_DRAWITEMS = (state, drawItems) => {
+
+
+
+
+  state.drawItems = drawItems
+
+  console.log("state.drawItems  ",state.drawItems )
+}
+
+
 export const SET_PRODUCT = (state, product) => {
   // console.log("SET_Product")
   // state.products = product;

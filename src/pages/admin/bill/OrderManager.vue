@@ -9,20 +9,20 @@
       <div class="q-ml-sm"><q-btn icon="restart_alt" color="positive" @click="reloadPage"></q-btn></div>
     </div>
     <div class="flex flex-center text-h5 q-mb-md">
-     <div v-if="isBillAWeek == 'true'">
-      Quản lý đơn hàng ZaTaKub từ: {{ lastWeek }} đến : {{ todayFormated }}
+      <div v-if="isBillAWeek == 'true'">
+        Quản lý đơn hàng ZaTaKub từ: {{ lastWeek }} đến : {{ todayFormated }}
 
-     </div>
-     <div v-else>
-      Tất cả đơn của Zatakub
-     </div>
-     <div  v-if="isBillAWeek == 'true'" style="margin-left:100px">
-      <q-btn label="All" @click="getAllBill()"></q-btn>
-     </div>
+      </div>
+      <div v-else>
+        Tất cả đơn của Zatakub
+      </div>
+      <div v-if="isBillAWeek == 'true'" style="margin-left:100px">
+        <q-btn label="All" @click="getAllBill()"></q-btn>
+      </div>
 
-     <div v-else  style="margin-left:100px">
-      <q-btn label="A Week"  @click="getBillInAWeek()"></q-btn>
-     </div>
+      <div v-else style="margin-left:100px">
+        <q-btn label="A Week" @click="getBillInAWeek()"></q-btn>
+      </div>
 
     </div>
 
@@ -187,6 +187,17 @@ export default {
 
     const route = useRoute()
 
+    const $store = useStore();
+
+
+
+
+
+    const jwt = computed(() => {
+      return $store.getters["loginModule/getJwt"];
+    });
+
+
     const today = Date.now();
 
     const isBillAWeek = ref('true')
@@ -208,7 +219,15 @@ export default {
     // /getBillAWeek/from/08-01-2023/to/25-01-2023
     function getBillData() {
 
-      axios.get(`${WebApi.server}/getBillAWeek/from/` + lastWeek + '/to/' + todayFormated.value).then((re) => {
+      axios.get(`${WebApi.server}/getBillAWeek/from/` + lastWeek + '/to/' + todayFormated.value,
+
+        {
+          headers: {
+            Authorization: "Bearer " + jwt.value,
+          },
+          withCredentials: true,
+        }
+      ).then((re) => {
         bills.value = re.data.sort((a, b) => b.id - a.id)
         bills.value = bills.value.sort((a, b) => {
           let stA = a.status.toUpperCase()
@@ -273,7 +292,15 @@ export default {
 
     function getNumUnreadBillF() {
 
-      axios.get(`${WebApi.server}/getNumUnreadBill`).then((re) => {
+      axios.get(`${WebApi.server}/getNumUnreadBill`,
+
+        {
+          headers: {
+            Authorization: "Bearer " + jwt.value,
+          },
+          withCredentials: true,
+        }
+      ).then((re) => {
         numUnreadBill.value = re.data
 
         if (numUnreadBill.value > route.params.numUnread) {
@@ -288,6 +315,7 @@ export default {
     getNumUnreadBillF()
     getBillData()
     return {
+      jwt,
 
       bills,
       numberWithCommas,
@@ -301,19 +329,29 @@ export default {
     }
   },
   methods: {
-    getBillInAWeek(){
+    getBillInAWeek() {
       this.getBillData()
 
       this.$q.notify({
-          message: 'Hiển thị đơn hàng trong 1 tuần qua',
-          color: "positive",
-          avatar: `${WebApi.iconUrl}`,
-        })
+        message: 'Hiển thị đơn hàng trong 1 tuần qua',
+        color: "positive",
+        avatar: `${WebApi.iconUrl}`,
+      })
 
-        this.isBillAWeek = 'true'
+      this.isBillAWeek = 'true'
     },
-    getAllBill(){
-      axios.get(`${WebApi.server}/allBill`).then((re) => {
+    getAllBill() {
+      axios.get(`${WebApi.server}/allBill`,
+
+
+        {
+          headers: {
+            Authorization: "Bearer " + this.jwt,
+          },
+          withCredentials: true,
+        }
+
+      ).then((re) => {
         bills.value = re.data.sort((a, b) => b.id - a.id)
         bills.value = bills.value.sort((a, b) => {
           let stA = a.status.toUpperCase()
@@ -341,10 +379,10 @@ export default {
       })
 
       this.$q.notify({
-          message: 'Hiển thị tất cả đơn hàng',
-          color: "positive",
-          avatar: `${WebApi.iconUrl}`,
-        })
+        message: 'Hiển thị tất cả đơn hàng',
+        color: "positive",
+        avatar: `${WebApi.iconUrl}`,
+      })
     },
     reloadPage() {
       this.$router.push("/admin/orderManager/numUnread/" + numUnreadBill.value)
@@ -372,7 +410,15 @@ export default {
       } else {
         bill.status = 'unread'
       }
-      axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
+      axios.post(`${WebApi.server}/saveBillItem`, bill,
+
+        {
+          headers: {
+            Authorization: "Bearer " + this.jwt,
+          },
+          withCredentials: true,
+        }
+      ).then(() => {
         this.$q.notify({
           message: 'Đã cập nhật trạng thái của đơn hàng',
           color: "positive",

@@ -29,3 +29,7 @@ export function getRo(state){
   return state.ro
 }
 
+export function getDrawItems(state) {
+  return state.drawItems
+}
+

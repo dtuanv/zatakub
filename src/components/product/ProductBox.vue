@@ -614,6 +614,14 @@ export default {
     let countItem = ref(0);
     let countCart = ref(0);
 
+
+
+    const jwt = computed(() => {
+      return $store.getters["loginModule/getJwt"];
+    });
+
+
+
     const ro = computed({
       get: () => $store.state.cache.ro,
     });
@@ -650,6 +658,7 @@ export default {
     }
 
     return {
+      jwt,
       selected_file,
       selected_file2,
       selected_file3,
@@ -739,12 +748,12 @@ export default {
 
         axios.delete(`${WebApi.server}/admin/product/delete/` + product.id,
 
-          // {
-          //   headers: {
-          //     Authorization: "Bearer " + jwt.value,
-          //   },
-          //   withCredentials: true,
-          // }
+        {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
         )
           .then(response => {
             window.localStorage.setItem("productId", product.id);
@@ -774,11 +783,28 @@ export default {
       // this.$store.dispatch("cache/changeStatusProduct",product)
       if (product.status == 'on') {
         product.status = 'off'
-        axios.post(`${WebApi.server}/changeStatusTo/off/id/` + product.id).then(
+        axios.post(`${WebApi.server}/changeStatusTo/off/id/` + product.id,
+
+          {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
+
+        ).then(
         )
       } else {
         product.status = 'on'
-        axios.post(`${WebApi.server}/changeStatusTo/on/id/` + product.id).then(
+        axios.post(`${WebApi.server}/changeStatusTo/on/id/` + product.id,
+
+          {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
+        ).then(
         )
       }
 
@@ -786,10 +812,27 @@ export default {
     changeSaleStatus(product) {
       if (product.sale == 't') {
         product.sale = 'f'
-        axios.post(`${WebApi.server}/changeSaleTo/f/id/` + product.id)
+        axios.post(`${WebApi.server}/changeSaleTo/f/id/` + product.id,
+
+          {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
+        )
       } else {
         product.sale = 't'
-        axios.post(`${WebApi.server}/changeSaleTo/t/id/` + product.id)
+        axios.post(`${WebApi.server}/changeSaleTo/t/id/` + product.id,
+
+          {
+            headers: {
+              Authorization: "Bearer " + this.jwt,
+            },
+            withCredentials: true,
+          }
+        )
+
       }
 
     },
@@ -799,7 +842,7 @@ export default {
 
     file_selected(file) {
 
-      console.log("files ", file)
+      // console.log("files ", file)
 
       this.selected_file = file[0];
       this.check_if_document_upload = true;
@@ -807,13 +850,13 @@ export default {
 
     file_selected2(file) {
 
-      console.log("files2 ", file)
+      // console.log("files2 ", file)
       this.selected_file2 = file[0];
     },
 
     file_selected3(file) {
 
-      console.log("files3 ", file)
+      // console.log("files3 ", file)
       this.selected_file3 = file[0];
     },
 
@@ -826,14 +869,17 @@ export default {
 
       const fd = new FormData();
 
-      console.log("this.selected_file ",this.selected_file)
+      // console.log("this.selected_file ",this.selected_file)
       fd.append("file", this.selected_file);
 
-      console.log("fdd ",fd)
+      console.log("fdd ", fd)
       axios.post(`${WebApi.server}/upload`, fd, {
         headers: {
-        "Content-Type": "multipart/form-data"
-      },
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + this.jwt,
+        },
+        withCredentials: true,
+
       }).then(function (response) {
         if (response.data.ok) {
 
@@ -850,8 +896,12 @@ export default {
 
       axios.post(`${WebApi.server}/upload`, fd, {
         headers: {
-        "Content-Type": "multipart/form-data"
-      },
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + this.jwt,
+        },
+        withCredentials: true,
+
+
       }).then(function (response) {
         if (response.data.ok) {
 
@@ -865,7 +915,14 @@ export default {
       const fd = new FormData();
       fd.append("file", this.selected_file3);
       axios.post(`${WebApi.server}/upload`, fd, {
-        headers: { 'Content-Type': undefined },
+        headers: {
+
+          "Content-Type": "multipart/form-data",
+
+          Authorization: "Bearer " + this.jwt,
+        },
+        withCredentials: true,
+
       }).then(function (response) {
         if (response.data.ok) {
 
@@ -878,7 +935,13 @@ export default {
       const fd = new FormData();
       fd.append("file", this.selected_file4);
       axios.post(`${WebApi.server}/upload`, fd, {
-        headers: { 'Content-Type': undefined },
+        headers: {
+          "Content-Type": "multipart/form-data",
+
+          Authorization: "Bearer " + this.jwt,
+        },
+        withCredentials: true,
+
       }).then(function (response) {
         if (response.data.ok) {
 
@@ -931,7 +994,15 @@ export default {
         product.mark = this.$route.params.mark
       }
 
-      axios.post(`${WebApi.server}/saveProduct`, product).then((re) => {
+      axios.post(`${WebApi.server}/saveProduct`, product,
+        {
+          headers: {
+            Authorization: "Bearer " + this.jwt,
+          },
+          withCredentials: true,
+        }
+
+      ).then((re) => {
         console.log("server return ", re.data)
       }
 
