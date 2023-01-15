@@ -72,6 +72,10 @@ export default route(function ({ store, ssrContext }) {
       "/admin"
     ]
     // const authRequired = !publicPages.includes(to.path);
+    console.log("to.name ",to.name)
+    if(to.name == undefined){
+      to.name = ''
+    }
       const authRequired = to.name.includes('admin');
 
 

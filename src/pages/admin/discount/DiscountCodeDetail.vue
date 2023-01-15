@@ -12,7 +12,7 @@
     </div>
 
     <div class="flex flex-center">
-      <div style="max-width:300px">
+      <div style="max-width:400px">
         <q-form @submit="saveCodeDiscount">
           <div class="row" v-if="code.status != undefined">
             <div style="align-self: center;color:green" v-if="code.status == 'valid'">Còn hiệu lực</div>
@@ -41,20 +41,31 @@
 
           </div>
 
-          <div class="row q-mt-md q-col-gutter-md">
 
 
+          <div v-if="this.$route.params.discountCodeId == 0" class="row q-mt-md q-col-gutter-md">
             <div v-if="input_DiscontPercent" class=" col-5 ">
               <q-input outlined v-model.number="code.discount" label="Giảm giá %" type="number"
                 :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
-
-
             </div>
             <div v-else class="col-5">
-              <q-input outlined label="giảm giá money" v-model.number="code.discount" type="number"
-                :rules="[val => (0 < val && val < 20000000) || 'Vui lòng nhập lại money giảm giá']"></q-input>
+              <q-input outlined label="Giảm giá tiền" v-model.number="code.discount" type="number"
+                :rules="[val => (0 < val && val < 20000000) || 'Vui lòng nhập lại số tiền giảm giá']"></q-input>
+            </div>
+            <div class="col-5">
+              <q-btn label="Change" @click="changeInputDiscount"></q-btn>
+            </div>
+          </div>
 
 
+          <div v-else class="row q-mt-md q-col-gutter-md">
+            <div v-if="input_DiscontPercent || code.discount < 100 " class=" col-5 ">
+              <q-input outlined v-model.number="code.discount" label="Giảm giá %" type="number"
+                :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
+            </div>
+            <div v-else class="col-5">
+              <q-input outlined label="Giảm giá tiền" v-model.number="code.discount" type="number"
+                :rules="[val => (0 < val && val < 20000000) || 'Vui lòng nhập lại số tiền giảm giá']"></q-input>
             </div>
             <div class="col-5">
               <q-btn label="Change" @click="changeInputDiscount"></q-btn>
@@ -144,7 +155,10 @@ export default {
     },
     saveCodeDiscount() {
 
-      code.value.status = 'valid'
+      if (this.$route.params.discountCodeId == 0) {
+        code.value.status = 'valid'
+
+      }
       console.log("save Code Discount", code.value)
 
       axios.post(`${WebApi.server}/saveDiscountCode`, code.value,

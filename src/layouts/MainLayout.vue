@@ -90,11 +90,22 @@
           </q-route-tab>
 
 
-          <q-route-tab v-if="role === 'ADMIN' || role === 'USER'" @click="setRole">SETADMIN</q-route-tab>
+          <q-route-tab v-if="role === 'ADMIN' || role === 'USER'" @click="setRole">
+            <div v-if="ro == 'admin'">
+              OffAdmin
+            </div>
+
+            <div v-else>
+              SETADMIN
+
+            </div>
+
+          </q-route-tab>
           <!-- markt end -->
         </q-tabs>
         <!-- to shoping cart -->
-        <q-btn class="absolute-top-right q-mt-sm q-mr-md" flat icon="shop" to="/shopping">
+        <q-btn v-if="role !== 'ADMIN' && role !== 'USER'" class="absolute-top-right q-mt-sm q-mr-md" flat icon="shop"
+          to="/shopping">
           <q-badge color="red" floating transparent>
             {{ cartItemCount }}
           </q-badge>
@@ -119,7 +130,7 @@
             <q-item-section> Admin</q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/product/sale">
+          <q-item clickable v-ripple to="/product/sale" @mouseover="mouseOverResetAllMenuCat()">
             <q-item-section avatar>
               <q-img src="/img/icon/saleIcon.png" style="color: coral;" />
             </q-item-section>
@@ -180,9 +191,9 @@
                   <div v-if="inputAddMarkt == true" v-for="addMark, i in qItem.markDtos.filter(m => {
                     return m.name == ''
                   })" :key="i">
-                    <q-input class="q-mt-md" label="new mark" v-model="qItem.markDtos.filter(m => {
+                    <q-input class="q-mt-md" label="Danh mục mới" v-model="qItem.markDtos.filter(m => {
                       return m.name == ''
-                    })[i].label" square filled style="width:6rem" autogrow></q-input>
+                    })[i].label" square filled style="min-width:1rem" autogrow></q-input>
 
                   </div>
                   <q-btn icon="add" flat color="positive"
@@ -190,7 +201,7 @@
 
                   <q-btn v-if="inputAddMarkt == true" label="save" color="positive" @click="saveMark(qItem.markDtos.filter(m => {
                     return m.name == ''
-                  }))"></q-btn>
+                  }), qItem)"></q-btn>
                 </div>
 
               </div>
@@ -206,6 +217,27 @@
 
             <q-item-section> Admin </q-item-section>
           </q-item>
+
+
+          <q-item v-if="role === 'ADMIN' || role === 'USER'" clickable @click="setRole">
+            <q-item-section avatar>
+              <q-icon name="person" />
+            </q-item-section>
+
+            <q-item-section>
+              <div v-if="ro == 'admin'">
+              OffAdmin
+            </div>
+
+            <div v-else>
+              SETADMIN
+
+            </div>
+
+            </q-item-section>
+          </q-item>
+
+
 
           <q-item v-if="role == ''" clickable v-ripple to="/loginPage">
             <q-item-section avatar>
@@ -294,9 +326,24 @@
 
 
         <div class="animation" style="width:100%">
-          <div v-if="$q.screen.gt.sm" class="animation-text" style="color:red;">Zatakub chúc quý khách một năm mới an
-            khang thịnh vượng</div>
-          <div v-else class="animation-text" style="color:red;">Zatakub chúc quý khách một năm mới an khang thịnh vượng
+          <div v-if="$q.screen.gt.sm" class="animation-text row" style="color:red;">
+            <div>
+              Zatakub xin chúc mừng năm mới. Mong 1 năm đầy may lành, hạnh phúc, thành công, sức khoẻ dồi dào tới tất cả mọi người.
+            </div>
+            <div>
+              <q-avatar size="xs">
+                <img src="/img/upload/notice/phaohoa.png">
+              </q-avatar>
+              <q-avatar size="xs">
+                <img src="/img/upload/notice/phaohoaicon.jpg">
+              </q-avatar>
+              <!-- <q-img  src="/img/upload/notice/phaohoa.png">
+              </q-img>
+              <q-img  src="/img/upload/notice/phaohoaicon.jpg">
+              </q-img> -->
+            </div>
+          </div>
+          <div v-else class="animation-text-mobil" style="color:red;">Zatakub gửi lời chúc mừng năm mới tới tất cả mọi người.
           </div>
           <div style="width:100%" class="row">
             <div :class="$q.screen.gt.sm ? 'col-11' : 'col-12'">
@@ -615,7 +662,15 @@ export default {
       this.$store.dispatch("cache/setAdminRole")
 
     },
+
+    mouseOverResetAllMenuCat() {
+      drawItems.value.forEach(d => {
+        d.menu_cat = false
+      })
+    },
+
     fmouseoverAllowOnlyOne(item) {
+
       drawItems.value.forEach(d => {
         d.menu_cat = false
       })
@@ -638,14 +693,20 @@ export default {
       ).then(
       )
     },
-    saveMark(newMarks) {
+    saveMark(newMarks, qItem) {
+
+      console.log("g qItem ", qItem)
+
       // let arr = [{ toLink: '/product/category/america/mark/goldWell', label: 'CHI', drawItemId: 7 }, { toLink: '/product/category/america/mark/spWella', label: 'OLAPLEX', drawItemId: 7 }]
 
 
       newMarks.forEach(nm => {
-        nm.toLink = '/product/category/' + this.$route.params.category + '/mark/' + nm.label
+        nm.toLink = qItem.link + '/mark/' + nm.label
         // nm.drawItemId =
       })
+
+
+      console.log("newMarks ", newMarks)
 
       axios.post(`${WebApi.server}/saveMark`, newMarks,
         {
@@ -654,19 +715,28 @@ export default {
           },
           withCredentials: true,
         }
-      ).then(
+      ).then((re) => {
+
+        qItem.menu_cat = false
+
+
+        this.$router.push('/admin')
+
         this.$q.notify(
           {
-            message: " product was updated",
+            message: " Đã lưu danh mục",
 
             color: "positive",
             avatar: `${WebApi.iconUrl}`,
           }
         )
+
+      }
       )
     },
     addMarkForCategory(qItem) {
 
+      console.log(" qItem ",)
       qItem.markDtos.push({ name: '', drawItemId: qItem.id })
 
     },
@@ -675,7 +745,7 @@ export default {
       this.$q.dialog(
         {
           title: 'Xác nhận Xóa ',
-          message: 'Bạn có thực sự muốn xóa  ' + mark.label + ' không?',
+          message: ' Bạn có thực sự muốn xóa mục ' + mark.label + ' không?',
           // cancel:true,
 
 
@@ -736,7 +806,16 @@ export default {
   font-weight: bold;
   color: #fbfbfb;
   animation-name: rightToLeft;
-  animation-duration: 30s;
+  animation-duration: 25s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.animation-text-mobil {
+  font-weight: bold;
+  color: #fbfbfb;
+  animation-name: rightToLeft;
+  animation-duration: 15s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }

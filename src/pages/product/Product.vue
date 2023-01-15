@@ -5,20 +5,23 @@
       <q-btn label="Admin edit" @click="setRole"></q-btn>
     </div> -->
 
-    <div class="flex flex-center row " v-if="categoryPath != undefined">
-      <div class="text-h5" style="color: cadetblue; font-family: emoji;">
-        {{ categoryPath.title }}
+    <div class="flex flex-center  " v-if="categoryPath != undefined">
+      <div class="row" style="border: 2px solid coral;">
+        <div class="text-h5 q-pl-sm" style="color: cadetblue; font-family: emoji; align-self: center;">
+          {{ categoryPath.title }}
 
+        </div>
+        <div v-if="$route.params.mark" class="q-pa-sm text-h5 ">
+          //
+        </div>
+        <div class="text-body q-pt-xs q-pr-sm" style="color:brown;align-self: center;">
+          {{ $route.params.mark }}
+        </div>
       </div>
-      <div v-if="$route.params.mark" class="q-pa-sm text-h5">
-        //
-      </div>
-      <div class="text-body q-pt-xs" style="color:brown">
-        {{ $route.params.mark }}
-      </div>
+
     </div>
-    <div v-else>
-      <div class="text-h5 flex flex-center" style="color: red; font-family: emoji;">HOT SALE %%</div>
+    <div v-else style="" class="flex flex-center">
+      <div class="text-h5  q-pl-sm q-pr-sm" style="color: red; font-family: emoji;border: 2px solid coral;">HOT SALE %%</div>
     </div>
 
 
@@ -139,7 +142,6 @@
       </q-card>
     </q-dialog>
 
-    <div class="q-mt-lg">status Prodkut wurde erstellt! spater für Admin Seite muss Infor der Status anzeigen! </div>
   </q-page>
 </template>
 <script>
@@ -495,8 +497,8 @@ export default {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: "Bearer " + this.jwt,
-            },
-            withCredentials: true,
+        },
+        withCredentials: true,
 
       }).then(function (response) {
         if (response.data.ok) {

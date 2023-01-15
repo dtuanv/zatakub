@@ -13,12 +13,25 @@
             </div>
           </q-td>
         </template>
+        <template v-slot:body-cell-discount="props">
+          <q-td :props="props" :class="props.row.status == 'invalid' ? 'bg-red ' : 'bg-green'">
+              <div v-if="props.row.discount > 100" >
+                {{ numberWithCommas(props.row.discount) }} đ
+              </div>
+              <div v-else>
+                {{  props.row.discount}} %
+
+              </div>
+          </q-td>
+        </template>
 
         <template v-slot:body-cell="props">
           <q-td :props="props" :class="props.row.status == 'invalid' ? 'bg-red ' : 'bg-green'">
             {{ props.value }}
           </q-td>
         </template>
+
+
 
 
       </q-table>
@@ -43,6 +56,7 @@ import { WebApi } from "/src/apis/WebApi";
 const columns = [
   { name: 'name', label: 'Mã Code', field: 'description' },
   { name: 'status', label: 'Trạng thái', field: 'status' },
+  { name: 'discount', label: 'Giảm giá', field: 'discount' },
   { name: 'quantity', label: 'Số lượng', field: 'quantity' },
   { name: 'actions', label: 'Chức năng', field: 'actions' },
 ]
@@ -89,7 +103,14 @@ export default {
       // console.log("Rows codes ",rows.value)
     })
 
+
+    function numberWithCommas(x) {
+      let round = Math.round(x)
+      return round.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     return {
+      numberWithCommas,
       columns,
       rows,
       dialog_deleteConfirm: ref(false),

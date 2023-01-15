@@ -340,7 +340,7 @@ export default {
 
     const totalCode = ref()
     const checkCodeValid = ref(2)
-    const usedCode = ref(0)
+    const usedCode = ref({})
 
     return {
       districts,
@@ -445,15 +445,13 @@ export default {
   watch: {
     provinceSelected() {
       this.districtSelected = {}
-      console.log("provinceSelected w ", this.provinceSelected)
-      console.log("this.districtsOptions w ", this.districtsOptions)
+
       if (this.provinceSelected != null) {
         this.districtsOptions =
           this.districts.filter((district) => {
             return this.provinceSelected.id == district.province_id
           })
 
-        console.log("this.districtsOptions af ", this.districtsOptions)
 
       }
 
@@ -487,22 +485,27 @@ export default {
         this.badgeNotice.description = '*Vui lòng nhập mã khuyến mãi ạ.'
         this.badgeNotice.sty = 'color: red;background-color: white;'
         this.checkCodeValid = 2
-        this.usedCode = 0
+        this.usedCode.discount = 0
       } else {
         axios.get(`${WebApi.server}/getDiscountCodeByDescription/` + this.codeInput).then(re => {
           let dis = ''
           dis = re.data
 
-          if (dis != undefined && dis.status === 'valid') {
+
+          if (dis != undefined && dis.status === 'valid' && dis.quantity > 0) {
             if (dis.discount < 101) {
               this.totalCode = this.total * (1 - (dis.discount / 100));
               this.badgeNotice.description = 'Mã giảm giá ' + dis.discount + ' % đã áp dụng.'
-              this.usedCode = dis.discount;
+              this.usedCode = dis
+              this.usedCode.discount = dis.discount;
+
+              console.log("dis ",dis)
               // customer.value.code = this.codeInput
             } else {
               this.totalCode = this.total - dis.discount
               this.badgeNotice.description = 'Mã giảm giá ' + this.numberWithCommas(dis.discount) + 'đ đã áp dụng.'
-              this.usedCode = dis.discount
+              this.usedCode = dis
+              this.usedCode.discount = dis.discount
 
             }
 
@@ -514,7 +517,7 @@ export default {
             this.badgeNotice.description = '*Mã giảm giá sai hoặc đã hết hạn.'
             this.badgeNotice.sty = 'color: red;background-color: white;'
             this.checkCodeValid = 2
-            this.usedCode = 0
+            this.usedCode.discount = 0
 
 
           }
@@ -579,6 +582,9 @@ export default {
 
       // console.log("item ", this.items)
       // console.log("Check user : ", customer.value);
+      if(this.usedCode.discount == undefined){
+        this.usedCode.discount = 0
+      }
 
       let bill = {}
 
@@ -588,7 +594,7 @@ export default {
 
       bill.customerDto.address = bill.customerDto.address + ' , ' + this.districtSelected.name + ' , Tỉnh ' + this.provinceSelected.name
 
-      bill.discountCode = this.usedCode
+      bill.discountCode = this.usedCode.discount
 
       bill.status = 'unread'
 
@@ -605,15 +611,27 @@ export default {
 
 
       if (this.totalCode == undefined) {
-        this.totalCode = this.total
+        this.totalCode = Math.round(this.total)
       }
 
-      bill.total = this.total
+      bill.total = Math.round(this.total)
 
-      bill.totalCode = this.totalCode
+      bill.totalCode = Math.round(this.totalCode)
 
       if (bill.discountCode > 0) {
         bill.codeInput = this.codeInput
+
+        console.log("this.usedCode  > 0", this.usedCode)
+
+        this.usedCode.quantity = parseInt(this.usedCode.quantity)  - 1
+        if(this.usedCode.quantity == 0){
+          this.usedCode.status = 'invalid'
+        }
+
+        bill.discountCodeDto = this.usedCode
+
+        console.log("this.usedCode  > 0 af", this.usedCode)
+
       }
 
       bill.orderDate = this.todayFormated
@@ -627,7 +645,9 @@ export default {
       axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
         console.log("save BillItems")
       }
-      )
+      ).catch(error => {
+        console.log(error)
+      })
 
 
 

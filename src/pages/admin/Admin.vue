@@ -43,7 +43,7 @@
     <q-separator />
     </div>
     <div class="flex flex-center col-12">
-      <q-btn  flat label="Them ma code" to="/admin/discountCode"></q-btn>
+      <q-btn  flat label="Tất cả code" to="/admin/discountCode"></q-btn>
     </div>
     <q-separator />
 

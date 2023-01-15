@@ -748,7 +748,7 @@ export default {
 
         axios.delete(`${WebApi.server}/admin/product/delete/` + product.id,
 
-        {
+          {
             headers: {
               Authorization: "Bearer " + this.jwt,
             },
