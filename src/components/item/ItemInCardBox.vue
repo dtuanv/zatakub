@@ -126,6 +126,7 @@ import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
         dialog_product : ref(false),
         dialog_detail : ref(false),
         priceWithDiscount,
+        getThreeWords,
       }
     },
     methods:{

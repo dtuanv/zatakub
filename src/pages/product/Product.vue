@@ -538,7 +538,9 @@ export default {
         return p.id === 0
       })
 
-      if (intiProduct == undefined) {
+      // if (intiProduct == undefined) {
+
+
         productsCategory.value.push(
           {
             id: 0,
@@ -548,20 +550,20 @@ export default {
             imageUrl3: "",
             imageUrl4: "",
 
-            name: "Nhap Ten Tai Day",
-            price: 130000,
+            name: "",
+            price: 0,
             discount: 30,
-            subtitle: "BỘ .....",
+            subtitle: "Sửa ở dưới.....",
             body: 'subtitle.png',
 
-            description: "miêu tả",
+            description: "....",
 
             sale: 'f',
 
           },
         )
         productsCategory.value = productsCategory.value.sort((a, b) => a.id - b.id)
-      }
+
     }
 
 

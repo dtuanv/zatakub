@@ -25,7 +25,7 @@
                 style=" max-width: 100%; display:block;border: 2px solid cadetblue;height: 9rem;" />
             </div>
             <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true"
-              style="text-transform: capitalize;" label="Chi Tiet"></q-btn>
+              style="text-transform: capitalize;" label="Chi Tiết"></q-btn>
           </div>
 
           <div class="col-7 q-pl-sm">
@@ -303,7 +303,7 @@
           <div class="row q-mt-sm" style="width:100vw">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
               <q-tabs v-model="tab" dense align="left" class="bg-primary text-white shadow-2" :breakpoint="0">
-                <q-tab style="text-transform: capitalize;" name="Description" label="Mo Ta" />
+                <q-tab style="text-transform: capitalize;" name="Description" label="Mô tả thêm" />
                 <!-- <q-tab style="text-transform: capitalize;" name="Ratings & Reviews" label="Ratings & Reviews" />
                 <q-tab style="text-transform: capitalize;" name="test" label="test" /> -->
 
@@ -463,9 +463,9 @@
 
         <q-card-actions v-if="readMoreBtn" style="padding: 9px 0px 0px 0px;"
           @click="readMore = true, readMoreBtn = false" class="flex flex-center ">
-          <q-item clickable style="width: 90%;padding:0px 1px; " class="flex flex-center shadow-14">
+          <q-item clickable style="width: 100%;padding:0px 1px; " class="flex flex-center shadow-14">
             <div>
-              <div>Bam de Xem Them (Mo Ta...)</div>
+              <div>Bấm để xem thêm...</div>
               <div class="flex flex-center">
                 <q-icon name="expand_more" size="md"></q-icon>
               </div>
@@ -500,7 +500,7 @@
           </q-card-section>
           <q-card-actions>
             <div style="width:100%">
-              Thay tên :
+              Tên sản phẩm:
               <q-input v-model="product.name" label="Nhap Ten Tai Day" filled autogrow />
             </div>
 
@@ -525,7 +525,7 @@
 
           <q-card-actions>
             <div class="flex flex-center col-12">
-              <q-btn label="Save" color="positive" type="submit" @click="" />
+              <q-btn label="Tiếp" color="positive" type="submit" @click="" />
             </div>
           </q-card-actions>
         </q-form>
@@ -569,7 +569,7 @@
         </q-card-actions>
         <q-card-actions>
           <div>
-            <q-btn label="Save" @click="saveSubImage()"></q-btn>
+            <q-btn label="OK" @click="saveSubImage()"></q-btn>
           </div>
         </q-card-actions>
       </q-card>

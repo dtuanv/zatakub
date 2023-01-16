@@ -226,13 +226,13 @@
 
             <q-item-section>
               <div v-if="ro == 'admin'">
-              OffAdmin
-            </div>
+                OffAdmin
+              </div>
 
-            <div v-else>
-              SETADMIN
+              <div v-else>
+                SETADMIN
 
-            </div>
+              </div>
 
             </q-item-section>
           </q-item>
@@ -328,7 +328,8 @@
         <div class="animation" style="width:100%">
           <div v-if="$q.screen.gt.sm" class="animation-text row" style="color:red;">
             <div>
-              Zatakub xin chúc mừng năm mới. Mong 1 năm đầy may lành, hạnh phúc, thành công, sức khoẻ dồi dào tới tất cả mọi người.
+              Zatakub xin chúc mừng năm mới. Mong 1 năm đầy may lành, hạnh phúc, thành công, sức khoẻ dồi dào tới tất cả
+              mọi người.
             </div>
             <div>
               <q-avatar size="xs">
@@ -343,10 +344,11 @@
               </q-img> -->
             </div>
           </div>
-          <div v-else class="animation-text-mobil" style="color:red;">Zatakub gửi lời chúc mừng năm mới tới tất cả mọi người.
+          <div v-else class="animation-text-mobil" style="color:red;">Zatakub gửi lời chúc mừng năm mới tới tất cả mọi
+            người.
           </div>
           <div style="width:100%" class="row">
-            <div :class="$q.screen.gt.sm ? 'col-11' : 'col-12'">
+            <div v-if="$q.screen.gt.sm" class="col-11">
               <q-img v-if="$q.screen.gt.sm" src="/img/upload/notice/cmnm.jpg"
                 style="height:auto ; width:100px; background-image: none;" flat></q-img>
 
@@ -357,12 +359,24 @@
                 src="/img/upload/notice/daynoitet.jpg" />
 
               <q-img class="animation-scooter" style="height:auto ; width:100px" src="/img/upload/notice/quymao2.png" />
-              <q-img class="animation-scooter" style="height:auto ; width:100px"
+              <q-img v-if="$q.screen.gt.sm" class="animation-scooter" style="height:auto ; width:100px"
                 src="/img/upload/notice/daynoitet.jpg" />
 
               <q-img class="animation-scooter" style="height:auto ; width:100px"
                 src="/img/upload/notice/tetdenroi.png" />
             </div>
+
+            <div v-else class="col-12">
+
+              <q-img class="animation-scooter-mobil" style="height:auto ; width:100px"
+                src="/img/upload/notice/2023chuc.png" />
+              <q-img class="animation-scooter-mobil" style="height:auto ; width:100px" src="/img/upload/notice/quymao2.png" />
+
+              <q-img class="animation-scooter-mobil" style="height:auto ; width:100px"
+                src="/img/upload/notice/tetdenroi.png" />
+            </div>
+
+
             <div class="col-1" v-if="$q.screen.gt.sm">
               <q-img src="/img/upload/notice/hoamai.jpg" style="height:auto ; width:100px; background-image: none;"
                 class="float-right"></q-img>
@@ -832,6 +846,31 @@ export default {
   }
 
 
+}
+
+
+.animation-scooter-mobil{
+
+  animation: left-to-right-mobil 5s ease-in infinite forwards;
+
+}
+
+@keyframes left-to-right-mobil {
+  /* 100% {
+    transform: translateX(1100%);
+  } */
+
+  0% {
+    left: 0;
+  }
+
+  50% {
+    left: calc(100% - 290px);
+  }
+
+  100% {
+    left: 0;
+  }
 }
 
 /* .animation-image{

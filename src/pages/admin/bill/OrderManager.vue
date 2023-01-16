@@ -27,114 +27,127 @@
     </div>
 
     <div class="row ">
-      <div class="col-1"></div>
-      <q-btn class=" q-mr-md" style="text-transform: capitalize;" label="Only New Bill" @click="setOnlyNewBill"></q-btn>
-      <q-btn class="q-mr-md" style="text-transform: capitalize;" label="Received bill" @click="setReceivedBill"></q-btn>
-      <q-btn style="text-transform: capitalize;" label="All Bill" @Click="setAllBill"></q-btn>
+      <div v-if="!$q.platform.is.mobile" class="col-1"></div>
+      <div class="col-11">
+        <q-btn class=" q-mr-md" style="text-transform: capitalize;" label="Only New Bill"
+          @click="setOnlyNewBill"></q-btn>
+        <q-btn :class="!$q.platform.is.mobile ? 'q-mr-md' : 'q-mr-sm'" style="text-transform: capitalize;"
+          label="Received bill" @click="setReceivedBill"></q-btn>
+        <q-btn style="text-transform: capitalize;" label="All Bill" @Click="setAllBill"></q-btn>
+      </div>
+
     </div>
     <div class="row flex flex-center">
 
       <div v-for="bill in bills" :key="bill">
         <div class="q-pa-sm" style="">
-          <q-card style="min-width:400px; min-height:450px;"
-            :style="bill.status == 'unread' ? 'background-color:burlywood' : ''">
-            <q-card-section
-              :style="bill.status == 'received' ? 'background-color:chartreuse' : 'background-color:brown'">
-              <div v-if="bill.status == 'unread'" class="flex flex-center text-h5">
-                <div style="color:white">
-                  Đơn mới ! Chưa Xem...
+          <q-card class="q-pa-md" :style="!$q.platform.is.mobile ? 'min-width:650px; height:auto;' : ''">
+            <div  :style="bill.status == 'unread' ? 'background-color:burlywood' : ''">
+              <q-card-section
+                :style="bill.status == 'received' ? 'background-color:chartreuse' : 'background-color:brown'">
+                <div v-if="bill.status == 'unread'" class="flex flex-center text-h5">
+                  <div style="color:white">
+                    Đơn mới ! Chưa Xem...
+                  </div>
+                  <div class="q-ml-sm">
+                    <q-btn label="Nhận đơn" color="positive" @click="changeBillStatus(bill)"></q-btn>
+                  </div>
                 </div>
-                <div class="q-ml-sm">
-                  <q-btn label="Nhận đơn" color="positive" @click="changeBillStatus(bill)"></q-btn>
+                <div v-else class="flex flex-center text-h5">
+                  <div>
+                    Đã nhận đơn!!
+                  </div>
+                  <div class="q-ml-xl">
+                    <q-btn label="Chưa nhận" color="negative" @click="changeBillStatus(bill)"></q-btn>
+                  </div>
                 </div>
-              </div>
-              <div v-else class="flex flex-center text-h5">
-                <div>
-                  Đã nhận đơn!!
+              </q-card-section>
+              <q-separator></q-separator>
+              <q-card-section>
+
+                <div>Tên: {{ bill.customerDto.name }}</div>
+                <div>SĐT: {{ bill.customerDto.mobil }}</div>
+
+                <div>Địa chỉ: {{ bill.customerDto.address }}</div>
+                <div>Ghi chú đ/c: {{ bill.customerDto.note }}</div>
+                <div class="row">
+                  <div v-if="bill.paymentMethod == 'card'">Thanh toán chuyển khoản.</div>
+                  <div v-else>Thanh toán Code.</div>
+                  <div v-if="bill.paymentNotice != undefined">Ghi chú thanh toán : {{ bill.paymentNotice }}</div>
                 </div>
-                <div class="q-ml-xl">
-                  <q-btn label="Chưa nhận" color="negative" @click="changeBillStatus(bill)"></q-btn>
-                </div>
-              </div>
-            </q-card-section>
-            <q-separator></q-separator>
-            <q-card-section>
 
-              <div>Tên: {{ bill.customerDto.name }}</div>
-              <div>SĐT: {{ bill.customerDto.mobil }}</div>
-
-              <div>Địa chỉ: {{ bill.customerDto.address }}</div>
-              <div>Ghi chú đ/c: {{ bill.customerDto.note }}</div>
-              <div class="row">
-                <div v-if="bill.paymentMethod == 'card'">Thanh toán chuyển khoản.</div>
-                <div v-else>Thanh toán Code.</div>
-                <div v-if="bill.paymentNotice != undefined">Ghi chú thanh toán : {{ bill.paymentNotice }}</div>
-              </div>
-
-              <div>Ngày đặt hàng: {{ bill.orderDate }}</div>
+                <div>Ngày đặt hàng: {{ bill.orderDate }}</div>
 
 
-            </q-card-section>
-            <q-separator></q-separator>
+              </q-card-section>
+              <q-separator></q-separator>
 
-            <q-card-actions>
-              <div class="row">
-                <div>
-                  <div v-for="item in bill.itemSet" :key="item">
-                    <div class="">
-                      <itemInCardBox :item="item">
+              <q-card-actions>
+                <div class="row">
+                  <div>
+                    <div v-for="item in bill.itemSet" :key="item">
+                      <div class="">
+                        <itemInCardBox :item="item">
 
-                      </itemInCardBox>
+                        </itemInCardBox>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
 
-            </q-card-actions>
+              </q-card-actions>
 
-            <q-separator></q-separator>
+              <q-separator></q-separator>
 
-            <q-card-actions>
-              <div style="width:100%" class="row">
+              <q-card-actions>
+                <div style="width:100%" class="row">
 
-                <div class="col-6">
+                  <div class="col-6">
 
 
-                  <div class="flex flex-center"
-                    style="border: 4px solid cadetblue; color: coral; height: 3.9em;padding: 14px 7px;">
-                    <div
-                      :style="bill.totalCode < bill.total ? 'text-decoration-line: line-through;text-decoration-color: red;' : ''">
-                      Tổng: {{ numberWithCommas(bill.total) }} đ.
+                    <div class="flex flex-center"
+                      style="border: 4px solid cadetblue; color: coral; height: 3.9em;" :style="$q.platform.is.mobile ? 'padding: 0px 0px':'padding: 14px 7px;'">
+                      <div
+                        :style="bill.totalCode < bill.total ? 'text-decoration-line: line-through;text-decoration-color: red;' : ''">
+                        Tổng: {{ numberWithCommas(bill.total) }} đ.
+                      </div>
+                      <div class="q-ml-sm" v-if="bill.codeInput != '' && bill.codeInput != undefined">
+                        Code đã nhập:{{ bill.codeInput }}
+                      </div>
+
                     </div>
-                    <div class="q-ml-sm">
-                      Code đã nhập:{{ bill.codeInput }}
-                    </div>
+
 
                   </div>
 
+                  <div v-if="bill.discountCode > 0" class="col-6">
+                    <div  class="flex flex-center"
+                      style="border: 4px solid red; color: black;height: 3.9em;" :style="$q.platform.is.mobile ? 'padding: 0px 0px':'padding: 14px 7px;'">
+                      <div v-if="bill.discountCode > 100" style="color:blueviolet">
+                        - {{ numberWithCommas(bill.discountCode) }} đ.
+                      </div>
+                      <div v-else>
+                        - {{ bill.discountCode }} %
+                      </div>
+                      <div v-if="$q.platform.is.mobile" class="">
+                        Tổng mới: {{ numberWithCommas(bill.totalCode) }} đ
 
-                </div>
+                      </div>
 
-                <div class="col-6">
-                  <div class="flex flex-center"
-                    style="border: 4px solid red; color: black;height: 3.9em;padding: 14px 7px;">
-                    <div v-if="bill.discountCode > 100" style="color:blueviolet">
-                      - {{ numberWithCommas(bill.discountCode) }} đ.
+                      <div v-else class="q-ml-sm">
+                        = Tổng mới: {{ numberWithCommas(bill.totalCode) }} đ
+
+                      </div>
+
                     </div>
-                    <div v-else>
-                      - {{ bill.discountCode }} %
-                    </div>
-                    <div class="q-ml-sm">
-                      = Tổng mới: {{ numberWithCommas(bill.totalCode) }} đ
-
-                    </div>
-
                   </div>
-                </div>
 
-              </div>
-            </q-card-actions>
+                </div>
+              </q-card-actions>
+
+            </div>
+
           </q-card>
         </div>
 

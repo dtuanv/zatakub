@@ -107,7 +107,7 @@ export default {
       try {
         if (
           code.value ===
-          "nuradminmoiduojckjdkhfhdangnha#sdsd/*/8988()&%pvaonha51515+784934.,nxzs2@3f³"
+          "nuradtaminmozaiduojckjdkhfhdangnha#sdsd/*/8988()&%pvaonha51515+784kub934.,nxzs2@3f³"
         ) {
           ajaxBar.value.start();
           $store.dispatch("isLoadingModule/setIsLoadingToTrue");
