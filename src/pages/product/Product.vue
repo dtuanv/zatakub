@@ -88,7 +88,7 @@
         </div>
         <!-- <div > -->
 
-        <div :style="$q.screen.lt.sm ? '' : 'max-width:8%'" :class="$q.screen.lt.sm ? 'row' : ''">
+        <div v-if="!$q.platform.is.mobile" :style="$q.screen.lt.sm ? '' : 'max-width:8%'" :class="$q.screen.lt.sm ? 'row' : ''">
           <div class="q-pt-lg ">
             <q-btn class="btn" flat>
               <q-avatar><img src="/img/icon/zalo.png" alt="" /></q-avatar>

@@ -820,7 +820,7 @@ export default {
   font-weight: bold;
   color: #fbfbfb;
   animation-name: rightToLeft;
-  animation-duration: 25s;
+  animation-duration: 40s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
