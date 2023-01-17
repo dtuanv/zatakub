@@ -21,7 +21,8 @@
 
     </div>
     <div v-else style="" class="flex flex-center">
-      <div class="text-h5  q-pl-sm q-pr-sm" style="color: red; font-family: emoji;border: 2px solid coral;">HOT SALE %%</div>
+      <div class="text-h5  q-pl-sm q-pr-sm" style="color: red; font-family: emoji;border: 2px solid coral;">HOT SALE %%
+      </div>
     </div>
 
 
@@ -88,58 +89,64 @@
         </div>
         <!-- <div > -->
 
-        <div v-if="!$q.platform.is.mobile" :style="$q.screen.lt.sm ? '' : 'max-width:8%'" :class="$q.screen.lt.sm ? 'row' : ''">
+        <div class="float-right" v-if="!$q.platform.is.mobile" :style="$q.screen.lt.sm ? '' : 'max-width:8%;position:fixed; z-index:200; right:0;top: 275px;'"
+          :class="$q.screen.lt.sm ? 'row' : ''">
           <div class="q-pt-lg ">
             <q-btn class="btn" flat>
               <q-avatar><img src="/img/icon/zalo.png" alt="" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
-            <q-btn class="btn" flat>
+            <q-btn class="btn" flat href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub"
+              target="_blank">
               <q-avatar><img src="/img/icon/facebook.png" alt="" /></q-avatar>
             </q-btn>
           </div>
 
           <div class="q-pt-sm btnS">
-            <q-btn class="btn" flat>
+            <q-btn class="btn" flat
+              href="https://shopee.vn/shop/196811123?utm_source=an_17171860000&utm_medium=affiliates&utm_campaign=&utm_content=SellerVN-196811123"
+              target="_blank">
               <q-avatar><img src="/img/icon/shopee.png" alt="" /></q-avatar>
             </q-btn>
           </div>
-          <div class="q-pt-sm">
-            <q-btn class="btn" flat>
+          <div class="q-pt-sm"   >
+            <q-btn class="btn" flat href="https://www.lazada.vn/shop/zatakub/?path=promotion-36612-0.htm&tab=promotion" target="_blank">
               <q-avatar><img src="/img/icon/lazada.png" alt="" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
-            <q-btn class="btn" flat>
+            <q-btn class="btn" flat href="https://www.instagram.com/myphamtocchinhhangzatakub/"
+              target="_blank">
               <q-avatar><img src="/img/icon/instagram.png" alt="" /></q-avatar>
             </q-btn>
           </div>
-          <div class="q-pt-sm">
+          <!-- <div class="q-pt-sm">
             <q-btn class="btn" flat>
               <q-avatar><img src="/img/icon/sendo.png" alt="" /></q-avatar>
             </q-btn>
-          </div>
+          </div> -->
 
         </div>
       </div>
     </div>
+
     <q-dialog v-model="hinweis_dialog" v-if="notice.status == 'on'">
-      <q-card style="width: 65vw">
+      <q-card style="width: 65vw; ">
         <q-card-action>
-          <div class="flex flex-center text-h5" style="color: cadetblue">
-            Hinweis
-          </div>
+          <div class="flex flex-center text-h5" style="color:cadetblue;">Thông báo</div>
+
         </q-card-action>
         <q-separator></q-separator>
         <q-card-selections>
-          <div class="q-pa-lg flex flex-center">
+          <div class="q-pa-lg flex flex-center" >
             <div>
-              {{ notice.description }}
-            </div>
+              <q-card-section  v-html="notice.description" />
+              </div>
           </div>
         </q-card-selections>
       </q-card>
+
     </q-dialog>
 
   </q-page>
@@ -207,7 +214,6 @@ export default {
 
       categoryPath.value = re.data.find(d => { return d.link.includes(route.params.category) })
 
-      console.log("categoryPath.value ", categoryPath.value)
       if (categoryPath.value != undefined) {
         filterMarkOptions.value = categoryPath.value.markDtos
 
@@ -416,15 +422,15 @@ export default {
 
 
     const notice = ref({});
-    // axios.get(`${WebApi.server}/getNotice/productPage`).then((response) => {
-    //   notice.value = response.data;
-    // });
+    axios.get(`${WebApi.server}/getNotice/productPage`).then((response) => {
+      notice.value = response.data;
+    });
 
     const checkParam = ref(route.params.category)
-  function priceWithDiscount(price, discount) {
+    function priceWithDiscount(price, discount) {
       var priceInt = parseInt(price);
       var rest = discount / 100;
-      return Math.round((priceInt * (1 - rest)) / 1000) * 1000 ;
+      return Math.round((priceInt * (1 - rest)) / 1000) * 1000;
     }
     function removeAccents(str) {
       return str.normalize('NFD')
@@ -433,7 +439,6 @@ export default {
 
     }
 
-    console.log("productsCategory.value  out", productsCategory.value)
 
 
     return {
@@ -541,28 +546,28 @@ export default {
       // if (intiProduct == undefined) {
 
 
-        productsCategory.value.push(
-          {
-            id: 0,
-            status: 'off',
-            imageUrl: "roomInKonstanz.png",
-            imageUrl2: "",
-            imageUrl3: "",
-            imageUrl4: "",
+      productsCategory.value.push(
+        {
+          id: 0,
+          status: 'off',
+          imageUrl: "roomInKonstanz.png",
+          imageUrl2: "",
+          imageUrl3: "",
+          imageUrl4: "",
 
-            name: "",
-            price: 0,
-            discount: 30,
-            subtitle: "Sửa ở dưới.....",
-            body: 'subtitle.png',
+          name: "",
+          price: 0,
+          discount: 30,
+          subtitle: "Sửa ở dưới.....",
+          body: 'subtitle.png',
 
-            description: "....",
+          description: "....",
 
-            sale: 'f',
+          sale: 'f',
 
-          },
-        )
-        productsCategory.value = productsCategory.value.sort((a, b) => a.id - b.id)
+        },
+      )
+      productsCategory.value = productsCategory.value.sort((a, b) => a.id - b.id)
 
     }
 
@@ -614,7 +619,6 @@ export default {
 
     },
     products() {
-      console.log("p")
     },
 
     filterMarkSelected() {

@@ -39,7 +39,6 @@ export default route(function ({ store, ssrContext }) {
     ),
   });
 // console.log("Store ",store )
-  console.log("storin route", store.state.loginModule.loggedIn)
   // console.log("storin route Roleeeee", store.state.loginModule.role)
   // console.log("storin role route", store.state.cache)
 
@@ -72,7 +71,6 @@ export default route(function ({ store, ssrContext }) {
       "/admin"
     ]
     // const authRequired = !publicPages.includes(to.path);
-    console.log("to.name ",to.name)
     if(to.name == undefined){
       to.name = ''
     }

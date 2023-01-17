@@ -8,21 +8,22 @@
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" to="/">
-          <q-avatar style="width: 51px; height: 39px"><img src="/img/icon/nha.png" alt="" /></q-avatar>
+          <q-avatar style="width: 51px; height: 39px"><img src="/img/icon/logo2.png" alt="" /></q-avatar>
           <q-toolbar-title shrink class="text-weight-bold">
             <div class="">
-              <div style="font-family: cursive; font-size: 20px; color: darkslategray">
-                ZATAKUB
+              <div :style="$q.platform.is.mobile ? 'font-family: emoji;' : 'font-family: cursive;'"
+                style=" font-size: 20px; color: darkcyan">
+                Zatakub
               </div>
             </div>
           </q-toolbar-title>
         </q-btn>
 
         <q-tabs v-if="$q.screen.gt.sm" class="text-weight-bold">
-          <q-route-tab style="text-transform: capitalize;" :to="'/product'">Khuyến Mãi</q-route-tab>
-          <q-route-tab style="text-transform: capitalize;" :to="'/product'">Thương Hiệu</q-route-tab>
+          <q-route-tab style="text-transform: capitalize;" :to="'/product/sale'">Khuyến Mãi</q-route-tab>
+          <!-- <q-route-tab style="text-transform: capitalize;" :to="'/product'">Thương Hiệu</q-route-tab> -->
           <!-- Product begind -->
-          <q-route-tab style="text-transform: capitalize;  " :to="'/product'">
+          <q-route-tab style="text-transform: capitalize;  " >
 
             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
               @mouseover="menu_cat_product = true">
@@ -30,21 +31,29 @@
               <q-menu fit @mouseleave="menu_cat_product = false" v-model="menu_cat_product" transition-show="flip-right"
                 transition-hide="flip-left">
                 <q-list dense class="text-grey-9 text-caption">
-                  <q-item to="/product/category/hair" clickable>
-                    <q-item-section>Thuốc nhuộm tóc</q-item-section>
+                  <q-item to="/product/category/hairDye" clickable>
+                    <q-item-section>Màu nhuộm tại nhà</q-item-section>
                   </q-item>
-                  <q-item to="/product/category/whitening" clickable>
-                    <q-item-section>Dưỡng Trắng</q-item-section>
+                  <q-item to="/product/category/hairCosmetic" clickable>
+                    <q-item-section>Mỹ phẩm tóc</q-item-section>
                   </q-item>
-                  <q-item @click="$router.push('/category')" clickable>
-                    <q-item-section>Combo</q-item-section>
+                  <q-item to="/product/category/skin" clickable>
+                    <q-item-section>Mỹ phẩm da</q-item-section>
                   </q-item>
 
-                  <q-item @click="$router.push('/category')" clickable>
-                    <q-item-section>Ringo - Nhật</q-item-section>
+                  <q-item to="/product/category/hairDevice" clickable>
+                    <q-item-section>Dụng cụ làm tóc</q-item-section>
                   </q-item>
-                  <q-item @click="$router.push('/category')" clickable>
-                    <q-item-section>label. M - Anh</q-item-section>
+                  <q-item to="/product/category/manCosmetic" clickable>
+                    <q-item-section>Mỹ phẩm nam</q-item-section>
+                  </q-item>
+
+                  <q-item to="/product/category/beautyEquipment" clickable>
+                    <q-item-section>Thiết bị làm đẹp</q-item-section>
+                  </q-item>
+
+                  <q-item to="/product/category/essentialOil" clickable>
+                    <q-item-section>Sản phẩm thiên nhiên</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -54,11 +63,11 @@
           </q-route-tab>
           <!-- Product end -->
 
-          <q-route-tab style="text-transform: capitalize;" @click="saveMark">Giới Thiệu</q-route-tab>
-          <q-route-tab style="text-transform: capitalize;" @click="saveDrawItemF">Liên Hệ</q-route-tab>
+          <!-- <q-route-tab style="text-transform: capitalize;" @click="">Giới Thiệu</q-route-tab>
+          <q-route-tab style="text-transform: capitalize;" to="/contact">Liên Hệ</q-route-tab> -->
 
           <!-- markt begin -->
-          <q-route-tab style="text-transform: capitalize;  " :to="'/product'">
+          <q-route-tab style="text-transform: capitalize;  " >
 
             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
               @mouseover="menu_cat_mark = true">
@@ -66,21 +75,30 @@
               <q-menu fit @mouseleave="menu_cat_mark = false" v-model="menu_cat_mark" transition-show="flip-right"
                 transition-hide="flip-left">
                 <q-list dense class="text-grey-9 text-caption">
-                  <q-item @click="$router.push('/category')" clickable>
-                    <q-item-section>Wella - Đức</q-item-section>
+                  <q-item to="/product/category/korean" clickable>
+                    <q-item-section>Thương hiệu Hàn</q-item-section>
                   </q-item>
-                  <q-item @click="$router.push('/category')" clickable>
-                    <q-item-section>Oyster - Ý</q-item-section>
+                  <q-item to="/product/category/england" clickable>
+                    <q-item-section>Thương hiệu Anh</q-item-section>
                   </q-item>
-                  <q-item @click="$router.push('/category')" clickable>
-                    <q-item-section>Algo - Ý</q-item-section>
+                  <q-item to="/product/category/australia" clickable>
+                    <q-item-section>Thương hiệu Úc</q-item-section>
                   </q-item>
 
-                  <q-item @click="$router.push('/category')" clickable>
-                    <q-item-section>Ringo - Nhật</q-item-section>
+                  <q-item to="/product/category/france" clickable>
+                    <q-item-section>Thương hiệu Pháp</q-item-section>
                   </q-item>
-                  <q-item @click="$router.push('/category')" clickable>
-                    <q-item-section>label. M - Anh</q-item-section>
+                  <q-item to="/product/category/italy" clickable>
+                    <q-item-section>Thương hiệu Ý</q-item-section>
+                  </q-item>
+
+                  <q-item to="/product/category/japan" clickable>
+                    <q-item-section>Thương hiệu Nhật</q-item-section>
+                  </q-item>
+
+
+                  <q-item to="/product/category/america" clickable>
+                    <q-item-section>Thương hiệu Mỹ</q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
@@ -271,13 +289,63 @@
 
     <!-- (Optional) The Footer -->
 
-    <q-footer>
+    <q-footer style="background-color: burlywood;">
+
+      <div class="flex flex-center" >
+        <q-tabs  v-if="!$q.screen.gt.sm" switch-indicator style="background-color: burlywood;">
 
 
-      <q-tabs v-if="!$q.screen.gt.sm" switch-indicator style="background-color: cadetblue">
-        <q-route-tab icon="yard" :to="{ name: 'product', params: { id: 1 } }" replace label="Khuyến mãi" />
-        <q-route-tab icon="book_online" to="/aboutMe" replace label="" />
-      </q-tabs>
+          <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 20px;" href="tel:+840389059923"
+            target="_blank">
+            <q-item-section>
+              <q-avatar>
+                <img src="/img/icon/call.png" alt="">
+              </q-avatar>
+            </q-item-section>
+          </q-item>
+
+          <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 15px;"
+            href="https://shopee.vn/shop/196811123?utm_source=an_17171860000&utm_medium=affiliates&utm_campaign=&utm_content=SellerVN-196811123"
+            target="_blank">
+            <q-item-section>
+              <q-avatar>
+                <img src="/img/icon/shopee.png" alt="">
+              </q-avatar>
+            </q-item-section>
+          </q-item>
+
+
+          <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 15px;"
+            href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub" target="_blank">
+            <q-item-section>
+              <q-avatar>
+                <img src="/img/icon/facebook.png" alt="">
+              </q-avatar>
+            </q-item-section>
+          </q-item>
+
+          <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 15px;"
+            href="https://www.instagram.com/myphamtocchinhhangzatakub/" target="_blank">
+            <q-item-section>
+              <q-avatar>
+                <img src="/img/icon/instagram.png" alt="">
+              </q-avatar>
+            </q-item-section>
+          </q-item>
+
+
+          <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 15px;"
+            href="https://www.lazada.vn/shop/zatakub/?path=promotion-36612-0.htm&tab=promotion" target="_blank">
+            <q-item-section>
+              <q-avatar>
+                <img src="/img/icon/lazada.png" alt="">
+              </q-avatar>
+            </q-item-section>
+          </q-item>
+          <!-- <q-route-tab icon="book_online" to="/aboutMe" replace label="" /> -->
+        </q-tabs>
+      </div>
+
     </q-footer>
 
 
@@ -295,7 +363,7 @@
 
           <!-- noticeImageMobil.imageUrl   noticeImageDesktop.imageUrl -->
           <q-item v-else style="padding: 0px 0px" clickable to="/product/sale">
-            <q-img style="height:45px" :src="'/img/upload/notice/mungxuanDt.png' "></q-img>
+            <q-img style="height:45px" :src="'/img/upload/notice/mungxuanDt.png'"></q-img>
           </q-item>
         </div>
         <div v-if="ro == 'admin'" class="flex flex-center">
@@ -372,7 +440,8 @@
 
               <q-img class="animation-scooter-mobil" style="height:auto ; width:100px"
                 src="/img/upload/notice/2023chuc.png" />
-              <q-img class="animation-scooter-mobil" style="height:auto ; width:100px" src="/img/upload/notice/quymao2.png" />
+              <q-img class="animation-scooter-mobil" style="height:auto ; width:100px"
+                src="/img/upload/notice/quymao2.png" />
 
               <q-img class="animation-scooter-mobil" style="height:auto ; width:100px"
                 src="/img/upload/notice/tetdenroi.png" />
@@ -417,62 +486,64 @@ import Header from "/src/components/header/Header.vue";
 
 
 
-const drawItems = ref([
+// const drawItems = ref([
 
-  {
-    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairstyle.png', title: 'Màu nhuộm tại nhà', menu_cat: false,
-  },
+//   {
+//     role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairstyle.png', title: 'Màu nhuộm tại nhà', menu_cat: false,
+//   },
 
-  {
-    role: '', link: '/product/category/hairCosmetic', imgLink: '/img/icon/layout/salonCosmetic.png', title: 'Mỹ phẩm tóc', menu_cat: false
-
-
-  },
-
-  {
-    role: '', link: '/product/category/skin', imgLink: '/img/icon/layout/skin.png', title: 'Mỹ phẩm Da', menu_cat: false,
-  },
-
-  {
-    role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairdevice.png', title: 'Dụng cụ làm tóc', menu_cat: false
-  },
-
-  {
-    role: '', link: '/product/category/manCosmetic', imgLink: '/img/icon/layout/iconMan.png', title: 'Mỹ phẩm nam', menu_cat: false,
-  },
-
-  {
-    role: '', link: '/product/category/america', imgLink: '/img/icon/americanFlag.png', title: 'Thương hiệu Mỹ ', menu_cat: false,
-  },
+//   {
+//     role: '', link: '/product/category/hairCosmetic', imgLink: '/img/icon/layout/salonCosmetic.png', title: 'Mỹ phẩm tóc', menu_cat: false
 
 
+//   },
 
-  {
-    role: '', link: '/product/category/australia', imgLink: '/img/icon/flag/australia.png', title: 'Thương hiệu Úc ', menu_cat: false,
-  },
+//   {
+//     role: '', link: '/product/category/skin', imgLink: '/img/icon/layout/skin.png', title: 'Mỹ phẩm Da', menu_cat: false,
+//   },
 
-  {
-    role: '', link: '/product/category/korean', imgLink: '/img/icon/flag/korean.png', title: 'Thương hiệu Hàn ', menu_cat: false,
-  },
+//   {
+//     role: '', link: '/product/category/hairDevice', imgLink: '/img/icon/layout/hairdevice.png', title: 'Dụng cụ làm tóc', menu_cat: false
+//   },
 
-  {
-    role: '', link: '/product/category/england', imgLink: '/img/icon/flag/england.png', title: 'Thương hiệu Anh ', menu_cat: false,
-  },
+//   {
+//     role: '', link: '/product/category/manCosmetic', imgLink: '/img/icon/layout/iconMan.png', title: 'Mỹ phẩm nam', menu_cat: false,
+//   },
 
-  {
-    role: '', link: '/product/category/france', imgLink: '/img/icon/flag/france.png', title: 'Thương hiệu Pháp ', menu_cat: false,
-  },
+//   {
+//     role: '', link: '/product/category/america', imgLink: '/img/icon/americanFlag.png', title: 'Thương hiệu Mỹ ', menu_cat: false,
+//   },
 
 
-  {
-    role: '', link: '/product/category/italy', imgLink: '/img/icon/flag/italy.png', title: 'Thương hiệu Ý ', menu_cat: false,
-  },
 
-  {
-    role: '', link: '/product/category/japan', imgLink: '/img/icon/flag/japan.png', title: 'Thương hiệu Nhật ', menu_cat: false,
-  },
+//   {
+//     role: '', link: '/product/category/australia', imgLink: '/img/icon/flag/australia.png', title: 'Thương hiệu Úc ', menu_cat: false,
+//   },
 
-])
+//   {
+//     role: '', link: '/product/category/korean', imgLink: '/img/icon/flag/korean.png', title: 'Thương hiệu Hàn ', menu_cat: false,
+//   },
+
+//   {
+//     role: '', link: '/product/category/england', imgLink: '/img/icon/flag/england.png', title: 'Thương hiệu Anh ', menu_cat: false,
+//   },
+
+//   {
+//     role: '', link: '/product/category/france', imgLink: '/img/icon/flag/france.png', title: 'Thương hiệu Pháp ', menu_cat: false,
+//   },
+
+
+//   {
+//     role: '', link: '/product/category/italy', imgLink: '/img/icon/flag/italy.png', title: 'Thương hiệu Ý ', menu_cat: false,
+//   },
+
+//   {
+//     role: '', link: '/product/category/japan', imgLink: '/img/icon/flag/japan.png', title: 'Thương hiệu Nhật ', menu_cat: false,
+//   },
+
+// ])
+
+const drawItems = ref([])
 
 const addMarks = ref([
 
@@ -541,7 +612,6 @@ export default {
       // let draw = []
       drawItems.value = re.data.sort((a, b) => a.orderDrawItem - b.orderDrawItem)
 
-      console.log("show drawItem", drawItems.value)
 
     })
     const role = computed({
@@ -851,7 +921,7 @@ export default {
 }
 
 
-.animation-scooter-mobil{
+.animation-scooter-mobil {
 
   animation: left-to-right-mobil 5s ease-in infinite forwards;
 

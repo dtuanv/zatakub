@@ -11,7 +11,7 @@ function getInitialState(){
   const token = getJwtFromStorage();
   const role = getUserRoleFromStrorage();
 
-  console.log("Cheack time saved Token", token)
+  // console.log("Cheack time saved Token", token)
   if(isValueEmpty(token)){
     return {loggedIn: false, jwt: "",role:""};
 
@@ -84,7 +84,7 @@ export const loginModule = {
       }
     },
     doLogout({commit}){
-      console.log("commit dologout")
+      // console.log("commit dologout")
       commit("logout");
     },
   },

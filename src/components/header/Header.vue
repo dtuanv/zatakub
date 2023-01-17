@@ -43,7 +43,7 @@
               <q-icon size="xs" name="pin_drop" style="    color: chocolate;"></q-icon>
             </div>
             <div class="col-11">
-              Địa chỉ: 10/7 Thạnh Lộc 19, Phường Thạnh Lộc, Quận 12, TP Hồ Chí Minh
+              Địa chỉ: 7/101 Thành Thái, P14, Q10, TP Hồ Chí Minh
             </div>
           </div>
 
@@ -68,7 +68,7 @@
             </div>
 
             <div class="col-11">
-              Email : daovanoanh180198@gmail
+              Email : Myphamtocchinhhangzatakubdvo@gmail.com
             </div>
           </div>
 
@@ -147,8 +147,8 @@
 
           </div>
           <div>
-            <q-btn flat style="padding: 0px 0px 0px 0px" href="https://www.facebook.com/profile.php?id=100087438932902"
-              target="_blank">
+            <q-btn flat style="padding: 0px 0px 0px 0px"
+              href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub" target="_blank">
               <q-avatar><img src="/img/icon/facebook.png " alt="" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
                   ? 'height: 35px; width: 36px;margin-left: 9px;'
@@ -158,8 +158,8 @@
             </q-btn>
           </div>
           <div>
-            <q-btn flat style="padding: 0px 0px 0px 0px" href="https://www.instagram.com/kotoasiankitchen/"
-              target="_blank">
+            <q-btn flat style="padding: 0px 0px 0px 0px"
+              href="https://www.instagram.com/myphamtocchinhhangzatakub/" target="_blank">
               <q-avatar><img src="/img/icon/instagram.png " alt="" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
                   ? 'height: 35px; width: 36px;margin-left: 9px;'
@@ -170,8 +170,8 @@
           </div>
 
           <div>
-            <q-btn flat style="padding: 0px 0px 0px 0px" href="https://www.instagram.com/kotoasiankitchen/"
-              target="_blank">
+            <q-btn flat style="padding: 0px 0px 0px 0px"
+              href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub" target="_blank">
               <q-avatar><img src="/img/icon/zalo.png " alt="" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
                   ? 'height: 35px; width: 36px;margin-left: 9px;'
@@ -182,7 +182,8 @@
           </div>
 
           <div>
-            <q-btn flat style="padding: 0px 0px 0px 0px" href="https://www.instagram.com/kotoasiankitchen/"
+            <q-btn flat style="padding: 0px 0px 0px 0px"
+              href="https://shopee.vn/shop/196811123?utm_source=an_17171860000&utm_medium=affiliates&utm_campaign=&utm_content=SellerVN-196811123"
               target="_blank">
               <q-avatar><img src="/img/icon/shopee.png " alt="" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
@@ -194,9 +195,10 @@
           </div>
 
           <div>
-            <q-btn flat style="padding: 0px 0px 0px 0px" href="https://www.instagram.com/kotoasiankitchen/"
+            <q-btn flat style="padding: 0px 0px 0px 0px"
+              href="https://www.lazada.vn/shop/zatakub/?path=promotion-36612-0.htm&tab=promotion"
               target="_blank">
-              <q-avatar><img src="/img/icon/sendo.png " alt="" :style="
+              <q-avatar><img src="/img/icon/lazada.png " alt="" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
                   ? 'height: 35px; width: 36px;margin-left: 9px;'
                   : 'height: 8vw; width: 8vw'
@@ -236,7 +238,10 @@
     <div :class="$q.platform.is.mobile ? '' : 'row'">
       <div :class="$q.platform.is.mobile ? '' : 'col-5'"></div>
       <div class="flex justify-center" style="margin-top: 2vh; margin-bottom: 5px; color: red">
-        Copyright © 2023 Zatakub
+        <div style="display:inline-block;border: 2px solid cadetblue;height: 1.7rem;">
+          Copyright © 2023 Zatakub
+
+        </div>
       </div>
     </div>
 
@@ -290,9 +295,9 @@
 
 
       </q-card-actions>
-      <div  class="flex flex-center">
-          <q-btn color="positive" label="OK" @click="closePolicyDialog()"></q-btn>
-        </div>
+      <div class="flex flex-center">
+        <q-btn color="positive" label="OK" @click="closePolicyDialog()"></q-btn>
+      </div>
     </q-card>
   </q-dialog>
   <!-- dialog return policy end -->
@@ -327,9 +332,9 @@
           Mọi thông tin giao dịch sẽ được bảo mật ngoại trừ trong trường hợp cơ quan pháp luật yêu cầu.
         </div>
       </q-card-actions>
-      <div  class="flex flex-center">
-          <q-btn color="positive" label="OK" @click="closePolicyDialog()"></q-btn>
-        </div>
+      <div class="flex flex-center">
+        <q-btn color="positive" label="OK" @click="closePolicyDialog()"></q-btn>
+      </div>
     </q-card>
   </q-dialog>
 
@@ -376,9 +381,9 @@
           <div> <b>Cách 2</b>: Thanh toán online qua thẻ tín dụng, chuyển khoản</div>
         </div>
       </q-card-actions>
-      <div  class="flex flex-center">
-          <q-btn color="positive" label="OK" @click="closePolicyDialog()"></q-btn>
-        </div>
+      <div class="flex flex-center">
+        <q-btn color="positive" label="OK" @click="closePolicyDialog()"></q-btn>
+      </div>
     </q-card>
   </q-dialog>
   <!-- webpolicy_dialog end -->
@@ -496,9 +501,9 @@
 
         </div>
       </q-card-actions>
-      <div  class="flex flex-center">
-          <q-btn color="positive" label="OK" @click="closePolicyDialog()"></q-btn>
-        </div>
+      <div class="flex flex-center">
+        <q-btn color="positive" label="OK" @click="closePolicyDialog()"></q-btn>
+      </div>
     </q-card>
   </q-dialog>
 
@@ -523,7 +528,7 @@ export default {
     };
   },
   methods: {
-    closePolicyDialog(){
+    closePolicyDialog() {
       this.return_policy_dialog = false
       this.security_policy_dialog = false
       this.webpolicy_dialog = false

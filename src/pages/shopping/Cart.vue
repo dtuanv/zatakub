@@ -14,11 +14,11 @@
 
           <div class="q-ma-sm row">
 
-            <q-chip style="    height: 3rem;">
+            <q-chip style="    height: 3rem;" :style="$q.platform.is.mobile ? 'margin-left:0px;margin-right:0px;padding: 7px 5px':''">
               <div class="column">
                 <div>
-                  <q-btn icon="add" @click="moreItem(item)" style="font-size: 11px;padding: 8px 6px 0px 1px;color:yellowgreen;"
-                    flat></q-btn>
+                  <q-btn icon="add" @click="moreItem(item)"
+                    style="font-size: 11px;padding: 8px 6px 0px 1px;color:yellowgreen;" flat></q-btn>
                 </div>
                 <div>
                   <q-btn icon="remove" @click="subtractItem(item)" flat
@@ -26,7 +26,7 @@
 
                 </div>
               </div>
-              <div style="margin-right: 24px">{{ item.quantity }} x </div>
+              <div style="margin-right: 16px">{{ item.quantity }} x </div>
               <div>
                 <q-avatar>
                   <img :src="'/img/upload/product/' + item.product.imageUrl">
@@ -132,8 +132,8 @@
           </div>
         </q-card-section>
         <q-separator />
-
-        <q-card-actions vertical>
+        <!-- desktop -->
+        <q-card-actions v-if="!$q.platform.is.mobile" vertical>
 
           <!-- Input Validation -->
           <div class="row">
@@ -142,7 +142,7 @@
                 (!!val && val.length > 1 && val.match(/^([^0-9]*)$/)) || 'Xin vui lòng nhập đúng tên ạ',
             ]"></q-input>
             <div class="col-3"></div>
-            <q-input  filled outlined v-model="customer.mobil" class="col-4 q-ml-sm" label="Số điện thoại" color="white"
+            <q-input filled outlined v-model="customer.mobil" class="col-4 q-ml-sm" label="Số điện thoại" color="white"
               :rules="mobilRules"></q-input>
 
           </div>
@@ -154,7 +154,8 @@
             </div>
             <div class="col-3 q-ml-sm">
               <q-select label="Tỉnh Thành" use-input @filter="filterProvinces" filled square outlined
-                v-model="provinceSelected" :options="provincesOptions" :option-label="(province) => province.name"   :rules="provinceRules"/>
+                v-model="provinceSelected" :options="provincesOptions" :option-label="(province) => province.name"
+                :rules="provinceRules" />
             </div>
 
             <div class="col-3 q-ml-sm">
@@ -164,12 +165,55 @@
 
           </div>
           <div class="row">
-            <q-input  class="col-4" filled outlined label="Ghi chú" v-model="customer.note" autogrow />
+            <q-input class="col-4" filled outlined label="Ghi chú" v-model="customer.note" autogrow />
             <div></div>
           </div>
 
 
         </q-card-actions>
+
+        <!-- mobil -->
+
+        <q-card-actions v-else vertical>
+
+          <!-- Input Validation -->
+          <div class="">
+            <q-input outlined filled v-model="customer.name" class="col-4" label="Họ và Tên" color="white" :rules="[
+              (val) =>
+                (!!val && val.length > 1 && val.match(/^([^0-9]*)$/)) || 'Xin vui lòng nhập đúng tên ạ',
+            ]"></q-input>
+            <div class="col-3"></div>
+            <q-input filled outlined v-model="customer.mobil" class="col-4 " label="Số điện thoại" color="white"
+              :rules="mobilRules"></q-input>
+
+          </div>
+
+          <div class="">
+            <div class="col-4">
+              <q-input filled outlined v-model="customer.address" label="Địa chỉ" color="white" lazy-rules
+                :rules="addresseRules"></q-input>
+            </div>
+            <div class="col-4 ">
+              <q-select label="Tỉnh Thành" use-input @filter="filterProvinces" filled square outlined
+                v-model="provinceSelected" :options="provincesOptions" :option-label="(province) => province.name"
+                :rules="provinceRules" />
+            </div>
+
+            <div class="col-4 ">
+              <q-select label="Quận Huyện" filled square outlined v-model="districtSelected" :options="districtsOptions"
+                :option-label="(district) => district.name" :rules="districtRules" />
+            </div>
+
+          </div>
+          <div class="">
+            <q-input class="col-4" filled outlined label="Ghi chú" v-model="customer.note" autogrow />
+            <div></div>
+          </div>
+
+
+        </q-card-actions>
+
+        <!-- mobil end -->
       </q-card>
       <!-- Payment beginn -->
 
@@ -238,7 +282,8 @@
 
             <div class="flex flex-center" v-if="expand_codPayment == true || expand_cardPayment == true">
               <div v-if="items.length > 0" style="display: flex; justify-content: flex-end;">
-                <q-btn  type="submit" label="Đặt hàng" color="positive" style="font-family: 'Material Icons';width: 150px;"></q-btn>
+                <q-btn type="submit" label="Đặt hàng" color="positive"
+                  style="font-family: 'Material Icons';width: 150px;"></q-btn>
               </div>
             </div>
           </div>
@@ -334,7 +379,7 @@ export default {
 
     }
 
-    function isObjectEmpty(obj){
+    function isObjectEmpty(obj) {
       return Object.keys(obj).length === 0
     }
 
@@ -499,7 +544,7 @@ export default {
               this.usedCode = dis
               this.usedCode.discount = dis.discount;
 
-              console.log("dis ",dis)
+              console.log("dis ", dis)
               // customer.value.code = this.codeInput
             } else {
               this.totalCode = this.total - dis.discount
@@ -582,7 +627,7 @@ export default {
 
       // console.log("item ", this.items)
       // console.log("Check user : ", customer.value);
-      if(this.usedCode.discount == undefined){
+      if (this.usedCode.discount == undefined) {
         this.usedCode.discount = 0
       }
 
@@ -623,8 +668,8 @@ export default {
 
         console.log("this.usedCode  > 0", this.usedCode)
 
-        this.usedCode.quantity = parseInt(this.usedCode.quantity)  - 1
-        if(this.usedCode.quantity == 0){
+        this.usedCode.quantity = parseInt(this.usedCode.quantity) - 1
+        if (this.usedCode.quantity == 0) {
           this.usedCode.status = 'invalid'
         }
 
@@ -650,26 +695,26 @@ export default {
 
 
         this.$q.notify({
-            message: "Bạn đã đặt hàng thành công",
+          message: "Bạn đã đặt hàng thành công",
 
-            color: "positive",
-            avatar: `${WebApi.iconUrl}`,
+          color: "positive",
+          avatar: `${WebApi.iconUrl}`,
 
-          });
+        });
 
-         this.$store.dispatch("cache/resetCartToEmpty")
+        this.$store.dispatch("cache/resetCartToEmpty")
 
 
 
       }
       ).catch(error => {
         this.$q.notify({
-            message: "Có lỗi xảy ra, Đơn hàng chưa được đặt xin vui lòng gọi 0389 059 923 để được tư vấn thêm ạ !",
+          message: "Có lỗi xảy ra, Đơn hàng chưa được đặt xin vui lòng gọi 0389 059 923 để được tư vấn thêm ạ !",
 
-            color: "negative",
-            avatar: `${WebApi.iconUrl}`,
+          color: "negative",
+          avatar: `${WebApi.iconUrl}`,
 
-          });
+        });
         console.log(error)
       })
 

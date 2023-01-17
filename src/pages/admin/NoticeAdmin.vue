@@ -19,130 +19,72 @@
           @click="(notice.status = 'off'), (update_status = true),onSubmit()"
         />
       </div>
-    <div v-if="notice.status == 'on'" class="flex flex-center q-mt-sm">
-      <q-card style="width: 65vw">
-        <q-card-action>
-          <div class="row">
-            <div
-              class="text-h5 col-10 flex flex-center"
-              style="color: cadetblue"
-            >
-              Hinweis
-            </div>
-            <div class="q-ml-sm">
-              <q-btn
-                icon="edit"
-                dense
-                flat
-                style="color: blueviolet"
-                @click="notice_input = true"
-              />
-            </div>
+
+      <!-- Homepage editor -->
+
+
+<div v-if="notice.status == 'on'"  class="q-pa-md q-gutter-sm" >
+        <div v-if="notice_input">
+          <q-editor v-model="notice.description" min-height="5rem" />
+          <div class="flex flex-center">
+            <q-btn label="Submit" @click="onSubmit" color="positive" ></q-btn>
+
           </div>
-        </q-card-action>
-        <q-separator></q-separator>
-        <q-card-selections>
-          <!-- <div v-for="(noti, index) in notice" :key="index"> -->
-          <div>
-            <div v-if="!notice_input" class="q-pa-lg flex flex-center">
-              <div>
-                {{ notice.description }}
-              </div>
-            </div>
-            <div v-else>
-              <q-form @submit="onSubmit">
-                <div class="q-pa-lg flex flex-center">
-                  <q-input
-                    v-model="notice.description"
-                    autogrow
-                    style="width: 100%"
-                  />
-                </div>
-                <div class="flex flex-center">
-                  <q-btn
-                    v-if="notice_input == true"
-                    label="Submit"
-                    color="positive"
-                    type="submit"
-                  />
-                </div>
-              </q-form>
-            </div>
+        </div>
+
+
+        <q-card flat bordered>
+          <div class="row " >
+            <div  class=" text-h5" style="color: cadetblue; width: 61%;display: flex;justify-content: end;">Thông báo</div>
+
+            <q-btn icon="edit" dense flat style="color: blueviolet" @click="notice_input = true" />
           </div>
-        </q-card-selections>
-      </q-card>
-      <!-- q-input    -->
-    </div>
+
+          <q-card-section  v-html="notice.description" />
+        </q-card>
+      </div>
+<!-- Homepage editor -->
+
+
+
     <q-separator class="q-mt-lg"></q-separator>
 
     <div class="row q-pl-md flex flex-center">
-        <div class="text-h6">Productpage : </div>
-        <div class="col-1"></div>
-        <q-btn
-          label="ON"
-          color="positive"
-          @click="(noticeProduct.status = 'on'), (update_statusProductNotice = false),onSubmitNoticeProduct()"
-        />
-        <q-btn
-          label="OFF"
-          color="negative"
-          @click="(noticeProduct.status = 'off'), (update_statusProductNotice = true),onSubmitNoticeProduct()"
-        />
-      </div>
-    <div v-if="noticeProduct.status == 'on'" class="flex flex-center q-mt-sm">
-      <q-card style="width: 65vw">
-        <q-card-action>
-          <div class="row">
-            <div
-              class="text-h5 col-10 flex flex-center"
-              style="color: cadetblue"
-            >
-              Hinweis
-            </div>
-            <div class="q-ml-sm">
-              <q-btn
-                icon="edit"
-                dense
-                flat
-                style="color: blueviolet"
-                @click="noticeProduct_input = true"
-              />
-            </div>
-          </div>
-        </q-card-action>
-        <q-separator></q-separator>
-        <q-card-selections>
-          <!-- <div v-for="(noti, index) in notice" :key="index"> -->
-          <div>
-            <div v-if="!noticeProduct_input" class="q-pa-lg flex flex-center">
-              <div>
-                {{ noticeProduct.description }}
-              </div>
-            </div>
-            <div v-else>
-              <q-form @submit="onSubmitNoticeProduct">
-                <div class="q-pa-lg flex flex-center">
-                  <q-input
-                    v-model="noticeProduct.description"
-                    autogrow
-                    style="width: 100%"
-                  />
-                </div>
-                <div class="flex flex-center">
-                  <q-btn
-                    v-if="noticeProduct_input == true"
-                    label="Submit"
-                    color="positive"
-                    type="submit"
-                  />
-                </div>
-              </q-form>
-            </div>
-          </div>
-        </q-card-selections>
-      </q-card>
-      <!-- q-input    -->
+      <div class="text-h6">Trang sản phẩm : </div>
+      <div class="col-1"></div>
+      <q-btn label="ON" color="positive"
+        @click="(noticeProduct.status = 'on'), (update_statusProductNotice = false), onSubmitNoticeProduct()" />
+      <q-btn label="OFF" color="negative"
+        @click="(noticeProduct.status = 'off'), (update_statusProductNotice = true), onSubmitNoticeProduct()" />
     </div>
+
+
+
+
+<!-- editor -->
+      <div class="q-pa-md q-gutter-sm"  v-if="noticeProduct.status == 'on'">
+        <div v-if="noticeProduct_input">
+          <q-editor v-model="noticeProduct.description" min-height="5rem" />
+          <div class="flex flex-center">
+            <q-btn label="Submit" @click="onSubmitNoticeProduct" color="positive" ></q-btn>
+
+          </div>
+        </div>
+
+
+        <q-card flat bordered>
+          <div class="row " >
+            <div  class=" text-h5" style="color: cadetblue; width: 61%;display: flex;justify-content: end;">Thông báo</div>
+
+            <q-btn icon="edit" dense flat style="color: blueviolet" @click="noticeProduct_input = true" />
+          </div>
+
+          <q-card-section  v-html="noticeProduct.description" />
+        </q-card>
+      </div>
+<!-- editor end -->
+
+
 
   </q-page>
 </template>
@@ -173,7 +115,6 @@ export default {
       })
       .then((response) => {
         notice.value = response.data;
-        console.log("notice.value ",notice.value)
       });
 
       axios

@@ -49,9 +49,9 @@ const routes = [
       //  { path : '/product/:id', name :'product', props:true, component:() => import('src/pages/product/Product.vue')},
 
       {
-        path: "contact",
+        path: "/contact",
         name: "contact",
-        component: () => import("src/pages/customer/Contact.vue"),
+        component: () => import("src/pages/about/Contact.vue"),
       },
       //  Admin
 
@@ -187,11 +187,7 @@ const routes = [
 
 
 
-      {
-        path: "/contact",
-        name: "contact",
-        component: () => import("src/pages/customer/Contact.vue"),
-      },
+
 
       // Customer
       {
