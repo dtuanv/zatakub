@@ -40,13 +40,17 @@
     <div class="row flex flex-center">
 
       <div v-for="bill in bills" :key="bill">
-        <div class="q-pa-sm" style="">
+        <div class="" >
+
           <q-card class="q-pa-md" :style="!$q.platform.is.mobile ? 'min-width:650px; height:auto;' : ''">
-            <div  :style="bill.status == 'unread' ? 'background-color:burlywood' : ''">
+            <q-btn icon="delete" color="negative" @click="deleteBillBy(bill)"></q-btn>
+
+            <div :style="bill.status == 'unread' ? 'background-color:burlywood' : ''">
               <q-card-section
                 :style="bill.status == 'received' ? 'background-color:chartreuse' : 'background-color:brown'">
                 <div v-if="bill.status == 'unread'" class="flex flex-center text-h5">
                   <div style="color:white">
+
                     Đơn mới ! Chưa Xem...
                   </div>
                   <div class="q-ml-sm">
@@ -106,8 +110,8 @@
                   <div class="col-6">
 
 
-                    <div class="flex flex-center"
-                      style="border: 4px solid cadetblue; color: coral; height: 3.9em;" :style="$q.platform.is.mobile ? 'padding: 0px 0px':'padding: 14px 7px;'">
+                    <div class="flex flex-center" style="border: 4px solid cadetblue; color: coral; height: 3.9em;"
+                      :style="$q.platform.is.mobile ? 'padding: 0px 0px' : 'padding: 14px 7px;'">
                       <div
                         :style="bill.totalCode < bill.total ? 'text-decoration-line: line-through;text-decoration-color: red;' : ''">
                         Tổng: {{ numberWithCommas(bill.total) }} đ.
@@ -122,8 +126,8 @@
                   </div>
 
                   <div v-if="bill.discountCode > 0" class="col-6">
-                    <div  class="flex flex-center"
-                      style="border: 4px solid red; color: black;height: 3.9em;" :style="$q.platform.is.mobile ? 'padding: 0px 0px':'padding: 14px 7px;'">
+                    <div class="flex flex-center" style="border: 4px solid red; color: black;height: 3.9em;"
+                      :style="$q.platform.is.mobile ? 'padding: 0px 0px' : 'padding: 14px 7px;'">
                       <div v-if="bill.discountCode > 100" style="color:blueviolet">
                         - {{ numberWithCommas(bill.discountCode) }} đ.
                       </div>
@@ -342,6 +346,29 @@ export default {
     }
   },
   methods: {
+    deleteBillBy(bill){
+      console.log("bill ",bill)
+      axios.delete(`${WebApi.server}/deleteBillBy/`+bill.id,
+      {
+          headers: {
+            Authorization: "Bearer " + this.jwt,
+          },
+          withCredentials: true,
+        }
+      ).then( (re) => {
+
+       let indexB = bills.value.indexOf(bill)
+       bills.value.splice(indexB,1)
+        this.$q.notify({
+        message: 'Đã xóa 1 Bill',
+        color: "positive",
+        avatar: `${WebApi.iconUrl}`,
+      })
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
     getBillInAWeek() {
       this.getBillData()
 

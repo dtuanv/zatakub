@@ -62,7 +62,7 @@
     </div>
 
 
-    <div v-if="ro == 'admin'">
+    <div class="q-ml-xl" v-if="ro == 'admin'">
       <q-btn icon="add" @click="addNewProduct"></q-btn>
     </div>
 
@@ -421,10 +421,10 @@ export default {
     // });
 
     const checkParam = ref(route.params.category)
-    function priceWithDiscount(price, discount) {
+  function priceWithDiscount(price, discount) {
       var priceInt = parseInt(price);
       var rest = discount / 100;
-      return priceInt * (1 - rest);
+      return Math.round((priceInt * (1 - rest)) / 1000) * 1000 ;
     }
     function removeAccents(str) {
       return str.normalize('NFD')

@@ -6,10 +6,11 @@ export class priceCalculator{
   };
 
 
+
   priceWithDiscount(price, discount) {
     var priceInt = parseInt(price);
     var rest = discount / 100;
-    return priceInt * (1 - rest);
+    return Math.round((priceInt * (1 - rest)) / 1000) * 1000 ;
   }
 
 

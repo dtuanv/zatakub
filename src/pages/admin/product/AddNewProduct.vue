@@ -523,10 +523,10 @@ export default {
 
     // $store.state.cart.products.quantity
     // const test = $store.state.cart.quantity
-    function priceWithDiscount(price, discount) {
+  function priceWithDiscount(price, discount) {
       var priceInt = parseInt(price);
       var rest = discount / 100;
-      return priceInt * (1 - rest);
+      return Math.round((priceInt * (1 - rest)) / 1000) * 1000 ;
     }
     function numberWithCommas(x) {
       return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

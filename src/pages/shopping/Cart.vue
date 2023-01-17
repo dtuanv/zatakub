@@ -17,12 +17,12 @@
             <q-chip style="    height: 3rem;">
               <div class="column">
                 <div>
-                  <q-btn icon="add" @click="moreItem(item)" style="font-size: 8px;padding: 2px 5px;color:yellowgreen;"
+                  <q-btn icon="add" @click="moreItem(item)" style="font-size: 11px;padding: 8px 6px 0px 1px;color:yellowgreen;"
                     flat></q-btn>
                 </div>
                 <div>
                   <q-btn icon="remove" @click="subtractItem(item)" flat
-                    style="font-size: 8px;padding: 2px 5px;color:red"></q-btn>
+                    style="font-size: 11px;padding: 2px 6px 0px 1px;color:red"></q-btn>
 
                 </div>
               </div>
@@ -644,8 +644,32 @@ export default {
 
       axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
         console.log("save BillItems")
+        customer.value = {}
+        this.usedCode = {}
+        this.$router.push('/thank')
+
+
+        this.$q.notify({
+            message: "Bạn đã đặt hàng thành công",
+
+            color: "positive",
+            avatar: `${WebApi.iconUrl}`,
+
+          });
+
+         this.$store.dispatch("cache/resetCartToEmpty")
+
+
+
       }
       ).catch(error => {
+        this.$q.notify({
+            message: "Có lỗi xảy ra, Đơn hàng chưa được đặt xin vui lòng gọi 0389 059 923 để được tư vấn thêm ạ !",
+
+            color: "negative",
+            avatar: `${WebApi.iconUrl}`,
+
+          });
         console.log(error)
       })
 

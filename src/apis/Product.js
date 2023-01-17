@@ -1,10 +1,10 @@
 import Api from "./Api"
 
 export default {
-  allProduct(){
-   return Api.get('/product')
+  allProduct() {
+    return Api.get('/product')
   },
-  allCustomer(){
+  allCustomer() {
     return Api.get('/customer')
   }
 }

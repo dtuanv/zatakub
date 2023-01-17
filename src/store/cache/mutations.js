@@ -1,6 +1,11 @@
 import { priceCalculator } from "/src/logic/logic.js";
 
 
+
+export const RESET_CART_TO_EMPTY = (state) => {
+  state.cart = []
+}
+
 export const SET_DRAWITEMS = (state, drawItems) => {
 
 

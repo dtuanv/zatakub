@@ -20,6 +20,10 @@ import { WebApi } from "/src/apis/WebApi";
 //   commit('addNewTodo', payload)
 // }
 
+export const resetCartToEmpty = ({commit}) => {
+  commit('RESET_CART_TO_EMPTY')
+}
+
 export const setDrawItems = ({ commit }) => {
 
 

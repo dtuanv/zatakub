@@ -3,7 +3,7 @@
     <!-- <div>
       <q-btn @click="reloadPage" label="reloadPage"></q-btn>
     </div> -->
-    <q-card style="border: 5px solid cornflowerblue;min-height: 19rem;">
+    <q-card style="border: 5px solid cornflowerblue;min-height: 12rem;">
       <q-card-section>
 
         <!-- only Admin beginn -->
@@ -28,8 +28,8 @@
               style="text-transform: capitalize;" label="Chi Tiết"></q-btn>
           </div>
 
-          <div class="col-7 q-pl-sm">
-            <div class="flex flex-center" style="font-family: emoji; font-size: 1em; ">
+          <div class="col-7 q-pl-md q-pt-md">
+            <div class="flex flex-center" style="font-family: emoji; font-size: 1.1em; ">
               {{ product.name }}
             </div>
 
@@ -47,11 +47,13 @@
                     <div style="text-decoration: line-through">
                       {{ numberWithCommas(product.price) }} đ
                     </div>
-                    <div style="color: red; font-size: 1em;font-family: cursive;" class="q-ml-xs">
+                    <div style="color: red; font-size: 1em;" :style="$q.platform.is.mobile ? '' : 'font-family: cursive;'"
+                      class="q-ml-xs text-weight-bold">
                       (-{{ product.discount }})%
                     </div>
                   </div>
-                  <div class="flex flex-center" style="color: red; font-size: 1em; width: 100%;font-family: fantasy;">
+                  <div class="flex flex-center text-weight-bold" style="color: red; font-size: 1em; width: 100%;"
+                    :style="$q.platform.is.mobile ? '' : 'font-family: fantasy;'">
                     {{
   numberWithCommas(
     priceWithDiscount(product.price, product.discount)
@@ -69,10 +71,10 @@
       <q-card-actions>
         <div class="row" style="width: 100%">
           <div class="row" style="width: 52%">
-            <div style="padding-top: 5px; font-size: 1em">Số lượng:</div>
+            <div style="padding-top: 5px; font-size: 1.1em">Số lượng:</div>
 
-            <div class="">
-              <q-btn @click="subtractItem()" icon="remove" color="negative" flat></q-btn>
+            <div>
+              <q-btn  @click="subtractItem()" icon="remove" color="negative" flat></q-btn>
             </div>
             <q-item style="padding-left: 0px; padding-right: 0px">{{
               countItem
@@ -84,7 +86,7 @@
 
           </div>
 
-          <div class="" style="width: 45%">
+          <div class="" :style=" $q.platform.is.mobile ?  'width: 41%':'width:47%'">
             <div class="row" style="border: 2px solid cadetblue; color: coral; height: 2.2em">
               <q-btn style="padding-bottom: 0.5em" @click="addToCart()" class="float-right" icon="add_shopping_cart"
                 flat />
@@ -104,7 +106,8 @@
       </q-card-actions>
       <!-- Sale begin -->
       <div class="row flex flex-center">
-        <div v-if="product.sale == 't'" class=" text-h5" style="color: red;font-family: cursive;height:2rem">Hot SALE
+        <div v-if="product.sale == 't'" class=" text-h5" style="color: red;height:2rem"
+          :style="$q.platform.is.mobile ? '' : 'font-family: cursive;'">HOT SALE
           %%!
         </div>
         <div v-else style="height:2rem;"></div>
@@ -501,7 +504,7 @@
           <q-card-actions>
             <div style="width:100%">
               Tên sản phẩm:
-              <q-input v-model="product.name" label="Nhap Ten Tai Day" filled autogrow />
+              <q-input v-model="product.name" label="Nhập tên" filled autogrow />
             </div>
 
 
@@ -519,7 +522,7 @@
             <div> Giảm giá %: </div>
             <div class="q-ml-md">
               <q-input v-model.number="product.discount" type="number"
-                :rules="[val => (0 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
+                :rules="[val => (-1 < val && val < 100) || 'Vui lòng nhập lại % giảm giá']" />
             </div>
           </q-card-actions>
 
@@ -542,7 +545,7 @@
           <div v-if="product.imageUrl2 == '' || uploadImage_dialog_im == true">
 
             <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected2"
-              label="Tải ảnh thu 2 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
+              label="Tải ảnh thứ 2 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
 
 
           </div>
@@ -552,7 +555,7 @@
           <div v-if="product.imageUrl3 == '' || uploadImage_dialog_im == true">
 
             <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected3"
-              label="Tải ảnh thu 3 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
+              label="Tải ảnh thứ 3 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
 
 
           </div>
@@ -562,7 +565,7 @@
           <div v-if="product.imageUrl4 == '' || uploadImage_dialog_im == true">
 
             <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected4"
-              label="Tải ảnh thu 4 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
+              label="Tải ảnh thứ 4 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
 
 
           </div>
@@ -632,10 +635,11 @@ export default {
     function priceWithDiscount(price, discount) {
       var priceInt = parseInt(price);
       var rest = discount / 100;
-      return priceInt * (1 - rest);
+      return Math.round((priceInt * (1 - rest)) / 1000) * 1000;
     }
     function numberWithCommas(x) {
       let round = Math.round(x)
+
       return round.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     function addItem() {
@@ -783,7 +787,7 @@ export default {
       // this.$store.dispatch("cache/changeStatusProduct",product)
       if (product.status == 'on') {
         product.status = 'off'
-        axios.post(`${WebApi.server}/changeStatusTo/off/id/` + product.id,
+        axios.get(`${WebApi.server}/changeStatusTo/off/id/` + product.id,
 
           {
             headers: {
@@ -792,11 +796,17 @@ export default {
             withCredentials: true,
           }
 
-        ).then(
-        )
+        ).then(re => {
+          this.$q.notify({
+            message: 'Đã cho sản phẩm vào danh sách hết hàng',
+            color: 'positive',
+            avatar: `${WebApi.iconUrl}`,
+
+          })
+        }).catch((err) => { console.log(err) })
       } else {
         product.status = 'on'
-        axios.post(`${WebApi.server}/changeStatusTo/on/id/` + product.id,
+        axios.get(`${WebApi.server}/changeStatusTo/on/id/` + product.id,
 
           {
             headers: {
@@ -804,15 +814,21 @@ export default {
             },
             withCredentials: true,
           }
-        ).then(
-        )
+        ).then(re => {
+          this.$q.notify({
+            message: 'Đã mở bán sản phẩm',
+            color: 'positive',
+            avatar: `${WebApi.iconUrl}`,
+
+          })
+        }).catch((err) => { console.log(err) })
       }
 
     },
     changeSaleStatus(product) {
       if (product.sale == 't') {
         product.sale = 'f'
-        axios.post(`${WebApi.server}/changeSaleTo/f/id/` + product.id,
+        axios.get(`${WebApi.server}/changeSaleTo/f/id/` + product.id,
 
           {
             headers: {
@@ -820,10 +836,17 @@ export default {
             },
             withCredentials: true,
           }
-        )
+        ).then(re => {
+          this.$q.notify({
+            message: 'Đã Xóa sp khỏi mục Sale.',
+            color: 'positive',
+            avatar: `${WebApi.iconUrl}`,
+
+          })
+        }).catch((err) => { console.log(err) })
       } else {
         product.sale = 't'
-        axios.post(`${WebApi.server}/changeSaleTo/t/id/` + product.id,
+        axios.get(`${WebApi.server}/changeSaleTo/t/id/` + product.id,
 
           {
             headers: {
@@ -831,7 +854,14 @@ export default {
             },
             withCredentials: true,
           }
-        )
+        ).then(re => {
+          this.$q.notify({
+            message: 'Đã chuyển sp sang mục Sale.',
+            color: 'positive',
+            avatar: `${WebApi.iconUrl}`,
+
+          })
+        }).catch((err) => { console.log(err) })
 
       }
 
@@ -1004,20 +1034,37 @@ export default {
 
       ).then((re) => {
         console.log("server return ", re.data)
+
+        this.edit_card = false
+
+        this.dialog_detail = false
+
+        this.uploadImage_dialog = false
+
+        // window.location = window.location
+
+        // window.location.reload(true);
+
+        this.$q.notify({
+          message: 'Đã lưu sản phẩm mới, Ảnh sẽ load lên sau !',
+          color: 'positive',
+          avatar: `${WebApi.iconUrl}`
+        })
+
       }
 
       ).catch(error => {
         console.log(error);
       });
 
-      this.$q.notify({
-        message: "new product was created",
+      // this.$q.notify({
+      //   message: "new product was created",
 
-        color: "positive",
-        avatar: `${WebApi.iconUrl}`,
+      //   color: "positive",
+      //   avatar: `${WebApi.iconUrl}`,
 
-      });
-      console.log("product saved");
+      // });
+      // console.log("product saved");
 
       // window.location.reload();
 
@@ -1049,5 +1096,7 @@ export default {
 };
 </script>
 <style>
-
+.q-btn .q-icon, .q-btn .q-spinner {
+    font-size: 1.8em;
+}
 </style>

@@ -115,10 +115,10 @@ import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
       return round.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    function priceWithDiscount(price, discount) {
+  function priceWithDiscount(price, discount) {
       var priceInt = parseInt(price);
       var rest = discount / 100;
-      return priceInt * (1 - rest);
+      return Math.round((priceInt * (1 - rest)) / 1000) * 1000 ;
     }
 
       return{

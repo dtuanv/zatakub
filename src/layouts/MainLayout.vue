@@ -289,11 +289,13 @@
         <div>
 
           <q-item v-if="$q.screen.gt.sm" style="padding: 0px 0px" clickable to="/product/sale">
-            <q-img style="height:45px" :src="'/img/upload/notice/' + noticeImageDesktop.imageUrl"></q-img>
+            <q-img style="height:45px" :src="'/img/upload/notice/mungxuan.png'"></q-img>
           </q-item>
 
+
+          <!-- noticeImageMobil.imageUrl   noticeImageDesktop.imageUrl -->
           <q-item v-else style="padding: 0px 0px" clickable to="/product/sale">
-            <q-img style="height:45px" :src="'/img/upload/notice/' + noticeImageMobil.imageUrl"></q-img>
+            <q-img style="height:45px" :src="'/img/upload/notice/mungxuanDt.png' "></q-img>
           </q-item>
         </div>
         <div v-if="ro == 'admin'" class="flex flex-center">
@@ -509,15 +511,15 @@ export default {
     const noticeImageMobil = ref({})
     const noticeImageDesktop = ref({})
 
-    axios.get(`${WebApi.server}/getNoticeImage`,
+    // axios.get(`${WebApi.server}/getNoticeImage`,
 
-    ).then((res) => {
-      let noticeImages = res.data
-      noticeImageMobil.value = noticeImages.find(ni => { return ni.category == 'mobil' })
-      noticeImageDesktop.value = noticeImages.find(ni => { return ni.category == 'desktop' })
+    // ).then((res) => {
+    //   let noticeImages = res.data
+    //   noticeImageMobil.value = noticeImages.find(ni => { return ni.category == 'mobil' })
+    //   noticeImageDesktop.value = noticeImages.find(ni => { return ni.category == 'desktop' })
 
 
-    })
+    // })
 
 
     const ro = computed({
@@ -537,7 +539,7 @@ export default {
 
     axios.get(`${WebApi.server}/allDrawItem`).then(re => {
       // let draw = []
-      drawItems.value = re.data.sort((a, b) => a.id - b.id)
+      drawItems.value = re.data.sort((a, b) => a.orderDrawItem - b.orderDrawItem)
 
       console.log("show drawItem", drawItems.value)
 
