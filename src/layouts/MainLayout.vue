@@ -140,7 +140,7 @@
       <q-scroll-area class="fit">
         <q-list padding>
 
-          <q-item v-if="ro == 'admin'" clickable v-ripple to="/admin">
+          <q-item v-if="ro == 'admin' && role === 'ADMIN'" clickable v-ripple to="/admin">
             <q-item-section avatar>
               <q-img src="/img/icon/admin.png" style="color: coral;" />
             </q-item-section>
@@ -187,7 +187,7 @@
 
                     <q-item-section>
                       <div>
-                        <q-badge v-if="ro == 'admin'" style="background-color:aliceblue"><q-btn icon="delete" size="xs"
+                        <q-badge v-if="ro == 'admin' && role === 'ADMIN'" style="background-color:aliceblue"><q-btn icon="delete" size="xs"
                             flat color="negative" @click="deleteMark(qItem.markDtos, mark)"></q-btn></q-badge>
 
                         <div>
@@ -204,7 +204,7 @@
                   </q-item>
 
                 </q-list>
-                <div v-if="ro == 'admin'">
+                <div v-if="ro == 'admin' && role === 'ADMIN'">
 
                   <div v-if="inputAddMarkt == true" v-for="addMark, i in qItem.markDtos.filter(m => {
                     return m.name == ''
@@ -366,7 +366,7 @@
             <q-img style="height:45px" :src="'/img/upload/notice/mungxuanDt.png'"></q-img>
           </q-item>
         </div>
-        <div v-if="ro == 'admin'" class="flex flex-center">
+        <div v-if="ro == 'admin' && role === 'ADMIN'" class="flex flex-center">
           <q-btn icon="edit" @click="editNoticeImage_dialog = true"></q-btn>
         </div>
 
@@ -760,7 +760,7 @@ export default {
       drawItems.value.forEach(d => {
         d.menu_cat = false
       })
-      if (item.markDtos.length > 0 || this.ro == 'admin')
+      if (item.markDtos.length > 0 || this.ro == 'admin' )
         item.menu_cat = true
 
     },

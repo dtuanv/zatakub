@@ -131,21 +131,21 @@
       </div>
     </div>
     <q-dialog v-model="hinweis_dialog" v-if="notice.status == 'on'">
-      <q-card style="width: 65vw">
+      <q-card style="width: 65vw; ">
         <q-card-action>
-          <div class="flex flex-center text-h5" style="color: cadetblue">
-           Thông báo
-          </div>
+          <div class="flex flex-center text-h5" style="color:cadetblue;">Thông báo</div>
+
         </q-card-action>
         <q-separator></q-separator>
         <q-card-selections>
-          <div class="q-pa-lg flex flex-center">
+          <div class="q-pa-lg flex flex-center" >
             <div>
-              {{ notice.description }}
-            </div>
+              <q-card-section  v-html="notice.description" />
+              </div>
           </div>
         </q-card-selections>
       </q-card>
+
     </q-dialog>
 
   </q-page>

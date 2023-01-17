@@ -3,11 +3,11 @@
     <!-- <div>
       <q-btn @click="reloadPage" label="reloadPage"></q-btn>
     </div> -->
-    <q-card style="border: 5px solid cornflowerblue;min-height: 12rem;">
+    <q-card style="border: 5px solid cornflowerblue;" :style="$q.platform.is.mobile ? 'min-height: 12rem;' : 'min-height: 19rem;' ">
       <q-card-section>
 
         <!-- only Admin beginn -->
-        <div v-if="ro == 'admin'">
+        <div v-if="ro == 'admin' && role === 'ADMIN'">
           <q-btn icon="edit" @click='editProduct(product)' dense></q-btn>
           <q-btn class="q-ml-xl" label="ON" :style="product.status == 'on' ? 'background-color:green' : ''"
             @click="changeStatusProduct(product)"></q-btn>
@@ -68,7 +68,7 @@
         </div>
       </q-card-section>
 
-      <q-card-actions>
+      <q-card-actions :class="$q.platform.is.mobile ? '' : ''" >
         <div class="row" style="width: 100%">
           <div class="row" style="width: 52%">
             <div style="padding-top: 5px; font-size: 1.1em">Số lượng:</div>
@@ -111,7 +111,7 @@
           %%!
         </div>
         <div v-else style="height:2rem;"></div>
-        <div v-if="ro == 'admin'">
+        <div v-if="ro == 'admin' && role === 'ADMIN'">
           <q-btn v-if="product.sale == 't'" label="bo sale" color="negative" @click="changeSaleStatus(product)"></q-btn>
           <q-btn v-if="product.sale == 'f'" label="them vao sale" color="negative"
             @click="changeSaleStatus(product)"></q-btn>
@@ -126,7 +126,7 @@
     <q-dialog v-model="dialog_detail">
 
       <q-card :style="$q.screen.lt.sm ? 'max-height:70%' : 'max-width:60%;'">
-        <div v-if="ro == 'admin'">
+        <div v-if="ro == 'admin' && role === 'ADMIN'">
           <q-btn icon="edit" @click='editProductDetail(product)' dense @dblclick="open_editor = false"></q-btn>
           <q-btn class="q-ml-lg" icon="add image"
             @click="uploadImage_dialog_im = true, uploadImage_dialog = true"></q-btn>
@@ -623,6 +623,9 @@ export default {
       return $store.getters["loginModule/getJwt"];
     });
 
+    const role = computed({
+      get: () => $store.state.loginModule.role,
+    });
 
 
     const ro = computed({
@@ -669,6 +672,7 @@ export default {
       selected_file4,
       check_if_document_upload,
       ro,
+      role,
       slide: ref(1),
       stars: ref(4),
       readMore: ref(false),

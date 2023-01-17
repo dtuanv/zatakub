@@ -168,7 +168,7 @@ export default {
         // })
         .then(() => {
           this.$q.notify({
-            message: "Hinweis wurde aktualliert",
+            message: "Đã cập nhật thông báo",
 
             color: "positive",
             avatar: `${WebApi.iconUrl}`,
@@ -207,7 +207,7 @@ export default {
         // })
         .then(() => {
           this.$q.notify({
-            message: "Hinweis wurde aktualliert",
+            message: "Đã cập nhật thông báo",
 
             color: "positive",
             avatar: `${WebApi.iconUrl}`,

@@ -33,6 +33,23 @@ result += arr[i] + ' '
   return result + '...';
 }
 
+
+export function getTenWords(str){
+  var arr = str.split(" ");
+  var result = ''
+  if(arr.length > 10){
+    for(let i = 0 ; i< 10; i++ ){
+      result += arr[i] + ' '
+      }
+  }else{
+    for(let i = 0 ; i< arr.length; i++ ){
+      result += arr[i] + ' '
+      }
+  }
+
+  return result + '...';
+}
+
 export default function isEmpty(str) {
   return !str.trim().length;
 }

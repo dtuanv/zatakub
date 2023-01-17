@@ -26,7 +26,7 @@
 
     </div>
 
-    <div class="row ">
+    <div class="row q-mb-md ">
       <div v-if="!$q.platform.is.mobile" class="col-1"></div>
       <div class="col-11">
         <q-btn class=" q-mr-md" style="text-transform: capitalize;" label="Only New Bill"
@@ -43,7 +43,7 @@
         <div class="" >
 
           <q-card class="q-pa-md" :style="!$q.platform.is.mobile ? 'min-width:650px; height:auto;' : ''">
-            <q-btn icon="delete" color="negative" @click="deleteBillBy(bill)"></q-btn>
+            <!-- <q-btn icon="delete" color="negative" @click="deleteBillBy(bill)"></q-btn> -->
 
             <div :style="bill.status == 'unread' ? 'background-color:burlywood' : ''">
               <q-card-section

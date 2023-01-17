@@ -30,7 +30,7 @@
       <q-badge> = {{ numberWithCommas(item.itemTotal) }} đ</q-badge>
     </div>
     <div v-else>
-      {{ item.product.name }}
+      {{ getTenWords(item.product.name) }}
       <q-badge> = {{ numberWithCommas(item.itemTotal) }} đ</q-badge>
     </div>
   </q-chip>
@@ -102,7 +102,7 @@ import { ref, computed, nextTick } from "vue";
 import { WebApi } from "/src/apis/WebApi";
 import axios from "axios";
 import { useRoute, useRouter } from "vue-router";
-import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
+import { priceCalculator, getThreeWords, getTenWords } from "/src/logic/logic.js";
   export default{
 
     name:'itemInCardBox',
@@ -127,6 +127,7 @@ import { priceCalculator, getThreeWords } from "/src/logic/logic.js";
         dialog_detail : ref(false),
         priceWithDiscount,
         getThreeWords,
+        getTenWords,
       }
     },
     methods:{
