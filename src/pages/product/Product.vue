@@ -63,7 +63,7 @@
     </div>
 
 
-    <div class="q-ml-xl" v-if="ro == 'admin'">
+    <div class="q-ml-xl" v-if="ro == 'admin' && role === 'ADMIN'">
       <q-btn icon="add" @click="addNewProduct"></q-btn>
     </div>
 
@@ -72,7 +72,7 @@
         <div class="row" :style="$q.screen.lt.sm ? '' : 'width:92%'">
           <!-- only Admin beginn -->
 
-          <div v-if="ro == 'admin'" :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'"
+          <div v-if="ro == 'admin' && role === 'ADMIN'" :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'"
             v-for="product in productsCategory" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
@@ -131,7 +131,7 @@
       </div>
     </div>
 
-    <q-dialog v-model="hinweis_dialog" v-if="notice.status == 'on'">
+    <q-dialog v-model="hinweis_dialog" v-if="notice.status == 'on' && role != 'ADMIN'">
       <q-card style="width: 65vw; ">
         <q-card-action>
           <div class="flex flex-center text-h5" style="color:cadetblue;">Thông báo</div>
@@ -222,6 +222,10 @@ export default {
 
     const ro = computed({
       get: () => $store.state.cache.ro,
+    });
+
+    const role = computed({
+      get: () => $store.state.loginModule.role,
     });
 
 
@@ -462,6 +466,7 @@ export default {
       admin_edit: ref(false),
       editNoticeImage_dialog: ref(false),
       ro,
+      role,
       selected_file,
 
       findProductValidate: [
@@ -557,7 +562,7 @@ export default {
 
           name: "",
           price: 0,
-          discount: 30,
+          discount: 0,
           subtitle: "Sửa ở dưới.....",
           body: 'subtitle.png',
 

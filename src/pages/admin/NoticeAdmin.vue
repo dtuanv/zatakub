@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-sm">
     <div class="flex flex-center text-h6" style="color: brown;">
-      DIE AKTUALLE HINWEIS:
+      Cài đặt thông báo
 
     </div>
     <div class="row q-pl-md flex flex-center">

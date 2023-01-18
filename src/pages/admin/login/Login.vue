@@ -3,6 +3,7 @@
     <!-- <q-dialog v-model="loginForm">
       <q-input label="User Name"></q-input>
     </q-dialog> -->
+
     <q-card class="q-mt-xl"
       :style="$q.screen.width > 400 && $q.screen.height > 700 ? 'background-color:bisque; width: 30vw; height: 35vh':'background-color:bisque; width: 70vw; height: 250px'">
       <!-- <q-card  v-else style="width:15vw; height:40vh; background-color:blanchedalmond;"> -->

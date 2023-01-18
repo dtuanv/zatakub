@@ -2,7 +2,7 @@
   <!-- v-if="role == 'ADMIN'" -->
   <q-page class="q-pa-md" >
     <!-- make form in center -->
-    <div class="flex justify-center text-h5">Nachricht von Kunden</div>
+    <div class="flex justify-center text-h5">Tin nhắn từ khách hàng</div>
     <div v-for="contact in contacts" :key="contact.id">
       <q-card>
         <q-card-selection>

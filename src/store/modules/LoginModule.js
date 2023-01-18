@@ -41,7 +41,7 @@ export const loginModule = {
       setJwtTokenInStorage(jwt);
     },
     setRole(state,loginRequest ){
-      if(loginRequest.username == 'test7'|| loginRequest.username =='tuan'){
+      if(loginRequest.username == 'admin'|| loginRequest.username =='tuan'){
         state.role = 'ADMIN'
       }else{
         state.role = 'USER'
@@ -53,7 +53,6 @@ export const loginModule = {
       removeJwtTokenFromStorage();
     },
     logout(state){
-      console.log("logout in store")
       state.loggedIn = false;
       state.jwt = null;
       state.role = "";
@@ -63,7 +62,6 @@ export const loginModule = {
   actions:{
     async doLogin({commit}, loginRequest){
       try {
-        console.log("lolgin request in modules", loginRequest);
         const response = await loginService.doLogin(loginRequest);
         const jwt = response.data.jwtToken;
         // console.log("TUan ckeck respone in dologin at modules ", jwt);

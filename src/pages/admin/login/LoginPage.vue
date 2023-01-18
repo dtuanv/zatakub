@@ -85,8 +85,8 @@ export default {
     const checkLoginStatus = () => {
       // const loginStatus = $store.getters["modules/getLoginStatus"];
       const loginStatus = $store.getters["loginModule/getLoginStatus"];
-      console.log("login status login: ", loginStatus);
-      console.log(" in Store: ", $store.getters);
+      // console.log("login status login: ", loginStatus);
+      // console.log(" in Store: ", $store.getters);
       if (loginStatus.loggedIn) {
         // doLogout();
         $router.push("/");
@@ -124,11 +124,12 @@ export default {
           //   "onlyAdmin",
           //   "sdhushfuihdufhsidiasjdjsakd???=*ÄÖLkksaijd.s"
           // );
-          if (username.value == "test7" || username.value == "tuan") {
-            // $store.dispatch("cache/setRole", "ADMIN");
+          if (username.value == "admin" || username.value == "tuan") {
+            $store.dispatch("cache/setRole", "ADMIN");
 
              setUserRoleInStorage("ADMIN");
           } else {
+            console.log("user")
                 setUserRoleInStorage("USER");
 
           }

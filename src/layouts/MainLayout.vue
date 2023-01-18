@@ -110,11 +110,11 @@
 
           <q-route-tab v-if="role === 'ADMIN' || role === 'USER'" @click="setRole">
             <div v-if="ro == 'admin'">
-              OffAdmin
+              OFF EDIT
             </div>
 
             <div v-else>
-              SETADMIN
+              ON EDIT
 
             </div>
 
@@ -244,11 +244,11 @@
 
             <q-item-section>
               <div v-if="ro == 'admin'">
-                OffAdmin
+                OFF EDIT
               </div>
 
               <div v-else>
-                SETADMIN
+                ON EDIT
 
               </div>
 
