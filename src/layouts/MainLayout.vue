@@ -142,7 +142,7 @@
 
           <q-item v-if="ro == 'admin' && role === 'ADMIN'" clickable v-ripple to="/admin">
             <q-item-section avatar>
-              <q-img src="/img/icon/admin.png" style="color: coral;" />
+              <q-img src="/img/icon/admin.png" style="color: coral;" alt="anhAdmin"/>
             </q-item-section>
 
             <q-item-section> Admin</q-item-section>
@@ -150,7 +150,7 @@
 
           <q-item clickable v-ripple to="/product/sale" @mouseover="mouseOverResetAllMenuCat()">
             <q-item-section avatar>
-              <q-img src="/img/icon/saleIcon.png" style="color: coral;" />
+              <q-img src="/img/icon/saleIcon.png" style="color: coral;" alt="anhSale" />
             </q-item-section>
 
             <q-item-section> Khuyến mãi </q-item-section>
@@ -171,7 +171,7 @@
             <q-item clickable v-ripple :to="qItem.link"
               @mouseover="qItem.menu_cat = true, fmouseoverAllowOnlyOne(qItem)">
               <q-item-section avatar>
-                <q-img :src="qItem.imgLink" style="color: coral;" />
+                <q-img :src="qItem.imgLink" style="color: coral;" alt="anhLink"/>
               </q-item-section>
 
               <q-item-section> {{ qItem.title }} </q-item-section>
@@ -299,7 +299,7 @@
             target="_blank">
             <q-item-section>
               <q-avatar>
-                <img src="/img/icon/call.png" alt="">
+                <img src="/img/icon/call.png" alt="call" >
               </q-avatar>
             </q-item-section>
           </q-item>
@@ -309,7 +309,7 @@
             target="_blank">
             <q-item-section>
               <q-avatar>
-                <img src="/img/icon/shopee.png" alt="">
+                <img src="/img/icon/shopee.png" alt="shoppe">
               </q-avatar>
             </q-item-section>
           </q-item>
@@ -319,7 +319,7 @@
             href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub" target="_blank">
             <q-item-section>
               <q-avatar>
-                <img src="/img/icon/facebook.png" alt="">
+                <img src="/img/icon/facebook.png" alt="facebook">
               </q-avatar>
             </q-item-section>
           </q-item>
@@ -328,7 +328,7 @@
             href="https://www.instagram.com/myphamtocchinhhangzatakub/" target="_blank">
             <q-item-section>
               <q-avatar>
-                <img src="/img/icon/instagram.png" alt="">
+                <img src="/img/icon/instagram.png" alt="instagram">
               </q-avatar>
             </q-item-section>
           </q-item>
@@ -338,7 +338,7 @@
             href="https://www.lazada.vn/shop/zatakub/?path=promotion-36612-0.htm&tab=promotion" target="_blank">
             <q-item-section>
               <q-avatar>
-                <img src="/img/icon/lazada.png" alt="">
+                <img src="/img/icon/lazada.png" alt="lazada">
               </q-avatar>
             </q-item-section>
           </q-item>
@@ -357,13 +357,13 @@
         <div>
 
           <q-item v-if="$q.screen.gt.sm" style="padding: 0px 0px" clickable to="/product/sale">
-            <q-img style="height:45px" :src="'/img/upload/notice/mungxuan.png'"></q-img>
+            <q-img style="height:45px" :src="'/img/upload/notice/mungxuan.png'" alt="mungxuan"></q-img>
           </q-item>
 
 
           <!-- noticeImageMobil.imageUrl   noticeImageDesktop.imageUrl -->
           <q-item v-else style="padding: 0px 0px" clickable to="/product/sale">
-            <q-img style="height:45px" :src="'/img/upload/notice/mungxuanDt.png'"></q-img>
+            <q-img style="height:45px" :src="'/img/upload/notice/mungxuanDt.png'" alt="mungxuanDt"></q-img>
           </q-item>
         </div>
         <div v-if="ro == 'admin' && role === 'ADMIN'" class="flex flex-center">
@@ -403,10 +403,10 @@
             </div>
             <div>
               <q-avatar size="xs">
-                <img src="/img/upload/notice/phaohoa.png">
+                <img src="/img/upload/notice/phaohoa.png" alt="phaohoa">
               </q-avatar>
               <q-avatar size="xs">
-                <img src="/img/upload/notice/phaohoaicon.jpg">
+                <img src="/img/upload/notice/phaohoaicon.jpg" alt="phaohoa">
               </q-avatar>
               <!-- <q-img  src="/img/upload/notice/phaohoa.png">
               </q-img>
@@ -419,38 +419,38 @@
           </div>
           <div style="width:100%" class="row">
             <div v-if="$q.screen.gt.sm" class="col-11">
-              <q-img v-if="$q.screen.gt.sm" src="/img/upload/notice/cmnm.jpg"
+              <q-img v-if="$q.screen.gt.sm" src="/img/upload/notice/cmnm.jpg" alt="cmnm"
                 style="height:auto ; width:100px; background-image: none;" flat></q-img>
 
-              <q-img class="animation-scooter" style="height:auto ; width:100px"
+              <q-img class="animation-scooter" style="height:auto ; width:100px" alt="chuctet"
                 src="/img/upload/notice/2023chuc.png" />
 
-              <q-img v-if="$q.screen.gt.sm" class="animation-scooter" style="height:auto ; width:100px"
+              <q-img v-if="$q.screen.gt.sm" class="animation-scooter" alt="daynoitet" style="height:auto ; width:100px"
                 src="/img/upload/notice/daynoitet.jpg" />
 
-              <q-img class="animation-scooter" style="height:auto ; width:100px" src="/img/upload/notice/quymao2.png" />
+              <q-img class="animation-scooter" style="height:auto ; width:100px" src="/img/upload/notice/quymao2.png"  alt="quymao"/>
               <q-img v-if="$q.screen.gt.sm" class="animation-scooter" style="height:auto ; width:100px"
-                src="/img/upload/notice/daynoitet.jpg" />
+                src="/img/upload/notice/daynoitet.jpg" alt="daynoitet" />
 
               <q-img class="animation-scooter" style="height:auto ; width:100px"
-                src="/img/upload/notice/tetdenroi.png" />
+                src="/img/upload/notice/tetdenroi.png" alt="tetdenroi" />
             </div>
 
             <div v-else class="col-12">
 
               <q-img class="animation-scooter-mobil" style="height:auto ; width:100px"
-                src="/img/upload/notice/2023chuc.png" />
+                src="/img/upload/notice/2023chuc.png" alt="chuctet" />
               <q-img class="animation-scooter-mobil" style="height:auto ; width:100px"
-                src="/img/upload/notice/quymao2.png" />
+                src="/img/upload/notice/quymao2.png" alt="quymao" />
 
               <q-img class="animation-scooter-mobil" style="height:auto ; width:100px"
-                src="/img/upload/notice/tetdenroi.png" />
+                src="/img/upload/notice/tetdenroi.png" alt="tetdenroi" />
             </div>
 
 
             <div class="col-1" v-if="$q.screen.gt.sm">
               <q-img src="/img/upload/notice/hoamai.jpg" style="height:auto ; width:100px; background-image: none;"
-                class="float-right"></q-img>
+                class="float-right" alt="hoamai"></q-img>
             </div>
 
 

@@ -11,6 +11,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
+    "copy-webpack-plugin": "^5.1.1",
     "core-js": "^3.6.5",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
@@ -19,7 +20,9 @@
   },
   "devDependencies": {
     "@quasar/app-webpack": "^3.0.0",
-    "url-loader": "^4.1.1"
+    "sitemap-webpack-plugin": "^1.1.1",
+    "url-loader": "^4.1.1",
+    "workbox-webpack-plugin": "^6.5.4"
   },
   "browserslist": [
     "last 10 Chrome versions",

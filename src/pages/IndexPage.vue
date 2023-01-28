@@ -93,13 +93,13 @@
           :class="$q.screen.lt.sm ? 'row' : ''">
           <div class="q-pt-lg ">
             <q-btn class="btn" flat>
-              <q-avatar><img src="/img/icon/zalo.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/zalo.png" alt="zalo" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
             <q-btn class="btn" flat href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub"
               target="_blank">
-              <q-avatar><img src="/img/icon/facebook.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/facebook.png" alt="fb" /></q-avatar>
             </q-btn>
           </div>
 
@@ -107,23 +107,23 @@
             <q-btn class="btn" flat
               href="https://shopee.vn/shop/196811123?utm_source=an_17171860000&utm_medium=affiliates&utm_campaign=&utm_content=SellerVN-196811123"
               target="_blank">
-              <q-avatar><img src="/img/icon/shopee.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/shopee.png" alt="shopee" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
             <q-btn class="btn" flat>
-              <q-avatar><img src="/img/icon/lazada.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/lazada.png" alt="lazada" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
             <q-btn class="btn" flat href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub"
               target="_blank">
-              <q-avatar><img src="/img/icon/instagram.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/instagram.png" alt="instagram" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
             <q-btn class="btn" flat>
-              <q-avatar><img src="/img/icon/sendo.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/sendo.png" alt="sendo" /></q-avatar>
             </q-btn>
           </div>
 
@@ -162,6 +162,8 @@ import productBox from "src/components/product/ProductBox.vue";
 import Product from "/src/apis/Product.js";
 import { WebApi } from "/src/apis/WebApi";
 
+import meta from '/src/utils/meta.js'
+
 const selected_file = ref('')
 
 
@@ -189,6 +191,20 @@ const categoryPath = ref({})
 const products = ref([])
 export default {
   components: { productBox },
+  name: 'PageIndex',
+
+  data() {
+        return {
+            metaTags: {
+                description: 'T Zatakub - Mỹ phẩm tóc chính hãng, chuyên nghiệp ',
+                title: 'T Zatakub | Mỹ phẩm tóc chính hãng, chuyên nghiệp',
+                url: 'zatakub.com',
+                image: '#'
+            }
+        }
+  },
+  meta,
+
   setup() {
     const $q = useQuasar();
     const route = useRoute();
@@ -291,6 +307,7 @@ export default {
 
 
     return {
+
       jwt,
       categoryPath,
       products,

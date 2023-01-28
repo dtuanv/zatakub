@@ -93,13 +93,13 @@
           :class="$q.screen.lt.sm ? 'row' : ''">
           <div class="q-pt-lg ">
             <q-btn class="btn" flat>
-              <q-avatar><img src="/img/icon/zalo.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/zalo.png" alt="zalo" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
             <q-btn class="btn" flat href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub"
               target="_blank">
-              <q-avatar><img src="/img/icon/facebook.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/facebook.png" alt="fb" /></q-avatar>
             </q-btn>
           </div>
 
@@ -107,18 +107,18 @@
             <q-btn class="btn" flat
               href="https://shopee.vn/shop/196811123?utm_source=an_17171860000&utm_medium=affiliates&utm_campaign=&utm_content=SellerVN-196811123"
               target="_blank">
-              <q-avatar><img src="/img/icon/shopee.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/shopee.png" alt="shopee" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm"   >
             <q-btn class="btn" flat href="https://www.lazada.vn/shop/zatakub/?path=promotion-36612-0.htm&tab=promotion" target="_blank">
-              <q-avatar><img src="/img/icon/lazada.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/lazada.png" alt="lazada" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
             <q-btn class="btn" flat href="https://www.instagram.com/myphamtocchinhhangzatakub/"
               target="_blank">
-              <q-avatar><img src="/img/icon/instagram.png" alt="" /></q-avatar>
+              <q-avatar><img src="/img/icon/instagram.png" alt="instagram" /></q-avatar>
             </q-btn>
           </div>
           <!-- <div class="q-pt-sm">
@@ -131,7 +131,7 @@
       </div>
     </div>
 
-    <q-dialog v-model="hinweis_dialog" v-if="notice.status == 'on' && role != 'ADMIN'">
+    <!-- <q-dialog v-model="hinweis_dialog" v-if="notice.status == 'on' && role != 'ADMIN'">
       <q-card style="width: 65vw; ">
         <q-card-action>
           <div class="flex flex-center text-h5" style="color:cadetblue;">Thông báo</div>
@@ -147,7 +147,7 @@
         </q-card-selections>
       </q-card>
 
-    </q-dialog>
+    </q-dialog> -->
 
   </q-page>
 </template>
@@ -163,6 +163,8 @@ import Detail from "../customer/Detail.vue";
 import productBox from "src/components/product/ProductBox.vue";
 import Product from "/src/apis/Product.js";
 import { WebApi } from "/src/apis/WebApi";
+
+import meta from '/src/utils/meta.js'
 
 const selected_file = ref('')
 
@@ -191,6 +193,18 @@ const categoryPath = ref({})
 const products = ref([])
 export default {
   components: { productBox },
+
+  data() {
+        return {
+            metaTags: {
+                description: 'Product',
+                title: 'T Zatakub | Product',
+                url: 'zatakub.com/product/sale',
+                image: '#'
+            }
+        }
+  },
+  meta,
   setup() {
     const $q = useQuasar();
     const route = useRoute();
@@ -426,9 +440,9 @@ export default {
 
 
     const notice = ref({});
-    axios.get(`${WebApi.server}/getNotice/productPage`).then((response) => {
-      notice.value = response.data;
-    });
+    // axios.get(`${WebApi.server}/getNotice/productPage`).then((response) => {
+    //   notice.value = response.data;
+    // });
 
     const checkParam = ref(route.params.category)
     function priceWithDiscount(price, discount) {

@@ -6,7 +6,7 @@
 
           <div class="">
             <div v-if="product.imageUrl != ''">
-              <img :src="'/img/' + product.imageUrl" alt="" style="height: 10vw; width: 145px;" />
+              <img :src="'/img/' + product.imageUrl" alt="anhSp" style="height: 10vw; width: 145px;" />
             </div>
             <div v-else style="width:145px"></div>
             <div v-if="product.price == ''">
@@ -118,7 +118,7 @@
         <div class="row">
           <div class="col-3">
             <div v-if="product.imageUrl != ''">
-              <img :src="'/img/' + product.imageUrl" alt="" style="height: 25vw; width: 25vw" />
+              <img :src="'/img/' + product.imageUrl" alt="anhSp" style="height: 25vw; width: 25vw" />
             </div>
             <div v-if="product.price == ''">
               <q-btn class="q-mt-sm" color="green" @click="dialog_zutat = true" label="Zutat Anzeigen"></q-btn>
@@ -217,7 +217,7 @@
                 {{ subF.price }}
               </div>
             </div>
-     
+
           </div>
 
 

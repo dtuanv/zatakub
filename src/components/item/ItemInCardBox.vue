@@ -19,7 +19,7 @@
     <div style="margin-right: 24px">{{ item.quantity }} x </div>
     <div>
       <q-avatar>
-        <img :src="'/img/upload/product/' + item.product.imageUrl">
+        <img :src="'/img/upload/product/' + item.product.imageUrl" alt="product">
       </q-avatar>
     </div>
 
@@ -46,7 +46,7 @@
       <div class="row">
           <div class="col-5">
             <div v-if="item.product.imageUrl != ''">
-              <img :src="'/img/upload/product/' + item.product.imageUrl" alt=""
+              <img :src="'/img/upload/product/' + item.product.imageUrl" alt="product"
                 style=" max-width: 100%; display:block;border: 2px solid cadetblue;height: 9rem;" />
             </div>
             <!-- <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true"

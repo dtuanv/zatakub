@@ -3,7 +3,7 @@
     <div class="q-mt-xl ">
       <div class="justify-center flex">
 
-        <q-img src="/img/icon/zatakub.png" style="max-height: 300px; max-width: 100%" />
+        <q-img src="/img/icon/zatakub.png" style="max-height: 300px; max-width: 100%" alt="zatakub" />
       </div>
       <div class="justify-center flex text-h5" style="font-family: ui-serif;color:cornflowerblue;border-color: red;">Zatakub xin cảm ơn quý khách!!!</div>
 

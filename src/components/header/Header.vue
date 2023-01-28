@@ -149,7 +149,7 @@
           <div>
             <q-btn flat style="padding: 0px 0px 0px 0px"
               href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub" target="_blank">
-              <q-avatar><img src="/img/icon/facebook.png " alt="" :style="
+              <q-avatar><img src="/img/icon/facebook.png " alt="iconFacebook" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
                   ? 'height: 35px; width: 36px;margin-left: 9px;'
                   : 'height: 8vw; width: 8vw'
@@ -160,7 +160,7 @@
           <div>
             <q-btn flat style="padding: 0px 0px 0px 0px"
               href="https://www.instagram.com/myphamtocchinhhangzatakub/" target="_blank">
-              <q-avatar><img src="/img/icon/instagram.png " alt="" :style="
+              <q-avatar><img src="/img/icon/instagram.png " alt="iconInstagram" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
                   ? 'height: 35px; width: 36px;margin-left: 9px;'
                   : 'height: 8vw; width: 8vw'
@@ -172,7 +172,7 @@
           <div>
             <q-btn flat style="padding: 0px 0px 0px 0px"
               href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub" target="_blank">
-              <q-avatar><img src="/img/icon/zalo.png " alt="" :style="
+              <q-avatar><img src="/img/icon/zalo.png " alt="iconZalo" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
                   ? 'height: 35px; width: 36px;margin-left: 9px;'
                   : 'height: 8vw; width: 8vw'
@@ -185,7 +185,7 @@
             <q-btn flat style="padding: 0px 0px 0px 0px"
               href="https://shopee.vn/shop/196811123?utm_source=an_17171860000&utm_medium=affiliates&utm_campaign=&utm_content=SellerVN-196811123"
               target="_blank">
-              <q-avatar><img src="/img/icon/shopee.png " alt="" :style="
+              <q-avatar><img src="/img/icon/shopee.png " alt="iconShopee" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
                   ? 'height: 35px; width: 36px;margin-left: 9px;'
                   : 'height: 8vw; width: 8vw'
@@ -198,7 +198,7 @@
             <q-btn flat style="padding: 0px 0px 0px 0px"
               href="https://www.lazada.vn/shop/zatakub/?path=promotion-36612-0.htm&tab=promotion"
               target="_blank">
-              <q-avatar><img src="/img/icon/lazada.png " alt="" :style="
+              <q-avatar><img src="/img/icon/lazada.png " alt="iconLazada" :style="
                 $q.screen.width > 500 && $q.screen.height > 500
                   ? 'height: 35px; width: 36px;margin-left: 9px;'
                   : 'height: 8vw; width: 8vw'
@@ -217,7 +217,7 @@
             Phương thức thanh toán:
           </div>
           <div>
-            <q-img style="height:auto; width:250px" src="/img/icon/layout/paymethod.png"></q-img>
+            <q-img style="height:auto; width:250px" src="/img/icon/layout/paymethod.png" alt="iconPay"></q-img>
           </div>
 
           <!--   <q-btn

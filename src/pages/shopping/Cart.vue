@@ -3,7 +3,7 @@
     <div class="q-mt-xl">
 
       <div class="justify-center flex">
-        <q-img src="/img/shopping_cart.png" style="height: 140px; max-width: 150px" />
+        <q-img src="/img/shopping_cart.png" style="height: 140px; max-width: 150px" alt="sc"/>
       </div>
       <div v-for="(item, index) in items" :key="index" :item="item">
 
@@ -29,7 +29,7 @@
               <div style="margin-right: 16px">{{ item.quantity }} x </div>
               <div>
                 <q-avatar>
-                  <img :src="'/img/upload/product/' + item.product.imageUrl">
+                  <img :src="'/img/upload/product/' + item.product.imageUrl" alt="product">
                 </q-avatar>
               </div>
 
@@ -234,7 +234,7 @@
               class="column" @click="expand_codPayment = true, expand_cardPayment = false">
               <div class=" flex flex-center">
                 <q-avatar>
-                  <img src="/img/icon/codPayment.png" alt="">
+                  <img src="/img/icon/codPayment.png" alt="codePay">
                 </q-avatar>
               </div>
 
@@ -247,7 +247,7 @@
               :style="expand_cardPayment == true && expand_codPayment == false ? 'background-color: bisque;' : ''">
               <div class="flex flex-center">
                 <q-avatar>
-                  <img src="/img/icon/cardPayment.png" alt="">
+                  <img src="/img/icon/cardPayment.png" alt="cardPay">
                 </q-avatar>
               </div>
 

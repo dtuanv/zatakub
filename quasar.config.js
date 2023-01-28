@@ -11,8 +11,39 @@
 
 const { configure } = require('quasar/wrappers');
 
+const path = require("path");
+
+// const CopyWebpackPlugin = require('copy-webpack-plugin')
+
+
+// this is at the top of the file
+const SitemapPlugin = require('sitemap-webpack-plugin').default
+const paths = [
+  { path: '/' , priority: 0.9, lastmod: '2023-01-28'},
+  { path: '/product/sale', priority: 0.85, lastmod: '2023-01-28' },
+  { path: '/product/category/hairDye', priority: 0.84, lastmod: '2023-01-28' },
+  { path: '/product/category/hairCosmetic', priority: 0.82, lastmod: '2023-01-28' },
+  { path: '/product/category/skin', priority: 0.81, lastmod: '2023-01-28' },
+  { path: '/product/category/hairDevice', priority: 0.79, lastmod: '2023-01-28' },
+  { path: '/product/category/manCosmetic', priority: 0.78, lastmod: '2023-01-28' },
+  { path: '/product/category/beautyEquipment', priority: 0.76, lastmod: '2023-01-28' },
+  { path: '/product/category/essentialOil', priority: 0.75, lastmod: '2023-01-28' },
+  { path: '/product/category/korean', priority: 0.74, lastmod: '2023-01-28' },
+  { path: '/product/category/england' , priority: 0.72, lastmod: '2023-01-28'},
+  { path: '/product/category/australia' , priority: 0.71, lastmod: '2023-01-28'},
+  { path: '/product/category/france' , priority: 0.7, lastmod: '2023-01-28'},
+  { path: '/product/category/italy' , priority: 0.69, lastmod: '2023-01-28'},
+  { path: '/product/category/japan', priority: 0.68, lastmod: '2023-01-28' },
+  { path: '/product/category/america' , priority: 0.67, lastmod: '2023-01-28'},
+  { path: '/loginPage' , priority: 0.66, lastmod: '2023-01-28'},
+  // add all pages here
+]
+// down on the "build" section
+
 module.exports = configure(function (ctx) {
   return {
+
+
     // https://v2.quasar.dev/quasar-cli-webpack/supporting-ts
     supportTS: false,
 
@@ -48,7 +79,53 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history', // available values: 'hash', 'history'
+
+      chainWebpack (chain) {
+        chain.plugin('html').tap(args => {
+          args[0].meta = {
+            canonical: process.env.MY_APP_URL
+          }
+          return args
+        })
+      },
+      extendWebpack(cfg, { isServer, isClient }) {
+        // cfg.module.rules.push({
+        //   enforce: "pre",
+        //   test: /\.(js|vue)$/,
+        //   exclude: /(node_modules|quasar)/
+        // });
+
+        cfg.resolve.alias = {
+          ...cfg.resolve.alias, // This adds the existing alias
+          // Add your own alias like this
+          utils: path.resolve(__dirname, "./src/utils"),
+        };
+
+        cfg.plugins.push(
+          new SitemapPlugin({
+            base: 'https://zatakub.com',
+            paths,
+            options: {
+              filename: 'sitemap.xml',
+              lastmod: true,
+              changefreq: 'weekly',
+            }
+          })
+        );
+
+
+
+        // cfg.plugins.push(
+        //   new CopyWebpackPlugin([{ context: `${__dirname}/src/assets`, from: `*.*` }])
+        //   )
+      },
+
+
+
+
+
+      // vueRouterMode: 'hash', // available values: 'hash', 'history'
 
       // transpile: false,
       // publicPath: '/',
@@ -70,7 +147,12 @@ module.exports = configure(function (ctx) {
       // https://v2.quasar.dev/quasar-cli-webpack/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
 
-      chainWebpack (/* chain */) {}
+      chainWebpack(/* chain */) { },
+
+
+
+
+
 
     },
 
@@ -83,9 +165,11 @@ module.exports = configure(function (ctx) {
       open: true // opens browser window automatically
     },
 
+
+
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-framework
     framework: {
-      config: {notify:{ /* look at QuasarConfOptions from the API card */ }},
+      config: { notify: { /* look at QuasarConfOptions from the API card */ } },
 
       // iconSet: 'material-icons', // Quasar icon set
       // lang: 'en-US', // Quasar language pack
@@ -98,7 +182,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog','Notify']
+      plugins: ['Dialog', 'Notify','Meta']
     },
 
     // animations: 'all', // --- includes all animations
@@ -113,13 +197,13 @@ module.exports = configure(function (ctx) {
       // manualPostHydrationTrigger: true,
 
       prodPort: 3000, // The default port that the production server should use
-                      // (gets superseded if process.env.PORT is specified at runtime)
+      // (gets superseded if process.env.PORT is specified at runtime)
 
       maxAge: 1000 * 60 * 60 * 24 * 30,
-        // Tell browser when a file from the server should expire from cache (in ms)
+      // Tell browser when a file from the server should expire from cache (in ms)
 
 
-      chainWebpackWebserver (/* chain */) {},
+      chainWebpackWebserver(/* chain */) { },
 
 
       middlewares: [
@@ -136,7 +220,7 @@ module.exports = configure(function (ctx) {
       // for the custom service worker ONLY (/src-pwa/custom-service-worker.[js|ts])
       // if using workbox in InjectManifest mode
 
-      chainWebpackCustomSW (/* chain */) {},
+      chainWebpackCustomSW(/* chain */) { },
 
 
       manifest: {
@@ -212,11 +296,11 @@ module.exports = configure(function (ctx) {
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
 
-      chainWebpackMain (/* chain */) {},
+      chainWebpackMain(/* chain */) { },
 
 
 
-      chainWebpackPreload (/* chain */) {},
+      chainWebpackPreload(/* chain */) { },
 
     }
   }

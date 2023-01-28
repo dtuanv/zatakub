@@ -14,7 +14,7 @@
         <div class="row">
           <div class="col-5">
             <div v-if="product.imageUrl != ''">
-              <img :src="'/img/' + product.imageUrl" alt=""
+              <img :src="'/img/' + product.imageUrl" alt="anhsanpham"
                 style=" max-width: 100%; display:block;border: 2px solid cadetblue;height: 9rem;" />
             </div>
             <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true"
@@ -122,18 +122,18 @@
             <q-carousel style="    height: 276px;" swipeable animated v-model="slide" thumbnails infinite>
 
               <q-carousel-slide v-if="product.imageUrl" :name="1" :img-src="'/img/' + product.imageUrl"
-                style="background-size: contain;" />
+                style="background-size: contain;" alt="anhsp" />
 
               <q-carousel-slide v-if="product.imageUrl2" :name="2" :img-src="'/img/' + product.imageUrl2"
-                style="background-size: contain;" />
+                style="background-size: contain;" alt="anhsp"/>
               <q-carousel-slide v-if="product.imageUrl3" :name="3" :img-src="'/img/' + product.imageUrl3"
-                style="background-size: contain;" />
+                style="background-size: contain;" alt="anhsp"/>
               <q-carousel-slide v-if="product.imageUrl4" :name="4" :img-src="'/img/' + product.imageUrl4"
-                style="background-size: contain;" />
+                style="background-size: contain;" alt="anhsp"/>
               <q-carousel-slide v-if="product.imageUrl5" :name="5" :img-src="'/img/' + product.imageUrl4"
-                style="background-size: contain;" />
+                style="background-size: contain;" alt="anhsp" />
               <q-carousel-slide v-if="product.imageUrl6" :name="6" :img-src="'/img/' + product.imageUrl4"
-                style="background-size: contain;" />
+                style="background-size: contain;" alt="anhsp" />
             </q-carousel>
 
           </div>
