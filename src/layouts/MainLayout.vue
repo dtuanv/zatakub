@@ -8,7 +8,7 @@
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
 
         <q-btn flat no-caps no-wrap class="q-ml-xs" to="/">
-          <q-avatar style="width: 51px; height: 39px"><img src="/img/icon/logo2.png" alt="" /></q-avatar>
+          <q-avatar style="width: 51px; height: 39px"><img src="/img/icon/logo2.png" alt="logo" /></q-avatar>
           <q-toolbar-title shrink class="text-weight-bold">
             <div class="">
               <div :style="$q.platform.is.mobile ? 'font-family: emoji;' : 'font-family: cursive;'"
@@ -259,10 +259,10 @@
 
           <q-item v-if="role == ''" clickable v-ripple to="/loginPage">
             <q-item-section avatar>
-              <q-icon name="login" />
+              <q-icon name="admin_panel_settings" />
             </q-item-section>
 
-            <q-item-section> Login </q-item-section>
+            <q-item-section> ADL </q-item-section>
           </q-item>
 
           <q-item v-else clickable v-ripple @click.prevent="logout">
@@ -271,6 +271,14 @@
             </q-item-section>
 
             <q-item-section> LogOut </q-item-section>
+          </q-item>
+
+          <q-item v-if="role == ''" clickable v-ripple to="/login">
+            <q-item-section avatar>
+              <q-icon name="login" />
+            </q-item-section>
+
+            <q-item-section> Đăng nhập</q-item-section>
           </q-item>
 
 
@@ -618,7 +626,6 @@ export default {
       get: () => $store.state.loginModule.role,
     });
 
-
     const logout = () => {
       $store.dispatch("loginModule/doLogout");
       $router.push("/product");
@@ -632,6 +639,8 @@ export default {
         avatar: `${WebApi.iconUrl}`,
       });
       $router.replace("/");
+      localStorage.clear();
+      window.location.reload();
     };
     return {
       jwt,

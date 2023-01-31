@@ -4,7 +4,7 @@
     <!-- <q-card   class="my-card flex  shadow-5 "> -->
     <q-card   class="full-width row  justify-start items-start content-center ">
       <!-- <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" /> -->
-      <q-img :src="'/img/'+category.imageUrl" />
+      <q-img :src="'/img/'+category.imageUrl" alt="cat" />
 
       <q-card-section>
         <q-btn fab color="primary" icon="place" class="absolute"

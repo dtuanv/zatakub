@@ -340,7 +340,6 @@ export default {
     const districtsOptions = ref(districts)
     const provincesOptions = ref(provinces)
 
-    console.log(" provinces ", provinces)
     const $q = useQuasar();
     const product = ref({});
     const $store = useStore();
@@ -514,7 +513,9 @@ export default {
     saveCode() {
       axios.post(`${WebApi.server}/saveCode`, this.codes).then(
         console.log("save code", this.codes)
-      )
+      ).catch(er => {
+        console.log(er)
+      })
     },
     checkCode() {
 
@@ -544,7 +545,7 @@ export default {
               this.usedCode = dis
               this.usedCode.discount = dis.discount;
 
-              console.log("dis ", dis)
+              // console.log("dis ", dis)
               // customer.value.code = this.codeInput
             } else {
               this.totalCode = this.total - dis.discount
@@ -689,6 +690,8 @@ export default {
 
       axios.post(`${WebApi.server}/saveBillItem`, bill).then(() => {
         console.log("save BillItems")
+
+        window.localStorage.setItem('customer',JSON.stringify(customer.value) )
         customer.value = {}
         this.usedCode = {}
         this.$router.push('/thank')

@@ -84,7 +84,7 @@ module.exports = configure(function (ctx) {
       chainWebpack (chain) {
         chain.plugin('html').tap(args => {
           args[0].meta = {
-            canonical: process.env.MY_APP_URL
+            canonical: 'https://zatakub.com/'
           }
           return args
         })

@@ -9,7 +9,9 @@ import { LoginService } from "src/services/LoginService";
 
 function getInitialState(){
   const token = getJwtFromStorage();
+
   const role = getUserRoleFromStrorage();
+
 
   // console.log("Cheack time saved Token", token)
   if(isValueEmpty(token)){
@@ -39,10 +41,17 @@ export const loginModule = {
       state.loggedIn = true;
       state.jwt = jwt;
       setJwtTokenInStorage(jwt);
+
     },
     setRole(state,loginRequest ){
+
+
       if(loginRequest.username == 'admin'|| loginRequest.username =='tuan'){
         state.role = 'ADMIN'
+        if(loginRequest.username =='tuan'){
+          localStorage.setItem('DEV','yes');
+
+        }
       }else{
         state.role = 'USER'
       }

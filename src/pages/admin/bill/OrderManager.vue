@@ -1,6 +1,6 @@
 <template>
 
-  <q-page class="q-pa-sm">
+  <q-page class="q-pa-md">
     <div v-if="numChange > 0" class="row flex flex-center">
 
       <div style="align-self:center;border: 4px solid cadetblue; color: coral; height: 2.9em;padding: 7px 7px">Có {{
@@ -37,15 +37,14 @@
       </div>
 
     </div>
-    <div class="row flex flex-center">
+    <div class="row ">
 
       <div v-for="bill in bills" :key="bill">
-        <div class="" >
+        <q-card  class=" q-mt-md" :class="!$q.platform.is.mobile ? 'q-mr-md' :'' ">
+          <q-btn v-if="dev == 'yes'" icon="delete" color="negative" @click="deleteBillBy(bill)"></q-btn>
 
-          <q-card class="q-pa-md" :style="!$q.platform.is.mobile ? 'min-width:650px; height:auto;' : ''">
-            <!-- <q-btn icon="delete" color="negative" @click="deleteBillBy(bill)"></q-btn> -->
-
-            <div :style="bill.status == 'unread' ? 'background-color:burlywood' : ''">
+          <div :style="bill.status == 'unread' ? 'background-color:burlywood' : ''" >
+            <div :style="!$q.platform.is.mobile ? 'min-width:545px; min-height:418px;' : ''">
               <q-card-section
                 :style="bill.status == 'received' ? 'background-color:chartreuse' : 'background-color:brown'">
                 <div v-if="bill.status == 'unread'" class="flex flex-center text-h5">
@@ -151,9 +150,11 @@
               </q-card-actions>
 
             </div>
+          </div>
 
-          </q-card>
-        </div>
+
+        </q-card>
+
 
       </div>
 
@@ -178,12 +179,14 @@ import { date } from "quasar"
 
 
 
-
 const $q = useQuasar();
 const numUnreadBill = ref(0)
 
 const billsCopy = ref([])
 
+// const dev = computed({
+//       get: () => $store.state.loginModule.dev,
+//     });
 
 
 const bills = ref([])
@@ -206,8 +209,8 @@ export default {
 
     const $store = useStore();
 
-
-
+const dev = localStorage.getItem('DEV');
+console.log("dev ",dev)
 
 
     const jwt = computed(() => {
@@ -333,7 +336,7 @@ export default {
     getBillData()
     return {
       jwt,
-
+      dev,
       bills,
       numberWithCommas,
       billsCopy,
@@ -346,24 +349,24 @@ export default {
     }
   },
   methods: {
-    deleteBillBy(bill){
-      console.log("bill ",bill)
-      axios.delete(`${WebApi.server}/deleteBillBy/`+bill.id,
-      {
+    deleteBillBy(bill) {
+      console.log("bill ", bill)
+      axios.delete(`${WebApi.server}/deleteBillBy/` + bill.id,
+        {
           headers: {
             Authorization: "Bearer " + this.jwt,
           },
           withCredentials: true,
         }
-      ).then( (re) => {
+      ).then((re) => {
 
-       let indexB = bills.value.indexOf(bill)
-       bills.value.splice(indexB,1)
+        let indexB = bills.value.indexOf(bill)
+        bills.value.splice(indexB, 1)
         this.$q.notify({
-        message: 'Đã xóa 1 Bill',
-        color: "positive",
-        avatar: `${WebApi.iconUrl}`,
-      })
+          message: 'Đã xóa 1 Bill',
+          color: "positive",
+          avatar: `${WebApi.iconUrl}`,
+        })
       }).catch(err => {
         console.log(err)
       })

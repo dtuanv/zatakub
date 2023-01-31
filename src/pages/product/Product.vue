@@ -7,10 +7,11 @@
 
     <div class="flex flex-center  " v-if="categoryPath != undefined">
       <div class="row" style="border: 2px solid coral;">
-        <div class="text-h5 q-pl-sm" style="color: cadetblue; font-family: emoji; align-self: center;">
+        <h1 class=" q-pl-sm"
+          style="color: cadetblue; font-family: emoji; align-self: center;    margin: 0px 0px;font-size: 28px; display: inline-block; line-height: 3rem;">
           {{ categoryPath.title }}
 
-        </div>
+        </h1>
         <div v-if="$route.params.mark" class="q-pa-sm text-h5 ">
           //
         </div>
@@ -21,8 +22,10 @@
 
     </div>
     <div v-else style="" class="flex flex-center">
-      <div class="text-h5  q-pl-sm q-pr-sm" style="color: red; font-family: emoji;border: 2px solid coral;">HOT SALE %%
-      </div>
+      <h1 class="text-h5  q-pl-sm q-pr-sm"
+        style="color: red; font-family: emoji;border: 2px solid coral;  margin: 0px 0px;font-size: 28px; display: inline-block; line-height: 3rem;">
+        HOT SALE %%
+      </h1>
     </div>
 
 
@@ -89,7 +92,8 @@
         </div>
         <!-- <div > -->
 
-        <div class="float-right" v-if="!$q.platform.is.mobile" :style="$q.screen.lt.sm ? '' : 'max-width:8%;position:fixed; z-index:200; right:0;top: 275px;'"
+        <div class="float-right" v-if="!$q.platform.is.mobile"
+          :style="$q.screen.lt.sm ? '' : 'max-width:8%;position:fixed; z-index:200; right:0;top: 275px;'"
           :class="$q.screen.lt.sm ? 'row' : ''">
           <div class="q-pt-lg ">
             <q-btn class="btn" flat>
@@ -110,14 +114,14 @@
               <q-avatar><img src="/img/icon/shopee.png" alt="shopee" /></q-avatar>
             </q-btn>
           </div>
-          <div class="q-pt-sm"   >
-            <q-btn class="btn" flat href="https://www.lazada.vn/shop/zatakub/?path=promotion-36612-0.htm&tab=promotion" target="_blank">
+          <div class="q-pt-sm">
+            <q-btn class="btn" flat href="https://www.lazada.vn/shop/zatakub/?path=promotion-36612-0.htm&tab=promotion"
+              target="_blank">
               <q-avatar><img src="/img/icon/lazada.png" alt="lazada" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
-            <q-btn class="btn" flat href="https://www.instagram.com/myphamtocchinhhangzatakub/"
-              target="_blank">
+            <q-btn class="btn" flat href="https://www.instagram.com/myphamtocchinhhangzatakub/" target="_blank">
               <q-avatar><img src="/img/icon/instagram.png" alt="instagram" /></q-avatar>
             </q-btn>
           </div>
@@ -195,14 +199,14 @@ export default {
   components: { productBox },
 
   data() {
-        return {
-            metaTags: {
-                description: 'Product',
-                title: 'T Zatakub | Product',
-                url: 'zatakub.com/product/sale',
-                image: '#'
-            }
-        }
+    return {
+      metaTags: {
+        description: 'Product',
+        title: 'T Zatakub | Product',
+        url: 'zatakub.com/product/sale',
+        image: '#'
+      }
+    }
   },
   meta,
   setup() {

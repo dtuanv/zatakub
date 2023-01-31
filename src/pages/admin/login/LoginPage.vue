@@ -1,8 +1,11 @@
 <template>
   <q-page class="flex flex-center">
+
+
+
     <q-card class="q-pa-md" style="width: 60vw">
       <q-card-section>
-        <div class="text-h5 flex flex-center">Login Page</div>
+        <div class="text-h5 flex flex-center">ADMIN</div>
       </q-card-section>
 
       <q-form @submit="submitLogin" @reset="resetForm" class="q-gutter-md">

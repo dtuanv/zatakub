@@ -96,7 +96,7 @@
               @click="return_policy_dialog = true">
               <div class="row">
                 <div class="q-mr-sm">
-                  <q-icon size="xs" name="img:/img/icon/layout/exchange.png"></q-icon>
+                  <q-icon size="xs" name="img:/img/icon/layout/exchange.png" alt="exchange"></q-icon>
                 </div>
                 <div style="text-decoration: underline;">
                   Chính sách đổi trả
@@ -462,7 +462,7 @@
               @click="return_policy_dialog = true">
               <div class="row">
                 <div class="q-mr-sm">
-                  <q-icon size="xs" name="img:/img/icon/layout/exchange.png"></q-icon>
+                  <q-icon size="xs" name="img:/img/icon/layout/exchange.png" alt="exchange"></q-icon>
                 </div>
                 <div style="text-decoration: underline;">
                   Chính sách đổi trả

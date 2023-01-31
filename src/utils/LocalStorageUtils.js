@@ -8,9 +8,13 @@ export const getJwtFromStorage = () =>{
 }
 
 export const getUserRoleFromStrorage = () => {
+
+  console.log("get Role ", localStorage.getItem(ROLE))
   return localStorage.getItem(ROLE);
 }
 export const setUserRoleInStorage = (role) => {
+
+  console.log("set Role ", role)
   localStorage.setItem(ROLE,role);
 }
 
