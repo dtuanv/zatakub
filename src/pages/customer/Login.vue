@@ -12,7 +12,7 @@
       </q-card-section>
 
       <q-form @submit.prevent="onSubmit">
-        <q-input class="q-ml-sm q-mr-sm" v-model="user.userName" label="Tài khoản"></q-input>
+        <q-input class="q-ml-sm q-mr-sm" v-model="user.username" label="Tài khoản"></q-input>
         <q-input class="q-ml-sm q-mr-sm" v-model="user.password" type="password" label="Mật khẩu"></q-input>
 
         <q-btn  label="Submit" type="submit" filled class="float-right q-mt-md" flat color="positive"></q-btn>
@@ -53,7 +53,30 @@ export default {
   computed: {},
   methods: {
     onSubmit() {
+      console.log("user ", this.user)
+      axios.post(`${WebApi.server}/checkCustomerAccount`,this.user).then(re => {
+        let customerId = re.data
+        console.log("re ", re.data)
 
+        if(customerId == 0 ){
+          this.$q.notify({
+            message: "Tài khoản hoặc mật khẩu không đúng",
+            color: "negative",
+            avatar: `${WebApi.iconUrl}`,
+          })
+        }
+
+        if(customerId > 0 ){
+          this.$q.notify({
+            message: "Chào "+ customerId ,
+            color: "positive",
+            avatar: `${WebApi.iconUrl}`,
+          })
+
+          localStorage.setItem("customerId",customerId )
+          this.$router.push("/cusOrderManager")
+        }
+      }).catch(err => console.log(err))
     },
   },
   // name: 'PageName',

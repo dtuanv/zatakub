@@ -14,6 +14,17 @@ const routes = [
 
 
       {
+        path: "/cusOrderManager",
+        name: "customerOrderManager",
+        component: () => import("src/pages/customer/CusOrderManager.vue"),
+      },
+      {
+        path: "/cusOrderManager/myAddress",
+        name: "customerOrderManagerMyAddress",
+        component: () => import("src/pages/customer/EditCustomer.vue"),
+      },
+
+      {
         path: "/aboutMe",
         name: "aboutMe",
         component: () => import("src/pages/infos/AboutMe.vue"),
@@ -169,7 +180,7 @@ const routes = [
       {
         path: "/login",
         name: "login",
-        component: () => import("src/pages/admin/login/Login.vue"),
+        component: () => import("src/pages/customer/Login.vue"),
         meta: { isRequireAuth: true },
 
       },

@@ -149,7 +149,7 @@
 
           <div class="row q-mt-sm">
             <div class="col-4">
-              <q-input filled outlined v-model="customer.address" label="Địa chỉ" color="white" lazy-rules
+              <q-input filled outlined v-model="customer.street" label="Địa chỉ" color="white" lazy-rules
                 :rules="addresseRules"></q-input>
             </div>
             <div class="col-3 q-ml-sm">
@@ -190,7 +190,7 @@
 
           <div class="">
             <div class="col-4">
-              <q-input filled outlined v-model="customer.address" label="Địa chỉ" color="white" lazy-rules
+              <q-input filled outlined v-model="customer.street" label="Địa chỉ" color="white" lazy-rules
                 :rules="addresseRules"></q-input>
             </div>
             <div class="col-4 ">
@@ -625,7 +625,6 @@ export default {
       // this.dialog_bill = false
       // this.dialog_payment = true
 
-
       // console.log("item ", this.items)
       // console.log("Check user : ", customer.value);
       if (this.usedCode.discount == undefined) {
@@ -638,7 +637,12 @@ export default {
 
       bill.customerDto = customer.value
 
-      bill.customerDto.address = bill.customerDto.address + ' , ' + this.districtSelected.name + ' , Tỉnh ' + this.provinceSelected.name
+      bill.customerDto.street =  customer.value.street
+      bill.customerDto.district =  this.districtSelected.name
+      bill.customerDto.province =  this.provinceSelected.name
+
+
+      bill.customerDto.address = bill.customerDto.street + ' , ' + this.districtSelected.name + ' , Tỉnh ' + this.provinceSelected.name
 
       bill.discountCode = this.usedCode.discount
 

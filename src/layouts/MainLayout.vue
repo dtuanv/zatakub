@@ -128,7 +128,7 @@
             {{ cartItemCount }}
           </q-badge>
         </q-btn>
-        <q-btn v-if="role === 'ADMIN' || role === 'USER'" class="absolute-top-right q-mt-sm q-mr-md" color="red"
+        <q-btn  v-if="role === 'ADMIN' || role === 'USER' " class="absolute-top-right q-mt-sm q-mr-md "   color="red"
           label="Log Out" @click="logout" />
       </q-toolbar>
 
@@ -578,7 +578,6 @@ export default {
     const $store = useStore();
 
 
-
     const jwt = computed(() => {
       return $store.getters["loginModule/getJwt"];
     });
@@ -638,7 +637,7 @@ export default {
         color: "positive",
         avatar: `${WebApi.iconUrl}`,
       });
-      $router.replace("/");
+      $router.push("/product/sale");
       localStorage.clear();
       window.location.reload();
     };
@@ -658,7 +657,6 @@ export default {
       menu_cat_product: ref(false),
       inputAddMarkt: ref(false),
       editNoticeImage_dialog: ref(false),
-
 
       ro,
       role,
