@@ -112,12 +112,18 @@
         </q-card>
 
         <q-dialog v-model="dialog_confirmPwd">
-          <q-card>
+          <q-card class="q-pa-sm ">
             <q-card-section>
-              <div>*Quý kháck vui lòng nhập mật khẩu để xác nhận ạ</div>
+              <div style="color:red">*Quý kháck vui lòng nhập lại mật khẩu để xác nhận ạ</div>
             </q-card-section>
-            <q-card-actions>
-              <q-input label="Mật khẩu"></q-input>
+            <q-card-actions  class="flex flex-center" >
+              <q-input outlined  label="Mật khẩu" v-model="confirmPwd"></q-input>
+            </q-card-actions>
+
+            <q-card-actions  class="flex flex-center">
+              <div>
+                <q-btn color="positive" @click="confirmPwdBtn" >Xác nhận</q-btn>
+              </div>
             </q-card-actions>
           </q-card>
 
@@ -142,6 +148,7 @@ export default {
   setup() {
     const customerId = localStorage.getItem("customerId")
     const customer = ref({})
+    const confirmPwd = ref('')
 
     const provinces = addresses.provinces
 
@@ -172,7 +179,6 @@ export default {
 
 
 
-      console.log("customer.value ", customer.value)
     })
 
 
@@ -181,7 +187,9 @@ export default {
 
     return {
       dialog_confirmPwd: ref(false),
+      customerId,
       customer,
+      confirmPwd,
       provinceSelected,
       districtSelected,
       provincesOptions,
@@ -274,6 +282,32 @@ export default {
 
     },
 
+  },
+  methods:{
+    confirmPwdBtn(){
+
+
+      axios.get(`${WebApi.server}/checkConfirmPwd/`+this.customerId+"/pwd/"+this.confirmPwd).then(res => {
+        let checkPwd = res.data
+
+        console.log("checkPwd ",checkPwd)
+        if(checkPwd == 1){
+          axios.post(`${WebApi.server}/saveCustomerChanges`, this.customer).then(re => {
+            this.$q.notify({
+            message: "Bạn đã thay đổi thông tin cá nhân thành công" ,
+            color: "positive",
+            avatar: `${WebApi.iconUrl}`,
+          })
+
+          this.$router.push("/cusOrderManager")
+
+
+          }).catch(er => {
+            console.log(er)
+          })
+        }
+      })
+    }
   }
 }
 </script>
