@@ -5,7 +5,7 @@
     </q-dialog> -->
 
     <q-card class="q-mt-xl"
-      :style="$q.screen.width > 400 && $q.screen.height > 700 ? 'background-color:bisque; width: 30vw; height: 30vh':'background-color:bisque; width: 70vw; height: 250px'">
+      :style="$q.platform.is.mobile  ? 'background-color:bisque; width: 70vw; height:28vh' : 'background-color:bisque; width: 20vw; height: 250px'">
       <!-- <q-card  v-else style="width:15vw; height:40vh; background-color:blanchedalmond;"> -->
       <q-card-section>
         <div class="flex justify-center text-h4">Đăng nhập</div>
@@ -15,7 +15,7 @@
         <q-input class="q-ml-sm q-mr-sm" v-model="user.username" label="Tài khoản"></q-input>
         <q-input class="q-ml-sm q-mr-sm" v-model="user.password" type="password" label="Mật khẩu"></q-input>
 
-        <q-btn  label="Submit" type="submit" filled class="float-right q-mt-md" flat color="positive"></q-btn>
+        <q-btn label="Submit" type="submit" filled class="float-right q-mt-md" flat color="positive"></q-btn>
       </q-form>
     </q-card>
   </q-page>
@@ -54,11 +54,11 @@ export default {
   methods: {
     onSubmit() {
       console.log("user ", this.user)
-      axios.post(`${WebApi.server}/checkCustomerAccount`,this.user).then(re => {
+      axios.post(`${WebApi.server}/checkCustomerAccount`, this.user).then(re => {
         let customerId = re.data
         console.log("re ", re.data)
 
-        if(customerId == 0 ){
+        if (customerId == 0) {
           this.$q.notify({
             message: "Tài khoản hoặc mật khẩu không đúng",
             color: "negative",
@@ -66,15 +66,21 @@ export default {
           })
         }
 
-        if(customerId > 0 ){
+        if (customerId > 0) {
           this.$q.notify({
-            message: "Chào "+ customerId ,
+            message: "Chào " + customerId,
             color: "positive",
             avatar: `${WebApi.iconUrl}`,
           })
 
-          localStorage.setItem("customerId",customerId )
+          localStorage.setItem("customerId", customerId)
           this.$router.push("/cusOrderManager")
+
+        this.$store.dispatch("cache/customerLogin",customerId);
+
+
+
+
         }
       }).catch(err => console.log(err))
     },

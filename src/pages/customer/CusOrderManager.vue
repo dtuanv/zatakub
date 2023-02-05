@@ -1,7 +1,7 @@
 <template>
 
   <q-page class="q-pa-sm">
-    <div>
+    <!-- <div>
       <div class="flex justify-end">
         <q-item clickable style="padding: 0px 0px" @click="logOut">
           <div class="row">
@@ -22,7 +22,7 @@
         </q-item>
 
       </div>
-    </div>
+    </div> -->
 
 
     <div style="color:darkgoldenrod" class="flex flex-center text-h5">Xin chào ..
@@ -31,7 +31,7 @@
     <div class="flex flex-center">
       <div style="">
         <q-list>
-          <q-item clickable style="border: 5px solid cornflowerblue;">
+          <q-item clickable style="border: 5px solid cornflowerblue;" to="/billHistory">
             <q-item-section>
               <div class="flex flex-center">Đơn đã đặt</div>
             </q-item-section>
@@ -62,6 +62,8 @@
 import { WebApi } from 'src/apis/WebApi';
 import axios from 'axios';
 import { ref, computed, nextTick } from "vue";
+import { useStore } from "vuex";
+
 
 
 export default {
@@ -69,9 +71,16 @@ export default {
   setup() {
     const customerId = localStorage.getItem("customerId")
     const customer = ref({})
+    const store = useStore()
 
     axios.get(`${WebApi.server}/findCustomerBy/` + customerId).then(res => {
       customer.value = res.data
+
+      let customerToString = JSON.stringify(customer.value)
+      localStorage.setItem("customer",customerToString)
+
+
+
     })
 
     console.log("customerId ", customerId)

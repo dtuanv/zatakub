@@ -2,6 +2,14 @@ import { priceCalculator } from "/src/logic/logic.js";
 
 
 
+
+
+export const SET_CUSTOMER = (state, customerId) => {
+  state.customerId  = customerId
+
+  console.log(" state.customerId  ", state.customerId )
+}
+
 export const RESET_CART_TO_EMPTY = (state) => {
   state.cart = []
 }
@@ -328,6 +336,13 @@ export const SET_ROLE = (state, input) => {
 export const LOG_OUT = (state) => {
   state.role = "";
 };
+
+export const CUSTOMER_LOGOUT = (state) => {
+  state.customerId = 0;
+};
+
+
+
 
 export const CHANGE_STATUS_PRODUCT = (state, product) => {
   let findProduct = state.products.find(p => {

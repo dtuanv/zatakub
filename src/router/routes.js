@@ -12,6 +12,13 @@ const routes = [
         component: () => import("src/pages/customer/Customer.vue"),
       },
 
+      {
+        path: "/billHistory",
+        name: "billHistory",
+        component: () => import("src/pages/customer/BillHistory.vue"),
+      },
+
+
 
       {
         path: "/cusOrderManager",

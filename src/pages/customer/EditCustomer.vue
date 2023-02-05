@@ -100,8 +100,8 @@
           <!-- mobil end -->
 
           <q-card-actions class="flex flex-center" style="width:100%">
-            <div >
-              <q-item  style="padding-top:0px" clickable @click="dialog_confirmPwd = true">
+            <div>
+              <q-item style="padding-top:0px" clickable @click="dialog_confirmPwd = true">
                 <q-item-section>
                   <div style="border: 3px solid cornflowerblue;">Lưu Chỉnh sửa</div>
                 </q-item-section>
@@ -116,13 +116,13 @@
             <q-card-section>
               <div style="color:red">*Quý kháck vui lòng nhập lại mật khẩu để xác nhận ạ</div>
             </q-card-section>
-            <q-card-actions  class="flex flex-center" >
-              <q-input outlined  label="Mật khẩu" v-model="confirmPwd"></q-input>
+            <q-card-actions class="flex flex-center">
+              <q-input outlined label="Mật khẩu" v-model="confirmPwd"></q-input>
             </q-card-actions>
 
-            <q-card-actions  class="flex flex-center">
+            <q-card-actions class="flex flex-center">
               <div>
-                <q-btn color="positive" @click="confirmPwdBtn" >Xác nhận</q-btn>
+                <q-btn color="positive" @click="confirmPwdBtn">Xác nhận</q-btn>
               </div>
             </q-card-actions>
           </q-card>
@@ -283,29 +283,36 @@ export default {
     },
 
   },
-  methods:{
-    confirmPwdBtn(){
+  methods: {
+    confirmPwdBtn() {
 
 
-      axios.get(`${WebApi.server}/checkConfirmPwd/`+this.customerId+"/pwd/"+this.confirmPwd).then(res => {
+      axios.get(`${WebApi.server}/checkConfirmPwd/` + this.customerId + "/pwd/" + this.confirmPwd).then(res => {
         let checkPwd = res.data
 
-        console.log("checkPwd ",checkPwd)
-        if(checkPwd == 1){
+        console.log("checkPwd ", checkPwd)
+        if (checkPwd == 1) {
           axios.post(`${WebApi.server}/saveCustomerChanges`, this.customer).then(re => {
             this.$q.notify({
-            message: "Bạn đã thay đổi thông tin cá nhân thành công" ,
-            color: "positive",
-            avatar: `${WebApi.iconUrl}`,
-          })
+              message: "Bạn đã thay đổi thông tin cá nhân thành công",
+              color: "positive",
+              avatar: `${WebApi.iconUrl}`,
+            })
 
-          this.$router.push("/cusOrderManager")
+            this.$router.push("/cusOrderManager")
 
 
-          }).catch(er => {
-            console.log(er)
           })
         }
+        else {
+          this.$q.notify({
+            message: "Sai mật khẩu!",
+            color: "negative",
+            avatar: `${WebApi.iconUrl}`,
+          })
+        }
+      }).catch(er => {
+        console.log(er)
       })
     }
   }

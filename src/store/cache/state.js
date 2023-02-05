@@ -8,6 +8,7 @@ export default function () {
     role: '',
     token: '',
     ro:'',
+    customerId:0
 
 
 

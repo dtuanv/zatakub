@@ -23,6 +23,10 @@ import { WebApi } from "/src/apis/WebApi";
 export const resetCartToEmpty = ({commit}) => {
   commit('RESET_CART_TO_EMPTY')
 }
+export const customerLogout = ({commit}) => {
+  commit('CUSTOMER_LOGOUT')
+}
+
 
 export const setDrawItems = ({ commit }) => {
 
@@ -39,6 +43,12 @@ export const setDrawItems = ({ commit }) => {
 export const addProductToCart = ({ commit }, { product, quantity }) => {
   commit('ADD_TO_CART', { product, quantity })
 }
+
+export const customerLogin = ({ commit }, customerId) => {
+  commit('SET_CUSTOMER', customerId)
+}
+
+// customerLogin
 
 export const changeNumItemInCart = ({ commit }, { product, quantity, action }) => {
   commit('CHANGE_NUMITEM_CART', { product, quantity, action })

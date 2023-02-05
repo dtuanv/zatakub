@@ -1,7 +1,7 @@
 <template>
   <q-page>
     <div class="q-mt-xl">
-
+      <div class="flex flex-center text-h6" v-if="customerInStorage"> Chào, {{ customer.name }}</div>
       <div class="justify-center flex">
         <q-img src="/img/shopping_cart.png" style="height: 140px; max-width: 150px" alt="sc"/>
       </div>
@@ -354,6 +354,21 @@ export default {
 
     const priceCalculators = new priceCalculator()
 
+    const customerInStorage = localStorage.getItem("customer")
+    if(customerInStorage){
+      customer.value = JSON.parse(customerInStorage)
+
+      provinceSelected.value = provinces.find(pro => {
+        return pro.name == customer.value.province
+      })
+
+      districtSelected.value = districts.find(dis => {
+        return dis.name == customer.value.district
+      })
+
+      console.log("customer IN lOCAL ", customer.value)
+    }
+
 
     const items = computed({
       get: () => $store.state.cache.cart,
@@ -387,6 +402,7 @@ export default {
     const usedCode = ref({})
 
     return {
+      customerInStorage,
       districts,
       isObjectEmpty,
       districtsOptions,

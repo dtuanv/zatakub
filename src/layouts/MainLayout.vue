@@ -23,7 +23,7 @@
           <q-route-tab style="text-transform: capitalize;" :to="'/product/sale'">Khuyến Mãi</q-route-tab>
           <!-- <q-route-tab style="text-transform: capitalize;" :to="'/product'">Thương Hiệu</q-route-tab> -->
           <!-- Product begind -->
-          <q-route-tab style="text-transform: capitalize;  " >
+          <q-route-tab style="text-transform: capitalize;  ">
 
             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
               @mouseover="menu_cat_product = true">
@@ -67,7 +67,7 @@
           <q-route-tab style="text-transform: capitalize;" to="/contact">Liên Hệ</q-route-tab> -->
 
           <!-- markt begin -->
-          <q-route-tab style="text-transform: capitalize;  " >
+          <q-route-tab style="text-transform: capitalize;  ">
 
             <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
               @mouseover="menu_cat_mark = true">
@@ -128,8 +128,12 @@
             {{ cartItemCount }}
           </q-badge>
         </q-btn>
-        <q-btn  v-if="role === 'ADMIN' || role === 'USER' " class="absolute-top-right q-mt-sm q-mr-md "   color="red"
+        <q-btn v-if="role === 'ADMIN' || role === 'USER'" class="absolute-top-right q-mt-sm q-mr-md " color="red"
           label="Log Out" @click="logout" />
+
+        <q-btn v-if="customerId > 0" class="absolute-top-right q-mt-sm  " style="margin-right:80px" color="red"
+          label="Logout" @click="logoutCustomer" />
+
       </q-toolbar>
 
 
@@ -140,12 +144,12 @@
       <q-scroll-area class="fit">
         <q-list padding>
 
-          <q-item v-if="ro == 'admin' && role === 'ADMIN'" clickable v-ripple to="/admin">
+          <q-item v-if="customerId > 0" clickable v-ripple to="/cusOrderManager">
             <q-item-section avatar>
-              <q-img src="/img/icon/admin.png" style="color: coral;" alt="anhAdmin"/>
+              <q-img src="/img/icon/admin.png" style="color: coral;" alt="anhAdmin" />
             </q-item-section>
 
-            <q-item-section> Admin</q-item-section>
+            <q-item-section> Quản lý đơn</q-item-section>
           </q-item>
 
           <q-item clickable v-ripple to="/product/sale" @mouseover="mouseOverResetAllMenuCat()">
@@ -171,7 +175,7 @@
             <q-item clickable v-ripple :to="qItem.link"
               @mouseover="qItem.menu_cat = true, fmouseoverAllowOnlyOne(qItem)">
               <q-item-section avatar>
-                <q-img :src="qItem.imgLink" style="color: coral;" alt="anhLink"/>
+                <q-img :src="qItem.imgLink" style="color: coral;" alt="anhLink" />
               </q-item-section>
 
               <q-item-section> {{ qItem.title }} </q-item-section>
@@ -187,8 +191,9 @@
 
                     <q-item-section>
                       <div>
-                        <q-badge v-if="ro == 'admin' && role === 'ADMIN'" style="background-color:aliceblue"><q-btn icon="delete" size="xs"
-                            flat color="negative" @click="deleteMark(qItem.markDtos, mark)"></q-btn></q-badge>
+                        <q-badge v-if="ro == 'admin' && role === 'ADMIN'" style="background-color:aliceblue"><q-btn
+                            icon="delete" size="xs" flat color="negative"
+                            @click="deleteMark(qItem.markDtos, mark)"></q-btn></q-badge>
 
                         <div>
 
@@ -256,24 +261,34 @@
           </q-item>
 
 
+          <div v-if="customerId == 0">
+            <q-item v-if="role == ''" clickable v-ripple to="/loginPage">
+              <q-item-section avatar>
+                <q-icon name="admin_panel_settings" />
+              </q-item-section>
 
-          <q-item v-if="role == ''" clickable v-ripple to="/loginPage">
-            <q-item-section avatar>
-              <q-icon name="admin_panel_settings" />
-            </q-item-section>
+              <q-item-section> ADL </q-item-section>
+            </q-item>
 
-            <q-item-section> ADL </q-item-section>
-          </q-item>
+            <q-item v-else clickable v-ripple @click.prevent="logout">
+              <q-item-section avatar>
+                <q-icon name="drafts" />
+              </q-item-section>
 
-          <q-item v-else clickable v-ripple @click.prevent="logout">
+              <q-item-section> LogOut </q-item-section>
+            </q-item>
+
+          </div>
+
+
+          <q-item v-if="customerId > 0" clickable v-ripple @click.prevent="logoutCustomer">
             <q-item-section avatar>
               <q-icon name="drafts" />
             </q-item-section>
 
-            <q-item-section> LogOut </q-item-section>
+            <q-item-section> Đăng xuất </q-item-section>
           </q-item>
-
-          <q-item v-if="role == ''" clickable v-ripple to="/login">
+          <q-item v-else clickable v-ripple to="/login">
             <q-item-section avatar>
               <q-icon name="login" />
             </q-item-section>
@@ -299,15 +314,15 @@
 
     <q-footer style="background-color: burlywood;">
 
-      <div class="flex flex-center" >
-        <q-tabs  v-if="!$q.screen.gt.sm" switch-indicator style="background-color: burlywood;">
+      <div class="flex flex-center">
+        <q-tabs v-if="!$q.screen.gt.sm" switch-indicator style="background-color: burlywood;">
 
 
           <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 20px;" href="tel:+840389059923"
             target="_blank">
             <q-item-section>
               <q-avatar>
-                <img src="/img/icon/call.png" alt="call" >
+                <img src="/img/icon/call.png" alt="call">
               </q-avatar>
             </q-item-section>
           </q-item>
@@ -436,12 +451,13 @@
               <q-img v-if="$q.screen.gt.sm" class="animation-scooter" alt="daynoitet" style="height:auto ; width:100px"
                 src="/img/upload/notice/daynoitet.jpg" />
 
-              <q-img class="animation-scooter" style="height:auto ; width:100px" src="/img/upload/notice/quymao2.png"  alt="quymao"/>
+              <q-img class="animation-scooter" style="height:auto ; width:100px" src="/img/upload/notice/quymao2.png"
+                alt="quymao" />
               <q-img v-if="$q.screen.gt.sm" class="animation-scooter" style="height:auto ; width:100px"
                 src="/img/upload/notice/daynoitet.jpg" alt="daynoitet" />
 
-              <q-img class="animation-scooter" style="height:auto ; width:100px"
-                src="/img/upload/notice/tetdenroi.png" alt="tetdenroi" />
+              <q-img class="animation-scooter" style="height:auto ; width:100px" src="/img/upload/notice/tetdenroi.png"
+                alt="tetdenroi" />
             </div>
 
             <div v-else class="col-12">
@@ -578,6 +594,19 @@ export default {
     const $store = useStore();
 
 
+    // console.log("customer  in tore ", customer.value)
+    const customerIdLocal = localStorage.getItem("customerId")
+    if (customerIdLocal) {
+      $store.dispatch("cache/customerLogin", customerIdLocal);
+
+    }
+
+    const customerId = computed({
+      get: () => $store.state.cache.customerId,
+    });
+
+
+    // console.log("customer ID in tore ", customerId.value)
     const jwt = computed(() => {
       return $store.getters["loginModule/getJwt"];
     });
@@ -619,7 +648,6 @@ export default {
       // let draw = []
       drawItems.value = re.data.sort((a, b) => a.orderDrawItem - b.orderDrawItem)
 
-
     })
     const role = computed({
       get: () => $store.state.loginModule.role,
@@ -642,6 +670,7 @@ export default {
       window.location.reload();
     };
     return {
+      customerId,
       jwt,
       selected_file,
       noticeImageMobil,
@@ -685,6 +714,20 @@ export default {
   // },
   methods: {
 
+    logoutCustomer() {
+      localStorage.clear()
+      this.$router.push("/product/sale");
+      this.$store.dispatch("cache/customerLogout")
+
+      this.$q.notify(
+        {
+          message: " Bạn đã đăng xuất",
+          color: "positive",
+          avatar: `${WebApi.iconUrl}`,
+        }
+      )
+
+    },
     file_selected(file) {
 
       console.log("files ", file)
@@ -767,7 +810,7 @@ export default {
       drawItems.value.forEach(d => {
         d.menu_cat = false
       })
-      if (item.markDtos.length > 0 || this.ro == 'admin' )
+      if (item.markDtos.length > 0 || this.ro == 'admin')
         item.menu_cat = true
 
     },
@@ -882,7 +925,8 @@ export default {
     },
 
 
-  }
+  },
+
 };
 </script>
 <style>
