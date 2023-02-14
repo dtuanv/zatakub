@@ -34,6 +34,8 @@ result += arr[i] + ' '
 }
 
 
+
+
 export function getTenWords(str){
   var arr = str.split(" ");
   var result = ''

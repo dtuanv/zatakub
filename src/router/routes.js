@@ -3,7 +3,8 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/IndexPage.vue") },
+
+    { path: "",name:'home', component: () => import("pages/IndexPage.vue") },
       // { path: '/test',name:'test', component: () => import('src/components/product/ProductBox.vue') },
 
       {
@@ -48,6 +49,34 @@ const routes = [
         name: "productCategory",
         component: () => import("src/pages/product/Product.vue"),
       },
+
+
+      {
+        path: "/productDetail/:productId",
+        name: "productHomeDetail",
+        component: () => import("src/pages/product/ProductDetail.vue"),
+      },
+
+      {
+        path: "/product/category/:category/:productId",
+        name: "productDetail",
+        component: () => import("src/pages/product/ProductDetail.vue"),
+      },
+
+
+      {
+        path: "/product/category/:category/mark/:mark/:productId",
+        name: "productMarkDetail",
+        component: () => import("src/pages/product/ProductDetail.vue"),
+      },
+
+      {
+        path: "/product/sale/:productId",
+        name: "productSaleDetail",
+        component: () => import("src/pages/product/ProductDetail.vue"),
+      },
+
+
       {
         path: "/product/category/:category/mark/:mark",
         name: "productCategoryMark",

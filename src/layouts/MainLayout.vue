@@ -25,39 +25,46 @@
           <!-- Product begind -->
           <q-route-tab style="text-transform: capitalize;  ">
 
-            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+            <div class="q-pt-lg col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
               @mouseover="menu_cat_product = true">
               Sản Phẩm
-              <q-menu fit @mouseleave="menu_cat_product = false" v-model="menu_cat_product" transition-show="flip-right"
-                transition-hide="flip-left">
-                <q-list dense class="text-grey-9 text-caption">
-                  <q-item to="/product/category/hairDye" clickable>
-                    <q-item-section>Màu nhuộm tại nhà</q-item-section>
-                  </q-item>
-                  <q-item to="/product/category/hairCosmetic" clickable>
-                    <q-item-section>Mỹ phẩm tóc</q-item-section>
-                  </q-item>
-                  <q-item to="/product/category/skin" clickable>
-                    <q-item-section>Mỹ phẩm da</q-item-section>
-                  </q-item>
+              <div>
+                <div>
+                  <q-menu fit @mouseleave="menu_cat_product = false" v-model="menu_cat_product">
+                    <q-list dense class="text-grey-9 text-caption">
+                      <q-item to="/product/category/hairDye" clickable>
+                        <q-item-section>Màu nhuộm tại nhà</q-item-section>
+                      </q-item>
+                      <q-item to="/product/category/hairCosmetic" clickable>
+                        <q-item-section>Mỹ phẩm tóc</q-item-section>
+                      </q-item>
+                      <q-item to="/product/category/skin" clickable>
+                        <q-item-section>Mỹ phẩm da</q-item-section>
+                      </q-item>
 
-                  <q-item to="/product/category/hairDevice" clickable>
-                    <q-item-section>Dụng cụ làm tóc</q-item-section>
-                  </q-item>
-                  <q-item to="/product/category/manCosmetic" clickable>
-                    <q-item-section>Mỹ phẩm nam</q-item-section>
-                  </q-item>
+                      <q-item to="/product/category/hairDevice" clickable>
+                        <q-item-section>Dụng cụ làm tóc</q-item-section>
+                      </q-item>
+                      <q-item to="/product/category/manCosmetic" clickable>
+                        <q-item-section>Mỹ phẩm nam</q-item-section>
+                      </q-item>
 
-                  <q-item to="/product/category/beautyEquipment" clickable>
-                    <q-item-section>Thiết bị làm đẹp</q-item-section>
-                  </q-item>
+                      <q-item to="/product/category/beautyEquipment" clickable>
+                        <q-item-section>Thiết bị làm đẹp</q-item-section>
+                      </q-item>
 
-                  <q-item to="/product/category/essentialOil" clickable>
-                    <q-item-section>Sản phẩm thiên nhiên</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-              <q-icon size="sm" class="q-ml-xs text-grey-5" name="keyboard_arrow_down"></q-icon>
+                      <q-item to="/product/category/essentialOil" clickable>
+                        <q-item-section>Sản phẩm thiên nhiên</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </div>
+                <div class="q-pr-sm">
+                  <q-icon color="positive" size="sm" class="q-ml-xs " name="keyboard_arrow_down"></q-icon>
+
+                </div>
+              </div>
+
             </div>
 
           </q-route-tab>
@@ -69,40 +76,48 @@
           <!-- markt begin -->
           <q-route-tab style="text-transform: capitalize;  ">
 
-            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
+            <div class="q-pt-lg col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
               @mouseover="menu_cat_mark = true">
               Thương hiệu
-              <q-menu fit @mouseleave="menu_cat_mark = false" v-model="menu_cat_mark" transition-show="flip-right"
-                transition-hide="flip-left">
-                <q-list dense class="text-grey-9 text-caption">
-                  <q-item to="/product/category/korean" clickable>
-                    <q-item-section>Thương hiệu Hàn</q-item-section>
-                  </q-item>
-                  <q-item to="/product/category/england" clickable>
-                    <q-item-section>Thương hiệu Anh</q-item-section>
-                  </q-item>
-                  <q-item to="/product/category/australia" clickable>
-                    <q-item-section>Thương hiệu Úc</q-item-section>
-                  </q-item>
+              <div>
+                <div>
+                  <q-menu fit @mouseleave="menu_cat_mark = false" v-model="menu_cat_mark" transition-show="flip-right"
+                    transition-hide="flip-left">
+                    <q-list dense class="text-grey-9 text-caption">
+                      <q-item to="/product/category/korean" clickable>
+                        <q-item-section>Thương hiệu Hàn</q-item-section>
+                      </q-item>
+                      <q-item to="/product/category/england" clickable>
+                        <q-item-section>Thương hiệu Anh</q-item-section>
+                      </q-item>
+                      <q-item to="/product/category/australia" clickable>
+                        <q-item-section>Thương hiệu Úc</q-item-section>
+                      </q-item>
 
-                  <q-item to="/product/category/france" clickable>
-                    <q-item-section>Thương hiệu Pháp</q-item-section>
-                  </q-item>
-                  <q-item to="/product/category/italy" clickable>
-                    <q-item-section>Thương hiệu Ý</q-item-section>
-                  </q-item>
+                      <q-item to="/product/category/france" clickable>
+                        <q-item-section>Thương hiệu Pháp</q-item-section>
+                      </q-item>
+                      <q-item to="/product/category/italy" clickable>
+                        <q-item-section>Thương hiệu Ý</q-item-section>
+                      </q-item>
 
-                  <q-item to="/product/category/japan" clickable>
-                    <q-item-section>Thương hiệu Nhật</q-item-section>
-                  </q-item>
+                      <q-item to="/product/category/japan" clickable>
+                        <q-item-section>Thương hiệu Nhật</q-item-section>
+                      </q-item>
 
 
-                  <q-item to="/product/category/america" clickable>
-                    <q-item-section>Thương hiệu Mỹ</q-item-section>
-                  </q-item>
-                </q-list>
-              </q-menu>
-              <q-icon size="sm" class="q-ml-xs text-grey-5" name="keyboard_arrow_down"></q-icon>
+                      <q-item to="/product/category/america" clickable>
+                        <q-item-section>Thương hiệu Mỹ</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </div>
+                <div class="q-pr-sm">
+                  <q-icon color="positive" size="sm" class="q-ml-xs " name="keyboard_arrow_down"></q-icon>
+
+                </div>
+              </div>
+
             </div>
 
           </q-route-tab>

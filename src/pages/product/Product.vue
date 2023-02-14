@@ -1,12 +1,12 @@
 <template>
-  <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm'">
+  <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm '">
 
     <!-- <div class="flex flex-center">
       <q-btn label="Admin edit" @click="setRole"></q-btn>
     </div> -->
 
     <div class="flex flex-center  " v-if="categoryPath != undefined">
-      <div class="row" style="border: 2px solid coral;">
+      <div class="row" style="">
         <h1 class=" q-pl-sm"
           style="color: cadetblue; font-family: emoji; align-self: center;    margin: 0px 0px;font-size: 28px; display: inline-block; line-height: 3rem;">
           {{ categoryPath.title }}
@@ -23,8 +23,8 @@
     </div>
     <div v-else style="" class="flex flex-center">
       <h1 class="text-h5  q-pl-sm q-pr-sm"
-        style="color: red; font-family: emoji;border: 2px solid coral;  margin: 0px 0px;font-size: 28px; display: inline-block; line-height: 3rem;">
-        HOT SALE %%
+        style="color: red; font-family: emoji;  margin: 0px 0px;font-size: 28px; display: inline-block; line-height: 3rem;">
+        Sản phẩm HOT
       </h1>
     </div>
 
@@ -38,7 +38,7 @@
 
     <div class="">
 
-      <div class="flex flex-center q-mt-lg">
+      <div class="flex flex-center q-mt-xs">
         <q-input style="width:30rem" v-model="findProduct" :rules="findProductValidate" label="Nhập tên sản phẩm"
           rounded outlined>
           <template v-slot:append>
@@ -49,7 +49,7 @@
     </div>
     <div class="row q-mb-sm">
 
-      <div style="display: flex; justify-content: flex-end;">
+      <div style="display: flex; justify-content: flex-end;" :style="$q.platform.is.mobile ? '':'margin-left:6.2vw'">
         <q-select rounded outlined label="Sắp Xếp" v-model="filterSelected" :options="filterOptions"
           :style="$q.platform.is.mobile ? 'width: 170px' : 'width: 250px'" />
       </div>
@@ -70,19 +70,19 @@
       <q-btn icon="add" @click="addNewProduct"></q-btn>
     </div>
 
-    <div>
-      <div class="row">
-        <div class="row" :style="$q.screen.lt.sm ? '' : 'width:92%'">
+    <div >
+      <div class=" " >
+        <div class="row flex flex-center" :style="$q.screen.lt.sm ? '' : ''">
           <!-- only Admin beginn -->
 
-          <div v-if="ro == 'admin' && role === 'ADMIN'" :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'"
+          <div v-if="ro == 'admin' && role === 'ADMIN'" :style="$q.screen.lt.sm ? 'width:50%' : 'width: 19rem;'"
             v-for="product in productsCategory" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
           <!-- only Admin end -->
 
 
-          <div v-else :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
+          <div v-else :style="$q.screen.lt.sm ? 'width:50%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
             return p.status == 'on'
           })" :key="product.id">
             <productBox :product="product"></productBox>

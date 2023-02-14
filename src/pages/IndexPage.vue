@@ -21,7 +21,7 @@
 
     </div>
     <div v-else style="" class="flex flex-center">
-      <div class="text-h5  q-pl-sm q-pr-sm" style="color: red; font-family: emoji;border: 2px solid coral;">HOT SALE %%
+      <div class="text-h5  q-pl-sm q-pr-sm" style="color: red; font-family: emoji;">Sản phẩm HOT
       </div>
     </div>
 
@@ -46,10 +46,11 @@
     </div>
     <div class="row q-mb-sm">
 
-      <div style="display: flex; justify-content: flex-end;">
+      <div style="display: flex; justify-content: flex-end;" :style="$q.platform.is.mobile ? '':'margin-left:6.2vw'">
         <q-select rounded outlined label="Sắp Xếp" v-model="filterSelected" :options="filterOptions"
           :style="$q.platform.is.mobile ? 'width: 170px' : 'width: 250px'" />
       </div>
+
 
       <div :class="$q.platform.is.mobile ? 'q-ml-sm q-mr-sm' : 'col-5'">
 
@@ -66,20 +67,19 @@
     <div class="q-ml-xl" v-if="ro == 'admin'">
       <q-btn icon="add" @click="addNewProduct"></q-btn>
     </div>
-
-    <div>
-      <div class="row">
-        <div class="row" :style="$q.screen.lt.sm ? '' : 'width:92%'">
+    <div >
+      <div class=" " >
+        <div class="row flex flex-center" :style="$q.screen.lt.sm ? '' : ''">
           <!-- only Admin beginn -->
 
-          <div v-if="ro == 'admin'" :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'"
+          <div v-if="ro == 'admin' && role === 'ADMIN'" :style="$q.screen.lt.sm ? 'width:50%' : 'width: 19rem;'"
             v-for="product in productsCategory" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
           <!-- only Admin end -->
 
 
-          <div v-else :style="$q.screen.lt.sm ? 'width:100%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
+          <div v-else :style="$q.screen.lt.sm ? 'width:50%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
             return p.status == 'on'
           })" :key="product.id">
             <productBox :product="product"></productBox>
@@ -89,7 +89,8 @@
         </div>
         <!-- <div > -->
 
-        <div v-if="!$q.platform.is.mobile" :style="$q.screen.lt.sm ? '' : 'max-width:8%'"
+        <div class="float-right" v-if="!$q.platform.is.mobile"
+          :style="$q.screen.lt.sm ? '' : 'max-width:8%;position:fixed; z-index:200; right:0;top: 275px;'"
           :class="$q.screen.lt.sm ? 'row' : ''">
           <div class="q-pt-lg ">
             <q-btn class="btn" flat>
@@ -111,25 +112,26 @@
             </q-btn>
           </div>
           <div class="q-pt-sm">
-            <q-btn class="btn" flat>
+            <q-btn class="btn" flat href="https://www.lazada.vn/shop/zatakub/?path=promotion-36612-0.htm&tab=promotion"
+              target="_blank">
               <q-avatar><img src="/img/icon/lazada.png" alt="lazada" /></q-avatar>
             </q-btn>
           </div>
           <div class="q-pt-sm">
-            <q-btn class="btn" flat href="https://www.facebook.com/MyPhamToc.ChuyenNghiepChinhHang.Zatakub"
-              target="_blank">
+            <q-btn class="btn" flat href="https://www.instagram.com/myphamtocchinhhangzatakub/" target="_blank">
               <q-avatar><img src="/img/icon/instagram.png" alt="instagram" /></q-avatar>
             </q-btn>
           </div>
-          <div class="q-pt-sm">
+          <!-- <div class="q-pt-sm">
             <q-btn class="btn" flat>
-              <q-avatar><img src="/img/icon/sendo.png" alt="sendo" /></q-avatar>
+              <q-avatar><img src="/img/icon/sendo.png" alt="" /></q-avatar>
             </q-btn>
-          </div>
+          </div> -->
 
         </div>
       </div>
     </div>
+
     <q-dialog v-model="hinweis_dialog" v-if="notice.status == 'on'">
       <q-card style="width: 65vw; ">
         <q-card-action>

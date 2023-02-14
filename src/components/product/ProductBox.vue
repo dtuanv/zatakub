@@ -1,36 +1,42 @@
 <template>
-  <div style="" class="q-pt-sm q-pl-sm">
+  <div style="" class="q-pt-sm ">
     <!-- <div>
       <q-btn @click="reloadPage" label="reloadPage"></q-btn>
     </div> -->
-    <q-card style="border: 5px solid cornflowerblue;" :style="$q.platform.is.mobile ? 'min-height: 12rem;' : 'min-height: 19rem;' ">
-      <q-card-section>
-
-        <!-- only Admin beginn -->
-        <div v-if="ro == 'admin' && role === 'ADMIN'">
-          <q-btn icon="edit" @click='editProduct(product)' dense></q-btn>
-          <q-btn class="q-ml-xl" label="ON" :style="product.status == 'on' ? 'background-color:green' : ''"
-            @click="changeStatusProduct(product)"></q-btn>
-          <q-btn label="OFF" :style="product.status == 'off' ? 'background-color:red' : ''"
-            @click="changeStatusProduct(product)"></q-btn>
-          <q-btn class="float-right" icon="delete" color="negative" @click='deleteProduct(product)' dense></q-btn>
-        </div>
-        <!-- only Admin end -->
 
 
-        <div class="row">
-          <div class="col-5">
+    <!-- only Admin beginn -->
+    <div v-if="ro == 'admin' && role === 'ADMIN'">
+      <q-btn icon="edit" @click='editProduct(product)' dense></q-btn>
+      <q-btn class="q-ml-xl" label="ON" :style="product.status == 'on' ? 'background-color:green' : ''"
+        @click="changeStatusProduct(product)"></q-btn>
+      <q-btn label="OFF" :style="product.status == 'off' ? 'background-color:red' : ''"
+        @click="changeStatusProduct(product)"></q-btn>
+      <q-btn class="float-right" icon="delete" color="negative" @click='deleteProduct(product)' dense></q-btn>
+    </div>
+    <!-- only Admin end -->
+    <q-card v-ripple class=" q-hoverable cursor-pointer" style="border: 1px solid goldenrod;"
+      :style="$q.platform.is.mobile ? 'min-height: 22rem;' : 'min-height: 28rem;'" @click="toProduct(product)">
+      <!-- <span  tabindex="-1" class="q-focus-helper card-hover"></span> -->
+      <q-card-section style="padding:0px 0px 0px 0px">
+
+
+
+
+        <div class="">
+          <div class="card-hover">
             <div v-if="product.imageUrl != ''">
               <img :src="'/img/upload/product/' + product.imageUrl" alt="Anhsp"
-                style=" max-width: 100%; display:block;border: 2px solid cadetblue;height: 9rem;" />
+                style=" width: 100%; display:block;height: auto;" />
             </div>
-            <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true"
-              style="text-transform: capitalize;" label="Chi Tiết"></q-btn>
+            <!-- <q-btn class="q-mt-sm q-ml-sm" color="green" @click="dialog_detail = true"
+              style="text-transform: capitalize;" label="Chi Tiết"></q-btn> -->
           </div>
 
-          <div class="col-7 q-pl-md q-pt-md">
-            <div class="flex flex-center" style="font-family: emoji; font-size: 1.1em; ">
-              {{ product.name }}
+          <div class="col-7 q-pl-md q-pt-xs q-pr-md ">
+            <div class="flex flex-center card-hover" style=" font-size: 1.2em; "
+              :style="$q.platform.is.mobile ? 'font-family: emoji;' : ''">
+              {{getTenWords(product.name)  }}
             </div>
 
 
@@ -41,18 +47,18 @@
               <!--  -->
 
               <!-- Dícount -->
-              <div class="col-7 q-mt-md" style="border: 5px solid rosybrown">
+              <div class="col-7 q-mt-md " style="">
                 <div>
                   <div class="flex flex-center row">
                     <div style="text-decoration: line-through">
                       {{ numberWithCommas(product.price) }} đ
                     </div>
-                    <div style="color: red; font-size: 1em;" :style="$q.platform.is.mobile ? '' : 'font-family: cursive;'"
-                      class="q-ml-xs text-weight-bold">
+                    <div style="color: red; font-size: 1em;"
+                      :style="$q.platform.is.mobile ? '' : 'font-family: cursive;'" class="q-ml-xs text-weight-bold">
                       (-{{ product.discount }})%
                     </div>
                   </div>
-                  <div class="flex flex-center text-weight-bold" style="color: red; font-size: 1em; width: 100%;"
+                  <div class="flex flex-center " style="color: #ff6600; font-size: 1em; width: 100%;"
                     :style="$q.platform.is.mobile ? '' : 'font-family: fantasy;'">
                     {{
   numberWithCommas(
@@ -68,6 +74,10 @@
         </div>
       </q-card-section>
 
+
+
+      <!-- add to card beginn -->
+      <!--
       <q-card-actions :class="$q.platform.is.mobile ? '' : ''" >
         <div class="row" style="width: 100%">
           <div class="row" style="width: 52%">
@@ -103,17 +113,20 @@
             </div>
           </div>
         </div>
-      </q-card-actions>
+      </q-card-actions> -->
+
+
+      <!-- add to card end -->
+
       <!-- Sale begin -->
-      <div class="row flex flex-center">
+      <div class="row flex flex-center" v-if="ro == 'admin' && role === 'ADMIN'">
         <div v-if="product.sale == 't'" class=" text-h5" style="color: red;height:2rem"
-          :style="$q.platform.is.mobile ? '' : 'font-family: cursive;'">HOT SALE
-          %%!
+          :style="$q.platform.is.mobile ? '' : 'font-family: cursive;'">SP HOT
         </div>
         <div v-else style="height:2rem;"></div>
         <div v-if="ro == 'admin' && role === 'ADMIN'">
           <q-btn v-if="product.sale == 't'" label="bo sale" color="negative" @click="changeSaleStatus(product)"></q-btn>
-          <q-btn v-if="product.sale == 'f'" label="them vao sale" color="negative"
+          <q-btn v-if="product.sale == 'f'" label="them vao HOT" color="negative"
             @click="changeSaleStatus(product)"></q-btn>
         </div>
       </div>
@@ -147,22 +160,22 @@
             </div>
             <q-carousel style="    height: 276px;" swipeable animated v-model="slide" thumbnails infinite>
 
-              <q-carousel-slide v-if="product.imageUrl" :name="1" :img-src="'/img/upload/product/' + product.imageUrl" alt="anhsp"
-                style="background-size: contain;" />
+              <q-carousel-slide v-if="product.imageUrl" :name="1" :img-src="'/img/upload/product/' + product.imageUrl"
+                alt="anhsp" style="background-size: contain;" />
 
-              <q-carousel-slide v-if="product.imageUrl2" :name="2" :img-src="'/img/upload/product/' + product.imageUrl2" alt="anhsp"
-                style="background-size: contain;">
+              <q-carousel-slide v-if="product.imageUrl2" :name="2" :img-src="'/img/upload/product/' + product.imageUrl2"
+                alt="anhsp" style="background-size: contain;">
 
 
               </q-carousel-slide>
-              <q-carousel-slide v-if="product.imageUrl3" :name="3" :img-src="'/img/upload/product/' + product.imageUrl3" alt="anhsp"
-                style="background-size: contain;" />
-              <q-carousel-slide v-if="product.imageUrl4" :name="4" :img-src="'/img/upload/product/' + product.imageUrl4" alt="anhsp"
-                style="background-size: contain;" />
-              <q-carousel-slide v-if="product.imageUrl5" :name="5" :img-src="'/img/upload/product/' + product.imageUrl5" alt="anhsp"
-                style="background-size: contain;" />
-              <q-carousel-slide v-if="product.imageUrl6" :name="6" :img-src="'/img/upload/product/' + product.imageUrl6" alt="anhsp"
-                style="background-size: contain;" />
+              <q-carousel-slide v-if="product.imageUrl3" :name="3" :img-src="'/img/upload/product/' + product.imageUrl3"
+                alt="anhsp" style="background-size: contain;" />
+              <q-carousel-slide v-if="product.imageUrl4" :name="4" :img-src="'/img/upload/product/' + product.imageUrl4"
+                alt="anhsp" style="background-size: contain;" />
+              <q-carousel-slide v-if="product.imageUrl5" :name="5" :img-src="'/img/upload/product/' + product.imageUrl5"
+                alt="anhsp" style="background-size: contain;" />
+              <q-carousel-slide v-if="product.imageUrl6" :name="6" :img-src="'/img/upload/product/' + product.imageUrl6"
+                alt="anhsp" style="background-size: contain;" />
 
 
             </q-carousel>
@@ -587,15 +600,17 @@
 </template>
 <script>
 // import { count } from 'console';
-import { priceCalculator } from "/src/logic/logic.js";
 import { ref, computed, nextTick } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
 import axios from "axios";
+import { priceCalculator, getThreeWords, getTenWords } from "/src/logic/logic.js";
+
 
 const $q = useQuasar();
 
 import { WebApi } from "/src/apis/WebApi";
+import { stringify } from "querystring";
 
 
 const selected_file = ref('')
@@ -666,6 +681,7 @@ export default {
 
     return {
       jwt,
+      getTenWords,
       selected_file,
       selected_file2,
       selected_file3,
@@ -697,6 +713,18 @@ export default {
     };
   },
   methods: {
+    toProduct(product) {
+
+      if(this.$route.name == 'home'){
+        this.$router.push("/productDetail/"+ product.id)
+
+      }else{
+        this.$router.push(this.$route.path +"/"+ product.id)
+
+      }
+
+      localStorage.setItem("product", JSON.stringify(product))
+    },
     saveProductEdit() {
       this.dialog_detail = true, this.uploadImage_dialog = true, this.open_editor = true
     },
@@ -1100,7 +1128,20 @@ export default {
 };
 </script>
 <style>
-.q-btn .q-icon, .q-btn .q-spinner {
-    font-size: 1.8em;
+.q-btn .q-icon,
+.q-btn .q-spinner {
+  font-size: 1.8em;
+}
+
+.q-card__section--vert {
+
+  padding: 0px 0px 0px 0px;
+}
+
+/* style="border: 5px solid darkseagreen;"  */
+.card-hover :hover {
+  border: 1px solid greenyellow;
+
+  /* border: 5px solid darkseagreen; */
 }
 </style>

@@ -4,7 +4,7 @@
 
       bottom: 0vh;
       padding: 10px 10px 5px 10px;
-      background-color: #efbec3;
+      background-color: #e5fbf1;
     ">
     <div>
       <!-- <GoogleMap api-key="YOUR_GOOGLE_MAPS_API_KEY" style="width: 100%; height: 500px" :center="center" :zoom="15">
