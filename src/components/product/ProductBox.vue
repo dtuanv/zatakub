@@ -16,7 +16,7 @@
     </div>
     <!-- only Admin end -->
     <q-card v-ripple class=" q-hoverable cursor-pointer" style="border: 1px solid goldenrod;"
-      :style="$q.platform.is.mobile ? 'min-height: 22rem;' : 'min-height: 28rem;'" @click="toProduct(product)">
+      :style="$q.platform.is.mobile ? 'min-height: 22rem;' : 'min-height: 23rem;'" @click="toProduct(product)">
       <!-- <span  tabindex="-1" class="q-focus-helper card-hover"></span> -->
       <q-card-section style="padding:0px 0px 0px 0px">
 

@@ -1,10 +1,10 @@
 <template>
-  <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm '">
+  <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : ' '">
 
     <!-- <div class="flex flex-center">
       <q-btn label="Admin edit" @click="setRole"></q-btn>
     </div> -->
-
+<!--
     <div class="flex flex-center  " v-if="categoryPath != undefined">
       <div class="row" style="">
         <h1 class=" q-pl-sm"
@@ -26,7 +26,7 @@
         style="color: red; font-family: emoji;  margin: 0px 0px;font-size: 28px; display: inline-block; line-height: 3rem;">
         Sản phẩm HOT
       </h1>
-    </div>
+    </div> -->
 
 
     <!-- <div style>
@@ -35,8 +35,9 @@
     </div> -->
 
 
+<!-- find product by name -->
 
-    <div class="">
+    <!-- <div class="">
 
       <div class="flex flex-center q-mt-xs">
         <q-input style="width:30rem" v-model="findProduct" :rules="findProductValidate" label="Nhập tên sản phẩm"
@@ -46,7 +47,7 @@
           </template>
         </q-input>
       </div>
-    </div>
+    </div> -->
     <div class="row q-mb-sm">
 
       <div style="display: flex; justify-content: flex-end;" :style="$q.platform.is.mobile ? '':'margin-left:6.2vw'">
@@ -75,14 +76,14 @@
         <div class="row flex flex-center" :style="$q.screen.lt.sm ? '' : ''">
           <!-- only Admin beginn -->
 
-          <div v-if="ro == 'admin' && role === 'ADMIN'" :style="$q.screen.lt.sm ? 'width:50%' : 'width: 19rem;'"
+          <div v-if="ro == 'admin' && role === 'ADMIN'" :style="$q.screen.lt.sm ? 'width:50%' : 'width: 14rem;'"
             v-for="product in productsCategory" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
           <!-- only Admin end -->
 
 
-          <div v-else :style="$q.screen.lt.sm ? 'width:50%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
+          <div v-else :style="$q.screen.lt.sm ? 'width:50%' : 'width: 14rem;'" v-for="product in productsCategory.filter(p => {
             return p.status == 'on'
           })" :key="product.id">
             <productBox :product="product"></productBox>

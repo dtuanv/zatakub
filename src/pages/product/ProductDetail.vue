@@ -40,9 +40,9 @@
               style="color: #ff6600; font-size: 1em; width: 100%;border: 3px solid gold; display: inline;padding: 1px 2px;"
               :style="$q.platform.is.mobile ? '' : 'font-family: fantasy;'">
               Giá: {{
-  numberWithCommas(
-    priceWithDiscount(product.price, product.discount)
-)
+                numberWithCommas(
+                  priceWithDiscount(product.price, product.discount)
+                )
               }}
               đ
             </div>
@@ -123,9 +123,9 @@
                 <div class="row"
                   style="    height: 36px; font-size: 14px;border: none;padding: 2px 5px 0px  0px;color: #fff;; background-color: #1f601f;">
                   <div>
-                    <q-btn style="padding:5px 2px 0px 2px; " :style="$q.platform.is.mobile ? 'font-size:3vw;' : 'font-size:10px;min-height: 10px;'"
-                      @click="addToCart()" class="float-right"
-                      icon="shopping_cart" flat />
+                    <q-btn style="padding:5px 2px 0px 2px; "
+                      :style="$q.platform.is.mobile ? 'font-size:3vw;' : 'font-size:10px;min-height: 10px;'"
+                      @click="addToCart()" class="float-right" icon="shopping_cart" flat />
                   </div>
 
 
@@ -209,8 +209,32 @@
               </q-item>
             </q-list>
           </q-card-actions>
+
+          <q-separator></q-separator>
+          <q-card-actions>
+            <div class="flex flex-center  " :style="$q.platform.is.mobile ? 'font-size:18px' : 'font-size:1.2vw' "
+              style="    width:100%">Sản phẩm tương tự </div>
+            <q-carousel v-model="slideSmlProduct" transition-prev="slide-right" transition-next="slide-left" swipeable animated
+              control-color="primary" navigation padding arrows  >
+
+
+                <q-carousel-slide v-for="similarProduct in similarProducts" :key="similarProduct" :name="similarProduct.id" class="column no-wrap">
+                <productBox :product="similarProduct"></productBox>
+              </q-carousel-slide>
+
+
+
+
+
+
+
+
+            </q-carousel>
+
+          </q-card-actions>
         </q-card>
       </div>
+
     </div>
 
     <!-- edit card name beginn -->
@@ -223,8 +247,8 @@
               <div class="flex flex-center ">Ảnh chính khác</div>
               <div>
 
-                <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected"
-                  label="Tải ảnh lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
+                <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected" label="Tải ảnh lên"
+                  with-credentials color="purple" square flat bordered style="max-width: 300px" />
 
 
               </div>
@@ -271,8 +295,7 @@
             <div>
 
               <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected2"
-                label="Tải ảnh thứ 2 lên" with-credentials color="purple" square flat bordered
-                style="max-width: 300px" />
+                label="Tải ảnh thứ 2 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
 
 
             </div>
@@ -282,8 +305,7 @@
             <div>
 
               <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected3"
-                label="Tải ảnh thứ 3 lên" with-credentials color="purple" square flat bordered
-                style="max-width: 300px" />
+                label="Tải ảnh thứ 3 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
 
 
             </div>
@@ -293,8 +315,7 @@
             <div>
 
               <q-uploader field-name="file" extensions=".gif,.jpg,.jpeg,.png" @added="file_selected4"
-                label="Tải ảnh thứ 4 lên" with-credentials color="purple" square flat bordered
-                style="max-width: 300px" />
+                label="Tải ảnh thứ 4 lên" with-credentials color="purple" square flat bordered style="max-width: 300px" />
 
 
             </div>
@@ -315,13 +336,14 @@
             <div style="    border-right: 1px solid #eee;    border-bottom: 1px solid #eee;">
               <div style=""
                 :style="$q.platform.is.mobile ? 'font-size: 14px; color: #1f601f; text-transform: uppercase;font-weight: 700; display: inline-block;border: 1px solid #eee;padding: 10px 20px; border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom: none;margin: 0;position: relative;'
-                : ' font-size: 14px; color: #1f601f; text-transform: uppercase;font-weight: 700; display: inline-block;border: 1px solid #eee;padding: 10px 20px; border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom: none;margin: 0;position: relative;'">
+                  : ' font-size: 14px; color: #1f601f; text-transform: uppercase;font-weight: 700; display: inline-block;border: 1px solid #eee;padding: 10px 20px; border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom: none;margin: 0;position: relative;'">
                 Thông tin sản phẩm</div>
             </div>
 
 
-            <div class="q-pr-xl">
-              <q-card-section style="    background-color: rgb(255, 255, 255);" class="q-mt-md  " v-html="product.subtitle" />
+            <div :class="$q.platform.is.mobile ? 'q-pr-md' : 'q-pr-xl'">
+              <q-card-section style="    background-color: rgb(255, 255, 255);" class="q-mt-md  "
+                v-html="product.subtitle" />
 
             </div>
           </div>
@@ -356,82 +378,82 @@
                 }" :toolbar="
 
 
-[
   [
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      list: 'only-icons',
-      options: ['left', 'center', 'right', 'justify']
-    },
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      options: ['left', 'center', 'right', 'justify']
-    }
-  ],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-  ['token', 'hr', 'link', 'custom_btn'],
-  ['print', 'fullscreen'],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
-  [
-    {
-      label: $q.lang.editor.formatting,
-      icon: $q.iconSet.editor.formatting,
-      list: 'no-icons',
-      options: [
-        'p',
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6',
-        'code'
-      ]
-    },
-    {
-      label: $q.lang.editor.fontSize,
-      icon: $q.iconSet.editor.fontSize,
-      fixedLabel: true,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'size-1',
-        'size-2',
-        'size-3',
-        'size-4',
-        'size-5',
-        'size-6',
-        'size-7'
-      ]
-    },
-    {
-      label: $q.lang.editor.defaultFont,
-      icon: $q.iconSet.editor.font,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'default_font',
-        'arial',
-        'arial_black',
-        'comic_sans',
-        'courier_new',
-        'impact',
-        'lucida_grande',
-        'times_new_roman',
-        'verdana'
-      ]
-    },
-    'removeFormat'
-  ],
-  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+    [
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        list: 'only-icons',
+        options: ['left', 'center', 'right', 'justify']
+      },
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        options: ['left', 'center', 'right', 'justify']
+      }
+    ],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+    ['token', 'hr', 'link', 'custom_btn'],
+    ['print', 'fullscreen'],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
+    [
+      {
+        label: $q.lang.editor.formatting,
+        icon: $q.iconSet.editor.formatting,
+        list: 'no-icons',
+        options: [
+          'p',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'code'
+        ]
+      },
+      {
+        label: $q.lang.editor.fontSize,
+        icon: $q.iconSet.editor.fontSize,
+        fixedLabel: true,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'size-1',
+          'size-2',
+          'size-3',
+          'size-4',
+          'size-5',
+          'size-6',
+          'size-7'
+        ]
+      },
+      {
+        label: $q.lang.editor.defaultFont,
+        icon: $q.iconSet.editor.font,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'default_font',
+          'arial',
+          'arial_black',
+          'comic_sans',
+          'courier_new',
+          'impact',
+          'lucida_grande',
+          'times_new_roman',
+          'verdana'
+        ]
+      },
+      'removeFormat'
+    ],
+    ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-  ['undo', 'redo'],
-  ['viewsource']
-]" :fonts="{
+    ['undo', 'redo'],
+    ['viewsource']
+  ]" :fonts="{
     arial: 'Arial',
     arial_black: 'Arial Black',
     comic_sans: 'Comic Sans MS',
@@ -459,7 +481,7 @@
             <div style="    border-right: 1px solid #eee;    border-bottom: 1px solid #eee;">
               <div style=""
                 :style="$q.platform.is.mobile ? 'font-size: 14px; color: #1f601f; text-transform: uppercase;font-weight: 700; display: inline-block;border: 1px solid #eee;padding: 10px 20px; border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom: none;margin: 0;position: relative;'
-                : ' font-size: 14px; color: #1f601f; text-transform: uppercase;font-weight: 700; display: inline-block;border: 1px solid #eee;padding: 10px 20px; border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom: none;margin: 0;position: relative;'">
+                  : ' font-size: 14px; color: #1f601f; text-transform: uppercase;font-weight: 700; display: inline-block;border: 1px solid #eee;padding: 10px 20px; border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom: none;margin: 0;position: relative;'">
                 Hướng dẫn sử dụng</div>
             </div>
 
@@ -493,82 +515,82 @@
                 }" :toolbar="
 
 
-[
   [
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      list: 'only-icons',
-      options: ['left', 'center', 'right', 'justify']
-    },
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      options: ['left', 'center', 'right', 'justify']
-    }
-  ],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-  ['token', 'hr', 'link', 'custom_btn'],
-  ['print', 'fullscreen'],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
-  [
-    {
-      label: $q.lang.editor.formatting,
-      icon: $q.iconSet.editor.formatting,
-      list: 'no-icons',
-      options: [
-        'p',
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6',
-        'code'
-      ]
-    },
-    {
-      label: $q.lang.editor.fontSize,
-      icon: $q.iconSet.editor.fontSize,
-      fixedLabel: true,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'size-1',
-        'size-2',
-        'size-3',
-        'size-4',
-        'size-5',
-        'size-6',
-        'size-7'
-      ]
-    },
-    {
-      label: $q.lang.editor.defaultFont,
-      icon: $q.iconSet.editor.font,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'default_font',
-        'arial',
-        'arial_black',
-        'comic_sans',
-        'courier_new',
-        'impact',
-        'lucida_grande',
-        'times_new_roman',
-        'verdana'
-      ]
-    },
-    'removeFormat'
-  ],
-  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+    [
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        list: 'only-icons',
+        options: ['left', 'center', 'right', 'justify']
+      },
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        options: ['left', 'center', 'right', 'justify']
+      }
+    ],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+    ['token', 'hr', 'link', 'custom_btn'],
+    ['print', 'fullscreen'],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
+    [
+      {
+        label: $q.lang.editor.formatting,
+        icon: $q.iconSet.editor.formatting,
+        list: 'no-icons',
+        options: [
+          'p',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'code'
+        ]
+      },
+      {
+        label: $q.lang.editor.fontSize,
+        icon: $q.iconSet.editor.fontSize,
+        fixedLabel: true,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'size-1',
+          'size-2',
+          'size-3',
+          'size-4',
+          'size-5',
+          'size-6',
+          'size-7'
+        ]
+      },
+      {
+        label: $q.lang.editor.defaultFont,
+        icon: $q.iconSet.editor.font,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'default_font',
+          'arial',
+          'arial_black',
+          'comic_sans',
+          'courier_new',
+          'impact',
+          'lucida_grande',
+          'times_new_roman',
+          'verdana'
+        ]
+      },
+      'removeFormat'
+    ],
+    ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-  ['undo', 'redo'],
-  ['viewsource']
-]" :fonts="{
+    ['undo', 'redo'],
+    ['viewsource']
+  ]" :fonts="{
     arial: 'Arial',
     arial_black: 'Arial Black',
     comic_sans: 'Comic Sans MS',
@@ -599,8 +621,8 @@
             <div style="    border-right: 1px solid #eee;    border-bottom: 1px solid #eee;">
               <div style=""
                 :style="$q.platform.is.mobile ? 'font-size: 14px; color: #1f601f; text-transform: uppercase;font-weight: 700; display: inline-block;border: 1px solid #eee;padding: 10px 20px; border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom: none;margin: 0;position: relative;'
-                : ' font-size: 14px; color: #1f601f; text-transform: uppercase;font-weight: 700; display: inline-block;border: 1px solid #eee;padding: 10px 20px; border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom: none;margin: 0;position: relative;'">
-                Lý do nên mua tại  Zatakub</div>
+                  : ' font-size: 14px; color: #1f601f; text-transform: uppercase;font-weight: 700; display: inline-block;border: 1px solid #eee;padding: 10px 20px; border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom: none;margin: 0;position: relative;'">
+                Lý do nên mua tại Zatakub</div>
             </div>
 
             <div class="q-pr-xl">
@@ -632,82 +654,82 @@
                 }" :toolbar="
 
 
-[
   [
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      list: 'only-icons',
-      options: ['left', 'center', 'right', 'justify']
-    },
-    {
-      label: $q.lang.editor.align,
-      icon: $q.iconSet.editor.align,
-      fixedLabel: true,
-      options: ['left', 'center', 'right', 'justify']
-    }
-  ],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
-  ['token', 'hr', 'link', 'custom_btn'],
-  ['print', 'fullscreen'],
-  ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
-  [
-    {
-      label: $q.lang.editor.formatting,
-      icon: $q.iconSet.editor.formatting,
-      list: 'no-icons',
-      options: [
-        'p',
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6',
-        'code'
-      ]
-    },
-    {
-      label: $q.lang.editor.fontSize,
-      icon: $q.iconSet.editor.fontSize,
-      fixedLabel: true,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'size-1',
-        'size-2',
-        'size-3',
-        'size-4',
-        'size-5',
-        'size-6',
-        'size-7'
-      ]
-    },
-    {
-      label: $q.lang.editor.defaultFont,
-      icon: $q.iconSet.editor.font,
-      fixedIcon: true,
-      list: 'no-icons',
-      options: [
-        'default_font',
-        'arial',
-        'arial_black',
-        'comic_sans',
-        'courier_new',
-        'impact',
-        'lucida_grande',
-        'times_new_roman',
-        'verdana'
-      ]
-    },
-    'removeFormat'
-  ],
-  ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+    [
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        list: 'only-icons',
+        options: ['left', 'center', 'right', 'justify']
+      },
+      {
+        label: $q.lang.editor.align,
+        icon: $q.iconSet.editor.align,
+        fixedLabel: true,
+        options: ['left', 'center', 'right', 'justify']
+      }
+    ],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript'],
+    ['token', 'hr', 'link', 'custom_btn'],
+    ['print', 'fullscreen'],
+    ['bold', 'italic', 'strike', 'underline', 'subscript', 'superscript', 'fontColor'],
+    [
+      {
+        label: $q.lang.editor.formatting,
+        icon: $q.iconSet.editor.formatting,
+        list: 'no-icons',
+        options: [
+          'p',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'code'
+        ]
+      },
+      {
+        label: $q.lang.editor.fontSize,
+        icon: $q.iconSet.editor.fontSize,
+        fixedLabel: true,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'size-1',
+          'size-2',
+          'size-3',
+          'size-4',
+          'size-5',
+          'size-6',
+          'size-7'
+        ]
+      },
+      {
+        label: $q.lang.editor.defaultFont,
+        icon: $q.iconSet.editor.font,
+        fixedIcon: true,
+        list: 'no-icons',
+        options: [
+          'default_font',
+          'arial',
+          'arial_black',
+          'comic_sans',
+          'courier_new',
+          'impact',
+          'lucida_grande',
+          'times_new_roman',
+          'verdana'
+        ]
+      },
+      'removeFormat'
+    ],
+    ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-  ['undo', 'redo'],
-  ['viewsource']
-]" :fonts="{
+    ['undo', 'redo'],
+    ['viewsource']
+  ]" :fonts="{
     arial: 'Arial',
     arial_black: 'Arial Black',
     comic_sans: 'Comic Sans MS',
@@ -784,7 +806,7 @@ const check_if_document_upload = ref(false)
 
 export default {
 
-
+  components: { productBox },
 
   setup() {
 
@@ -793,6 +815,9 @@ export default {
     let countCart = ref(0);
 
     const route = useRoute();
+
+    const similarProducts = ref([])
+
 
 
 
@@ -817,10 +842,13 @@ export default {
     const productData = JSON.parse(localStorage.getItem("product"))
 
     product.value = productData
-    console.log("product ", product)
 
 
+    axios.get(`${WebApi.server}/productByCategory/` + product.value.category).then(re => {
+      similarProducts.value = re.data
 
+      console.log("  similarProducts.value ", similarProducts.value)
+    })
 
     const amountSaving = numberWithCommas(product.value.price - priceWithDiscount(product.value.price, product.value.discount))
 
@@ -849,7 +877,10 @@ export default {
         this.countItem--;
       }
     }
+   const slideSmlProduct = ref(product.value.id)
     return {
+      similarProducts,
+      slideSmlProduct,
       jwt,
       selected_file,
       selected_file2,
@@ -867,6 +898,7 @@ export default {
       countItem,
       subtractItem,
       countCart,
+
     }
   },
   watch: {

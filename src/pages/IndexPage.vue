@@ -1,11 +1,11 @@
 <template>
-  <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pa-sm'">
+  <q-page :class="$q.screen.lt.sm ? 'q-pa-md' : 'q-pr-sm'">
 
     <!-- <div class="flex flex-center">
       <q-btn label="Admin edit" @click="setRole"></q-btn>
     </div> -->
 
-    <div class="flex flex-center  " v-if="categoryPath != undefined">
+    <!-- <div class="flex flex-center  " v-if="categoryPath != undefined">
       <div class="row" style="border: 2px solid coral;">
         <div class="text-h5 q-pl-sm" style="color: cadetblue; font-family: emoji; align-self: center;">
           {{ categoryPath.title }}
@@ -23,7 +23,7 @@
     <div v-else style="" class="flex flex-center">
       <div class="text-h5  q-pl-sm q-pr-sm" style="color: red; font-family: emoji;">Sản phẩm HOT
       </div>
-    </div>
+    </div> -->
 
 
     <!-- <div style>
@@ -31,8 +31,8 @@
         v-model="marktSelected" :options="marktOptions" style="width: 250px" />
     </div> -->
 
-
-
+<!-- find product by name -->
+<!--
     <div class="">
 
       <div class="flex flex-center q-mt-lg">
@@ -43,7 +43,7 @@
           </template>
         </q-input>
       </div>
-    </div>
+    </div> -->
     <div class="row q-mb-sm">
 
       <div style="display: flex; justify-content: flex-end;" :style="$q.platform.is.mobile ? '':'margin-left:6.2vw'">
@@ -72,14 +72,14 @@
         <div class="row flex flex-center" :style="$q.screen.lt.sm ? '' : ''">
           <!-- only Admin beginn -->
 
-          <div v-if="ro == 'admin' && role === 'ADMIN'" :style="$q.screen.lt.sm ? 'width:50%' : 'width: 19rem;'"
+          <div v-if="ro == 'admin' && role === 'ADMIN'" :style="$q.screen.lt.sm ? 'width:50%' : 'width: 14rem;'"
             v-for="product in productsCategory" :key="product.id">
             <productBox :product="product"></productBox>
           </div>
           <!-- only Admin end -->
 
 
-          <div v-else :style="$q.screen.lt.sm ? 'width:50%' : 'width: 19rem;'" v-for="product in productsCategory.filter(p => {
+          <div v-else :style="$q.screen.lt.sm ? 'width:50%' : 'width: 14rem;'" v-for="product in productsCategory.filter(p => {
             return p.status == 'on'
           })" :key="product.id">
             <productBox :product="product"></productBox>

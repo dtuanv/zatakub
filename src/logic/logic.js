@@ -39,17 +39,18 @@ result += arr[i] + ' '
 export function getTenWords(str){
   var arr = str.split(" ");
   var result = ''
-  if(arr.length > 10){
-    for(let i = 0 ; i< 10; i++ ){
+  if(arr.length > 9){
+    for(let i = 0 ; i< 9; i++ ){
       result += arr[i] + ' '
       }
+      result =  result + '...';
   }else{
     for(let i = 0 ; i< arr.length; i++ ){
       result += arr[i] + ' '
       }
   }
 
-  return result + '...';
+  return result ;
 }
 
 export default function isEmpty(str) {

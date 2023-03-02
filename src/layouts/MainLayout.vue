@@ -3,142 +3,97 @@
     <!-- Be sure to play with the Layout demo on docs -->
 
     <!-- (Optional) The Header -->
-    <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
+    <q-header elevated class="" style="background-color:  #326e51;;">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
 
-        <q-btn flat no-caps no-wrap class="q-ml-xs" to="/">
-          <q-avatar style="width: 51px; height: 39px"><img src="/img/icon/logo2.png" alt="logo" /></q-avatar>
+        <q-btn flat no-caps no-wrap class="q-ml-xs" style="    margin-right: 4vw;" to="/">
+          <q-avatar style="width: 51px; height: 39px"><img src="/img/icon/logo.jpg" alt="logo" /></q-avatar>
           <q-toolbar-title shrink class="text-weight-bold">
             <div class="">
               <div :style="$q.platform.is.mobile ? 'font-family: emoji;' : 'font-family: cursive;'"
-                style=" font-size: 20px; color: darkcyan">
+                style=" font-size: 20px; color: white">
                 Zatakub
               </div>
             </div>
           </q-toolbar-title>
         </q-btn>
+        <!-- new header -->
 
-        <q-tabs v-if="$q.screen.gt.sm" class="text-weight-bold">
-          <q-route-tab style="text-transform: capitalize;" :to="'/product/sale'">Khuyến Mãi</q-route-tab>
-          <!-- <q-route-tab style="text-transform: capitalize;" :to="'/product'">Thương Hiệu</q-route-tab> -->
-          <!-- Product begind -->
-          <q-route-tab style="text-transform: capitalize;  ">
-
-            <div class="q-pt-lg col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
-              @mouseover="menu_cat_product = true">
-              Sản Phẩm
-              <div>
-                <div>
-                  <q-menu fit @mouseleave="menu_cat_product = false" v-model="menu_cat_product">
-                    <q-list dense class="text-grey-9 text-caption">
-                      <q-item to="/product/category/hairDye" clickable>
-                        <q-item-section>Màu nhuộm tại nhà</q-item-section>
-                      </q-item>
-                      <q-item to="/product/category/hairCosmetic" clickable>
-                        <q-item-section>Mỹ phẩm tóc</q-item-section>
-                      </q-item>
-                      <q-item to="/product/category/skin" clickable>
-                        <q-item-section>Mỹ phẩm da</q-item-section>
-                      </q-item>
-
-                      <q-item to="/product/category/hairDevice" clickable>
-                        <q-item-section>Dụng cụ làm tóc</q-item-section>
-                      </q-item>
-                      <q-item to="/product/category/manCosmetic" clickable>
-                        <q-item-section>Mỹ phẩm nam</q-item-section>
-                      </q-item>
-
-                      <q-item to="/product/category/beautyEquipment" clickable>
-                        <q-item-section>Thiết bị làm đẹp</q-item-section>
-                      </q-item>
-
-                      <q-item to="/product/category/essentialOil" clickable>
-                        <q-item-section>Sản phẩm thiên nhiên</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </div>
-                <div class="q-pr-sm">
-                  <q-icon color="positive" size="sm" class="q-ml-xs " name="keyboard_arrow_down"></q-icon>
-
-                </div>
-              </div>
-
+        <!--
+        <div v-if="!$q.platform.is.mobile"  class="column">
+          <div >
+            <div class="row" style="height: 20px; padding-top: 4px; ">
+              <a href="/product/category/skin/mark/Sữa%20rửa%20mặt" style="text-decoration: auto; color: white;font-size: 12px;">Sửa rửa mặt</a>
+              <a class="q-ml-sm" href="/product/category/manCosmetic/mark/Gel%20-%20Wax%20tạo%20kiểu%20tóc" style="text-decoration: auto; color: white;font-size: 12px;">Gel-Wax tạo kiểu tóc</a>
+              <a class="q-ml-sm" href="/product/category/essentialOil/mark/Tinh%20dầu%20thiên%20nhiên" style="text-decoration: auto; color: white;font-size: 12px;">Tinh dầu thiên nhiên</a>
+              <a class="q-ml-sm" href="/product/category/beautyEquipment/mark/Masage%20mặt" style="text-decoration: auto; color: white;font-size: 12px;">Massage mặt</a>
             </div>
+          </div>
+          <div  style="    padding-bottom: 12px;padding-top:5px;">
+            <q-select hide-dropdown-icon label="Nhập tên sản phẩm" use-input style=" padding-left:10px;background: #fff; color: #666; border: none; ">
+            <template v-slot:append>
+              <q-icon style="color:orange" name="search"></q-icon>
+            </template>
+          </q-select>
+          </div>
 
-          </q-route-tab>
-          <!-- Product end -->
+        </div> -->
 
-          <!-- <q-route-tab style="text-transform: capitalize;" @click="">Giới Thiệu</q-route-tab>
-          <q-route-tab style="text-transform: capitalize;" to="/contact">Liên Hệ</q-route-tab> -->
-
-          <!-- markt begin -->
-          <q-route-tab style="text-transform: capitalize;  ">
-
-            <div class="q-pt-lg col-lg-2 col-md-2 col-sm-12 col-xs-12 cursor-pointer hover-blue"
-              @mouseover="menu_cat_mark = true">
-              Thương hiệu
-              <div>
-                <div>
-                  <q-menu fit @mouseleave="menu_cat_mark = false" v-model="menu_cat_mark" transition-show="flip-right"
-                    transition-hide="flip-left">
-                    <q-list dense class="text-grey-9 text-caption">
-                      <q-item to="/product/category/korean" clickable>
-                        <q-item-section>Thương hiệu Hàn</q-item-section>
-                      </q-item>
-                      <q-item to="/product/category/england" clickable>
-                        <q-item-section>Thương hiệu Anh</q-item-section>
-                      </q-item>
-                      <q-item to="/product/category/australia" clickable>
-                        <q-item-section>Thương hiệu Úc</q-item-section>
-                      </q-item>
-
-                      <q-item to="/product/category/france" clickable>
-                        <q-item-section>Thương hiệu Pháp</q-item-section>
-                      </q-item>
-                      <q-item to="/product/category/italy" clickable>
-                        <q-item-section>Thương hiệu Ý</q-item-section>
-                      </q-item>
-
-                      <q-item to="/product/category/japan" clickable>
-                        <q-item-section>Thương hiệu Nhật</q-item-section>
-                      </q-item>
+        <div class="flex flex-center" style="width:80%">
 
 
-                      <q-item to="/product/category/america" clickable>
-                        <q-item-section>Thương hiệu Mỹ</q-item-section>
-                      </q-item>
-                    </q-list>
-                  </q-menu>
-                </div>
-                <div class="q-pr-sm">
-                  <q-icon color="positive" size="sm" class="q-ml-xs " name="keyboard_arrow_down"></q-icon>
-
-                </div>
-              </div>
-
-            </div>
-
-          </q-route-tab>
+          <div v-if="!$q.platform.is.mobile" class="q-mr-sm">
+            <q-item clickable to="/login">
+              <q-item-section>
+                <q-icon size="md" name="shopping_bag"></q-icon>
+              </q-item-section>
+              <q-tem-section class="q-pt-sm">
+                Lịch sử đơn hàng
+              </q-tem-section>
+            </q-item>
 
 
-          <q-route-tab v-if="role === 'ADMIN' || role === 'USER'" @click="setRole">
-            <div v-if="ro == 'admin'">
-              OFF EDIT
-            </div>
+          </div>
+          <div v-if="!$q.platform.is.mobile">
+            <q-item clickable>
+              <q-item-section style="padding-top:2px">
+                <q-avatar><img src="/img/icon/phoneHeader.png" alt="logo"></q-avatar>
+              </q-item-section>
+              <q-tem-section class="q-ml-xs q-mt-sm" style="padding-top:4px">
+                Hotline: 0389 059 923
+              </q-tem-section>
+            </q-item>
 
-            <div v-else>
-              ON EDIT
+          </div>
+          <div v-if="!$q.platform.is.mobile" class="q-mr-md">
+            <q-item clickable to="/login">
+              <q-item-section>
+                <q-icon size="md" name="person"></q-icon>
+              </q-item-section>
+              <q-tem-section class="q-pt-sm">
+                Đăng nhập
+              </q-tem-section>
+            </q-item>
+          </div>
 
-            </div>
+          <div v-if="!$q.platform.is.mobile" class="q-mr-md">
+            <q-item clickable to="/login">
+              <q-item-section>
+                <q-icon size="md" name="settings_accessibility"></q-icon>
+              </q-item-section>
+              <q-tem-section class="q-pt-sm">
+                Đăng ký
+              </q-tem-section>
+            </q-item>
+          </div>
 
-          </q-route-tab>
-          <!-- markt end -->
-        </q-tabs>
+        </div>
+
+
         <!-- to shoping cart -->
-        <q-btn v-if="role !== 'ADMIN' && role !== 'USER'" class="absolute-top-right q-mt-sm q-mr-md" flat icon="shop"
-          to="/shopping">
+        <q-btn v-if="role !== 'ADMIN' && role !== 'USER'" :class="$q.platform.is.mobile ? 'q-mt-sm' : 'q-mt-md'"
+          class="absolute-top-right  q-mr-md" flat icon="shop" to="/shopping">
           <q-badge color="red" floating transparent>
             {{ cartItemCount }}
           </q-badge>
@@ -187,8 +142,7 @@
 
           <div v-for="(qItem, index) in drawItems" :key="index">
 
-            <q-item clickable v-ripple :to="qItem.link"
-              @mouseover="qItem.menu_cat = true, fmouseoverAllowOnlyOne(qItem)">
+            <q-item clickable v-ripple :to="qItem.link" @mouseover="qItem.menu_cat = true, fmouseoverAllowOnlyOne(qItem)">
               <q-item-section avatar>
                 <q-img :src="qItem.imgLink" style="color: coral;" alt="anhLink" />
               </q-item-section>
@@ -198,8 +152,8 @@
             <div>
 
             </div>
-            <q-menu v-if="qItem.menu_cat == true" style="min-height:3.5rem" @mouseover="fmouseoverAllowOnlyOne(qItem)"
-              fit v-model="qItem.menu_cat" anchor="top right" self="top left" @mouseleave="qItem.menu_cat = false">
+            <q-menu v-if="qItem.menu_cat == true" style="min-height:3.5rem" @mouseover="fmouseoverAllowOnlyOne(qItem)" fit
+              v-model="qItem.menu_cat" anchor="top right" self="top left" @mouseleave="qItem.menu_cat = false">
               <div class="row" style="max-width:500px">
                 <q-list style="min-width: 100px" v-for="mark in qItem.markDtos" :key="mark">
                   <q-item clickable v-close-popup :to="mark.toLink">
@@ -333,8 +287,7 @@
         <q-tabs v-if="!$q.screen.gt.sm" switch-indicator style="background-color: burlywood;">
 
 
-          <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 20px;" href="tel:+840389059923"
-            target="_blank">
+          <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 20px;" href="tel:+840389059923" target="_blank">
             <q-item-section>
               <q-avatar>
                 <img src="/img/icon/call.png" alt="call">
@@ -486,11 +439,11 @@
                 src="/img/upload/notice/tetdenroi.png" alt="tetdenroi" />
             </div>
 
-
+            <!--
             <div class="col-1" v-if="$q.screen.gt.sm">
               <q-img src="/img/upload/notice/hoamai.jpg" style="height:auto ; width:100px; background-image: none;"
                 class="float-right" alt="hoamai"></q-img>
-            </div>
+            </div> -->
 
 
 
@@ -945,6 +898,12 @@ export default {
 };
 </script>
 <style>
+.q-item.q-router-link--active,
+.q-item--active {
+  color: cornflowerblue;
+
+}
+
 .self-stretch {
   align-self: center;
   /* align-self: stretch; */
