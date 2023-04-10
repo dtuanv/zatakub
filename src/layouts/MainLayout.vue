@@ -20,25 +20,43 @@
         </q-btn>
         <!-- new header -->
 
-        <!--
-        <div v-if="!$q.platform.is.mobile"  class="column">
-          <div >
+        
+        <div v-if="!$q.platform.is.mobile">
+          <div>
             <div class="row" style="height: 20px; padding-top: 4px; ">
-              <a href="/product/category/skin/mark/Sữa%20rửa%20mặt" style="text-decoration: auto; color: white;font-size: 12px;">Sửa rửa mặt</a>
-              <a class="q-ml-sm" href="/product/category/manCosmetic/mark/Gel%20-%20Wax%20tạo%20kiểu%20tóc" style="text-decoration: auto; color: white;font-size: 12px;">Gel-Wax tạo kiểu tóc</a>
-              <a class="q-ml-sm" href="/product/category/essentialOil/mark/Tinh%20dầu%20thiên%20nhiên" style="text-decoration: auto; color: white;font-size: 12px;">Tinh dầu thiên nhiên</a>
-              <a class="q-ml-sm" href="/product/category/beautyEquipment/mark/Masage%20mặt" style="text-decoration: auto; color: white;font-size: 12px;">Massage mặt</a>
+              <a href="/product/category/skin/mark/Sữa%20rửa%20mặt"
+                style="text-decoration: auto; color: white;font-size: 12px;">Sửa rửa mặt</a>
+              <a class="q-ml-sm" href="/product/category/manCosmetic/mark/Gel%20-%20Wax%20tạo%20kiểu%20tóc"
+                style="text-decoration: auto; color: white;font-size: 12px;">Gel-Wax tạo kiểu tóc</a>
+              <a class="q-ml-sm" href="/product/category/essentialOil/mark/Tinh%20dầu%20thiên%20nhiên"
+                style="text-decoration: auto; color: white;font-size: 12px;">Tinh dầu thiên nhiên</a>
+              <a class="q-ml-sm" href="/product/category/beautyEquipment/mark/Masage%20mặt"
+                style="text-decoration: auto; color: white;font-size: 12px;">Massage mặt</a>
             </div>
           </div>
-          <div  style="    padding-bottom: 12px;padding-top:5px;">
-            <q-select hide-dropdown-icon label="Nhập tên sản phẩm" use-input style=" padding-left:10px;background: #fff; color: #666; border: none; ">
-            <template v-slot:append>
-              <q-icon style="color:orange" name="search"></q-icon>
-            </template>
-          </q-select>
+          <div style="    ">
+            <q-select  dense hide-dropdown-icon label="Nhập tên sản phẩm" input-style="zoom: 1; " clearable use-input
+              style="background: #fff; color: #666; border: none;">
+              <template v-slot:append>
+
+                <q-icon style="color:orange" name="search"></q-icon>
+              </template>
+
+
+
+              <template v-slot:no-option>
+                <q-item>
+                  <q-item-section class="text-grey">
+                    No results
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
           </div>
 
-        </div> -->
+        </div>
+
+     
 
         <div class="flex flex-center" style="width:80%">
 
@@ -898,6 +916,9 @@ export default {
 };
 </script>
 <style>
+
+
+
 .q-item.q-router-link--active,
 .q-item--active {
   color: cornflowerblue;
