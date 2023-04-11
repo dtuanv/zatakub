@@ -20,10 +20,10 @@
         </q-btn>
         <!-- new header -->
 
-        
+
         <div v-if="!$q.platform.is.mobile">
           <div>
-            <div class="row" style="height: 20px; padding-top: 4px; ">
+            <div class="row" style="height: 20px;width:380px; padding-top: 4px; ">
               <a href="/product/category/skin/mark/Sữa%20rửa%20mặt"
                 style="text-decoration: auto; color: white;font-size: 12px;">Sửa rửa mặt</a>
               <a class="q-ml-sm" href="/product/category/manCosmetic/mark/Gel%20-%20Wax%20tạo%20kiểu%20tóc"
@@ -34,12 +34,13 @@
                 style="text-decoration: auto; color: white;font-size: 12px;">Massage mặt</a>
             </div>
           </div>
-          <div style="    ">
-            <q-select  dense hide-dropdown-icon label="Nhập tên sản phẩm" input-style="zoom: 1; " clearable use-input
-              style="background: #fff; color: #666; border: none;">
+          <div style="padding-bottom:7px   ">
+            <q-select dense hide-dropdown-icon label="Nhập tên sản phẩm" input-style="zoom: 1; margin-left:5px" clearable
+              use-input style="background: #fff; color: #666; border: none;" v-model="findProduct"
+              :rules="findProductValidate">
               <template v-slot:append>
 
-                <q-icon style="color:orange" name="search"></q-icon>
+                <q-btn flat icon="search" @click="findProductByName" />
               </template>
 
 
@@ -47,7 +48,7 @@
               <template v-slot:no-option>
                 <q-item>
                   <q-item-section class="text-grey">
-                    No results
+                    Khong co
                   </q-item-section>
                 </q-item>
               </template>
@@ -56,7 +57,7 @@
 
         </div>
 
-     
+
 
         <div class="flex flex-center" style="width:80%">
 
@@ -495,7 +496,6 @@ import { date } from "quasar";
 import Header from "/src/components/header/Header.vue";
 
 
-
 // const drawItems = ref([
 
 //   {
@@ -579,6 +579,7 @@ export default {
     const $router = useRouter();
     const $store = useStore();
 
+    const findProduct = ref('');
 
     // console.log("customer  in tore ", customer.value)
     const customerIdLocal = localStorage.getItem("customerId")
@@ -656,6 +657,7 @@ export default {
       window.location.reload();
     };
     return {
+      findProduct,
       customerId,
       jwt,
       selected_file,
@@ -698,8 +700,43 @@ export default {
   // mounted() {
   //   this.$store.dispatch("cache/setDrawItems");
   // },
-  methods: {
 
+  watch: {
+
+    findProduct(newFind, old) {
+
+
+
+
+      if (old.length === 0) {
+        this.productsCategoryOrig = productsCategory.value
+      }
+
+      this.findProductByName()
+      if (newFind.length < old.length) {
+
+        productsCategory.value = this.productsCategoryOrig
+        this.findProductByName()
+      }
+
+    },
+  },
+  methods: {
+    findProductByName() {
+      const productsOrig = productsCategory.value
+
+      if (this.findProduct.length == 0) {
+        productsCategory.value = productsOrig
+      }
+      var findName = this.findProduct
+      productsCategory.value = productsCategory.value.filter(p => {
+
+        return this.removeAccents(p.name).toLowerCase().includes(this.removeAccents(findName).toLowerCase())
+      })
+
+      console.log("productsCategory.value  ", productsCategory.value)
+
+    },
     logoutCustomer() {
       localStorage.clear()
       this.$router.push("/product/sale");
@@ -916,9 +953,6 @@ export default {
 };
 </script>
 <style>
-
-
-
 .q-item.q-router-link--active,
 .q-item--active {
   color: cornflowerblue;
