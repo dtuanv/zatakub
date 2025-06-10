@@ -35,8 +35,8 @@
             </div>
           </div>
           <div style="padding-bottom:7px   ">
-            <q-select dense hide-dropdown-icon label="Nhập tên sản phẩm" input-style="zoom: 1; margin-left:5px" clearable
-              use-input style="background: #fff; color: #666; border: none;" v-model="findProduct"
+            <q-select dense hide-dropdown-icon label="Nhập tên sản phẩm" input-style="zoom: 1; margin-left:5px"
+              clearable use-input style="background: #fff; color: #666; border: none;" v-model="findProduct"
               :rules="findProductValidate">
               <template v-slot:append>
 
@@ -161,7 +161,8 @@
 
           <div v-for="(qItem, index) in drawItems" :key="index">
 
-            <q-item clickable v-ripple :to="qItem.link" @mouseover="qItem.menu_cat = true, fmouseoverAllowOnlyOne(qItem)">
+            <q-item clickable v-ripple :to="qItem.link"
+              @mouseover="qItem.menu_cat = true, fmouseoverAllowOnlyOne(qItem)">
               <q-item-section avatar>
                 <q-img :src="qItem.imgLink" style="color: coral;" alt="anhLink" />
               </q-item-section>
@@ -171,8 +172,8 @@
             <div>
 
             </div>
-            <q-menu v-if="qItem.menu_cat == true" style="min-height:3.5rem" @mouseover="fmouseoverAllowOnlyOne(qItem)" fit
-              v-model="qItem.menu_cat" anchor="top right" self="top left" @mouseleave="qItem.menu_cat = false">
+            <q-menu v-if="qItem.menu_cat == true" style="min-height:3.5rem" @mouseover="fmouseoverAllowOnlyOne(qItem)"
+              fit v-model="qItem.menu_cat" anchor="top right" self="top left" @mouseleave="qItem.menu_cat = false">
               <div class="row" style="max-width:500px">
                 <q-list style="min-width: 100px" v-for="mark in qItem.markDtos" :key="mark">
                   <q-item clickable v-close-popup :to="mark.toLink">
@@ -306,7 +307,8 @@
         <q-tabs v-if="!$q.screen.gt.sm" switch-indicator style="background-color: burlywood;">
 
 
-          <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 20px;" href="tel:+840389059923" target="_blank">
+          <q-item clickable style="padding:0px 0px; margin: 5px 15px 5px 20px;" href="tel:+840389059923"
+            target="_blank">
             <q-item-section>
               <q-avatar>
                 <img src="/img/icon/call.png" alt="call">
@@ -362,20 +364,9 @@
 
     <q-page-container>
 
-      <!-- notice image beginn -->
+
       <div>
-        <div>
 
-          <q-item v-if="$q.screen.gt.sm" style="padding: 0px 0px" clickable to="/product/sale">
-            <q-img style="height:45px" :src="'/img/upload/notice/mungxuan.png'" alt="mungxuan"></q-img>
-          </q-item>
-
-
-          <!-- noticeImageMobil.imageUrl   noticeImageDesktop.imageUrl -->
-          <q-item v-else style="padding: 0px 0px" clickable to="/product/sale">
-            <q-img style="height:45px" :src="'/img/upload/notice/mungxuanDt.png'" alt="mungxuanDt"></q-img>
-          </q-item>
-        </div>
         <div v-if="ro == 'admin' && role === 'ADMIN'" class="flex flex-center">
           <q-btn icon="edit" @click="editNoticeImage_dialog = true"></q-btn>
         </div>
@@ -405,7 +396,7 @@
         </div>
 
 
-        <div class="animation" style="width:100%">
+        <!-- <div class="animation" style="width:100%">
           <div v-if="$q.screen.gt.sm" class="animation-text row" style="color:red;">
             <div>
               Zatakub xin chúc mừng năm mới. Mong 1 năm đầy may lành, hạnh phúc, thành công, sức khoẻ dồi dào tới tất cả
@@ -418,10 +409,7 @@
               <q-avatar size="xs">
                 <img src="/img/upload/notice/phaohoaicon.jpg" alt="phaohoa">
               </q-avatar>
-              <!-- <q-img  src="/img/upload/notice/phaohoa.png">
-              </q-img>
-              <q-img  src="/img/upload/notice/phaohoaicon.jpg">
-              </q-img> -->
+
             </div>
           </div>
           <div v-else class="animation-text-mobil" style="color:red;">Zatakub gửi lời chúc mừng năm mới tới tất cả mọi
@@ -458,26 +446,13 @@
                 src="/img/upload/notice/tetdenroi.png" alt="tetdenroi" />
             </div>
 
-            <!--
-            <div class="col-1" v-if="$q.screen.gt.sm">
-              <q-img src="/img/upload/notice/hoamai.jpg" style="height:auto ; width:100px; background-image: none;"
-                class="float-right" alt="hoamai"></q-img>
-            </div> -->
-
-
-
-
           </div>
-        </div>
+        </div> -->
 
 
       </div>
 
 
-
-      <!-- notice image end -->
-
-      <!-- This is where pages get injected -->
       <router-view :key="$route.fullPath" />
       <Header></Header>
     </q-page-container>
